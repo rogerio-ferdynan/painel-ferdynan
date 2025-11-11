@@ -25,19 +25,13 @@
       box-sizing: border-box;
     }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      min-height: 100%;
-      overflow-x: hidden; /* evita scroll lateral no geral */
-    }
-
     body {
+      margin: 0;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
       background: radial-gradient(circle at top, #111827, var(--bg) 65%);
       color: var(--text);
     }
@@ -47,6 +41,7 @@
       display: flex;
       min-height: 0;
       width: 100%;
+      overflow-x: hidden;
     }
 
     /* SIDEBAR */
@@ -79,7 +74,6 @@
       font-size: 16px;
       color: #111827;
       box-shadow: 0 0 0 3px rgba(212, 164, 90, 0.4);
-      flex-shrink: 0;
     }
 
     .brand-text-title {
@@ -110,8 +104,6 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
-      max-height: calc(100vh - 180px);
-      overflow-y: auto;
     }
 
     .nav-item {
@@ -125,6 +117,9 @@
       cursor: pointer;
       border: 1px solid transparent;
       transition: all 0.2s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .nav-item span.emoji {
@@ -224,7 +219,7 @@
       box-shadow: var(--shadow-soft);
       cursor: pointer;
       transition: all 0.2s ease;
-      flex: 1 1 120px;
+      flex: 1 1 130px;
       max-width: 200px;
     }
 
@@ -244,7 +239,6 @@
     .stat-value {
       font-size: 18px;
       font-weight: 600;
-      word-wrap: break-word;
     }
 
     .stat-hint {
@@ -282,8 +276,6 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
-      gap: 8px;
-      flex-wrap: wrap;
     }
 
     .progress-title {
@@ -386,7 +378,6 @@
       grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.4fr);
       gap: 16px;
       align-items: flex-start;
-      width: 100%;
     }
 
     .panel {
@@ -396,7 +387,6 @@
       border: 1px solid var(--border);
       box-shadow: var(--shadow-soft);
       position: relative;
-      min-width: 0;
     }
 
     .panel-header {
@@ -439,7 +429,7 @@
       overflow-x: auto;
       padding-bottom: 4px;
       scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
+      width: 100%;
     }
 
     .columns::-webkit-scrollbar {
@@ -474,7 +464,6 @@
       gap: 6px;
       align-items: baseline;
       margin-bottom: 6px;
-      flex-wrap: wrap;
     }
 
     .column-title {
@@ -517,12 +506,10 @@
     .task input[type="checkbox"] {
       margin-top: 2px;
       cursor: pointer;
-      flex-shrink: 0;
     }
 
     .task-text {
       flex: 1;
-      min-width: 0;
     }
 
     .task.done {
@@ -537,7 +524,6 @@
       font-size: 10px;
       color: var(--muted);
       margin-top: 2px;
-      word-break: break-word;
     }
 
     .task-actions {
@@ -545,7 +531,6 @@
       gap: 4px;
       opacity: 0;
       transition: opacity 0.2s ease;
-      flex-shrink: 0;
     }
 
     .task:hover .task-actions {
@@ -586,7 +571,6 @@
       border: 1px solid var(--border);
       background: #020617;
       color: var(--text);
-      min-width: 0;
     }
 
     .task-input:focus {
@@ -603,7 +587,6 @@
       color: #111827;
       cursor: pointer;
       font-weight: 600;
-      flex-shrink: 0;
     }
 
     .task-add-btn:hover {
@@ -670,7 +653,6 @@
       cursor: pointer;
       transition: all 0.2s ease;
       margin-top: 4px;
-      white-space: nowrap;
     }
 
     .folder-action:hover {
@@ -764,8 +746,6 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
       z-index: 1000;
       animation: slideIn 0.3s ease;
-      max-width: 90vw;
-      word-wrap: break-word;
     }
 
     @keyframes slideIn {
@@ -784,7 +764,6 @@
       border-top: 1px solid rgba(15, 23, 42, 0.95);
       background: radial-gradient(circle at bottom, #020617, #050711 60%);
       padding: 10px 22px 12px;
-      width: 100%;
     }
 
     .footer-inner {
@@ -824,7 +803,6 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
       margin-top: 2px;
-      width: 100%;
     }
 
     .footer-col {
@@ -863,7 +841,7 @@
       padding-top: 4px;
       margin-top: 2px;
       display: flex;
-      justify-content: flex-start; /* ESQUERDA no desktop */
+      justify-content: flex-start;
     }
 
     .footer-meta-line {
@@ -880,10 +858,6 @@
         width: 100%;
         border-right: none;
         border-bottom: 1px solid var(--border);
-        padding: 16px 14px;
-      }
-      .nav-list {
-        max-height: none;
       }
       .main {
         padding: 16px 16px 10px;
@@ -894,6 +868,12 @@
       .stats-row {
         justify-content: flex-start;
       }
+    }
+
+    @media (max-width: 720px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
       .footer-meta {
         justify-content: center;
       }
@@ -901,21 +881,15 @@
         white-space: normal;
         text-align: center;
       }
-    }
-
-    @media (max-width: 720px) {
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
       .title-block h1 {
-        font-size: 20px;
+        font-size: 18px;
+      }
+      .badge {
+        font-size: 10px;
       }
     }
 
     @media (max-width: 600px) {
-      .main {
-        padding: 14px 12px 10px;
-      }
       .panel {
         padding: 14px 12px;
       }
@@ -926,52 +900,34 @@
       .progress-ring-wrapper {
         margin-bottom: 4px;
       }
-      .stats-row {
-        width: 100%;
-      }
-      .stat-card {
-        max-width: none;
-      }
-      .module-actions {
-        flex-direction: row;
+      .columns {
+        padding-bottom: 8px;
       }
     }
 
     @media (max-width: 480px) {
-      .brand-text-name {
-        font-size: 14px;
+      .main {
+        padding: 12px 10px 8px;
       }
-      .brand-text-title {
-        font-size: 11px;
+      .sidebar {
+        padding: 12px 12px;
       }
       .nav-item {
         font-size: 12px;
-        padding: 6px 8px;
       }
-      .title-block h1 {
-        font-size: 18px;
-      }
-      .progress-title,
-      .panel-title,
-      .export-title {
+      .panel-title {
+        font-size: 11px;
         letter-spacing: 0.12em;
+      }
+      .panel-subtitle {
         font-size: 11px;
       }
-      .column {
-        flex: 0 0 90%;
-        min-width: 90%;
+      .footer-name {
+        font-size: 12px;
       }
-      .folder-action {
+      .footer-roles,
+      .footer-col {
         font-size: 10px;
-      }
-      .export-btn {
-        font-size: 10px;
-      }
-      .notification {
-        bottom: 12px;
-        right: 12px;
-        padding: 8px 10px;
-        font-size: 11px;
       }
     }
   </style>
@@ -1118,7 +1074,7 @@
                 r="38"
                 cx="48"
                 cy="48"
-              />
+              ></circle>
               <circle
                 id="progress-ring-circle"
                 class="progress-ring-value"
@@ -1130,7 +1086,7 @@
                 cy="48"
                 stroke-dasharray="0 0"
                 stroke-dashoffset="0"
-              />
+              ></circle>
             </svg>
             <div class="progress-ring-center">
               <div class="progress-ring-percentage" id="progress-ring-percentage">0%</div>
@@ -1299,7 +1255,7 @@
       stats: {
         shows: 12,
         faturamento: "R$ 85.000",
-        propostas: 7,
+        propostas: 7
       },
       inbox: {
         aProcessar: [
@@ -1309,7 +1265,7 @@
             done: false,
             tag: "Empresa · Propostas_Contratos",
             createdAt: new Date().toISOString()
-          },
+          }
         ],
         alta: [
           {
@@ -1318,7 +1274,7 @@
             done: false,
             tag: "Artista · Midia_Jornal_TV_Radio",
             createdAt: new Date().toISOString()
-          },
+          }
         ],
         media: [
           {
@@ -1327,14 +1283,14 @@
             done: false,
             tag: "Artista · Fotos_Profissionais",
             createdAt: new Date().toISOString()
-          },
+          }
         ],
         delegar: [
           {
             id: "t4",
             text: "Editar vídeo do show em SP",
             done: false,
-            tag: "Direção Criativa · Vídeos_de_Show",
+            tag: "Artista · Videos_de_Show",
             createdAt: new Date().toISOString()
           },
           {
@@ -1350,28 +1306,28 @@
             done: false,
             tag: "Empresa · Notas_Fiscais_Pagamentos",
             createdAt: new Date().toISOString()
-          },
-        ],
-      },
+          }
+        ]
+      }
     };
 
     let state = loadState();
     let currentModule = "inbox";
 
     const folderMap = {
-      inbox: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\00_📨 INBOX – CAIXA DE ENTRADA OPERACIONAL",
-      artista: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\01_🎤 ARTISTA_ROGERIO_FERDYNAN",
-      empresa: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\02_💼 EMPRESA_CNPJ_FERDYNAN_PRODUCOES",
-      pessoal: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\03_👨‍👦 PESSOAL_CPF_ROGERIO_GERALDO_LOPES",
-      direcao: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\04_🧠 DIRECAO_CRIATIVA_CONTEUDO",
-      agenda: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\05_📅 AGENDA_LOGISTICA",
-      backup: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\06_🔒 BACKUP_ARQUIVO_MORTO",
-      venda: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\07_💥 VENDA_MENSAL_MISSAO",
-      centro: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\08_🧩 CENTRO_CONTROLE_CONEXOES",
-      rede: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\09_🌎 REDE_GLOBAL",
-      modelos: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\10_🧾 MODELOS_OFICIAIS",
-      admin: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\11_🧰 ADMIN_SISTEMA",
-      resultados: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\12_🎯 RESULTADOS_FINAIS"
+      inbox: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\00_📨 INBOX – CAIXA DE ENTRADA OPERACIONAL",
+      artista: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\01_🎤 ARTISTA_ROGERIO_FERDYNAN",
+      empresa: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\02_💼 EMPRESA_CNPJ_FERDYNAN_PRODUCOES",
+      pessoal: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\03_👨‍👦 PESSOAL_CPF_ROGERIO_GERALDO_LOPES",
+      direcao: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\04_🧠 DIRECAO_CRIATIVA_CONTEUDO",
+      agenda: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\05_📅 AGENDA_LOGISTICA",
+      backup: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\06_🔒 BACKUP_ARQUIVO_MORTO",
+      venda: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\07_💥 VENDA_MENSAL_MISSAO",
+      centro: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\08_🧩 CENTRO_CONTROLE_CONEXOES",
+      rede: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\09_🌎 REDE_GLOBAL",
+      modelos: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\10_🧾 MODELOS_OFICIAIS",
+      admin: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\11_🧰 ADMIN_SISTEMA",
+      resultados: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\12_🎯 RESULTADOS_FINAIS"
     };
 
     function loadState() {
@@ -1429,7 +1385,7 @@
       if (circle) {
         const radius = circle.r.baseVal.value;
         const circumference = 2 * Math.PI * radius;
-        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDasharray = circumference + " " + circumference;
         const offset = circumference - (percentage / 100) * circumference;
         circle.style.strokeDashoffset = offset;
       }
@@ -1463,7 +1419,7 @@
           const label = {
             shows: "Quantos shows no mês?",
             faturamento: "Qual o faturamento (ex.: R$ 85.000)?",
-            propostas: "Quantas propostas abertas?",
+            propostas: "Quantas propostas abertas?"
           }[type];
 
           const value = window.prompt(label, current);
@@ -1489,7 +1445,7 @@
       { key: "aProcessar", title: "A PROCESSAR", tag: "Entrou agora" },
       { key: "alta",       title: "ALTA",        tag: "Impacto direto" },
       { key: "media",      title: "MÉDIA",       tag: "Importante, não urgente" },
-      { key: "delegar",    title: "DELEGAR",     tag: "Equipe / parceiros" },
+      { key: "delegar",    title: "DELEGAR",     tag: "Equipe / parceiros" }
     ];
 
     function renderInbox() {
@@ -1609,16 +1565,111 @@
           if (!value) return;
 
           const tagOptions = [
-            "Empresa · Propostas_Contratos",
-            "Artista · Midia_Jornal_TV_Radio",
+            // 00 · INBOX
+            "Inbox · A_PROCESSAR",
+            "Inbox · DELEGAR_EQUIPE",
+            "Inbox · INSPIRACOES_RAPIDAS",
+            "Inbox · REFERENCIAS_EXTERNAS",
+
+            // 01 · ARTISTA
             "Artista · Fotos_Profissionais",
-            "Direção Criativa · Vídeos_de_Show",
+            "Artista · Videos_de_Show",
+            "Artista · Repertorio",
+            "Artista · Divulgacao_Capas_Stories",
+            "Artista · Midia_Jornal_TV_Radio",
+            "Artista · Cartazes_Por_Cidade",
+            "Artista · Portfolio",
+
+            // 02 · EMPRESA
+            "Empresa · Propostas_Contratos",
+            "Empresa · Notas_Fiscais_Pagamentos",
+            "Empresa · CNPJ_Documentos_Oficiais",
+            "Empresa · Clientes_Prefeituras",
+            "Empresa · Contabilidade_Bancos",
             "Empresa · Tabelas_Precos_Planilhas",
-            "Empresa · Notas_Fiscais_Pagamentos"
+            "Empresa · RH_Equipe",
+            "Empresa · Parcerias_Comerciais",
+            "Empresa · Editais_Processos_Publicos",
+
+            // 03 · PESSOAL
+            "Pessoal · Comprovantes_Declaracoes",
+            "Pessoal · Curriculos_Outros",
+            "Pessoal · Saude_Mental_Suplementacao",
+            "Pessoal · Filho_Mikael",
+            "Pessoal · Reflexoes_Escritos_Pessoais",
+            "Pessoal · Familia_Assuntos_Juridicos",
+            "Pessoal · Organizacao_Pessoal_Notion",
+            "Pessoal · Documentos_Civis",
+
+            // 05 · AGENDA & LOGÍSTICA
+            "Agenda · Shows_Confirmados",
+            "Agenda · Shows_Negociacao",
+            "Agenda · Agenda_Mensal",
+            "Agenda · Checklist_Show",
+            "Agenda · Equipe_Tecnica_Apoio",
+            "Agenda · Relatorios_Deslocamentos",
+            "Agenda · Equipamentos_Carga",
+            "Agenda · Requisitos_Camarim_Rider_Tecnico",
+
+            // 06 · BACKUP
+            "Backup · Fotos_Antigas",
+            "Backup · Campanhas_Encerradas_LogOff",
+            "Backup · Pastas_Antigas",
+            "Backup · Prints_WhatsApp",
+
+            // 07 · VENDA MENSAL
+            "Venda · Contatos_Quentes",
+            "Venda · Cartazes_Atualizados",
+            "Venda · Portfolio_PDF",
+            "Venda · Texto_WhatsApp_Venda",
+            "Venda · Propostas_Contratos",
+            "Venda · Pagamentos_Pendencias",
+            "Venda · Videos_Enviar",
+
+            // 08 · CENTRO DE CONTROLE
+            "Centro · Mapa_Geral_Pastas",
+            "Centro · Fluxos_Checklists",
+            "Centro · Integracoes_Estrategicas",
+            "Centro · Modelos_Universais",
+            "Centro · Painel_Mensal_Missoes",
+
+            // 10 · MODELOS OFICIAIS
+            "Modelos Oficiais · Apresentacoes",
+            "Modelos Oficiais · Docs",
+            "Modelos Oficiais · Identidade_Visual",
+            "Modelos Oficiais · Planilhas",
+
+            // 11 · ADMIN DO SISTEMA
+            "Admin · Atalhos",
+            "Admin · Scripts_Automacoes",
+
+            // 12 · RESULTADOS FINAIS
+            "Resultados · Clientes",
+            "Resultados · Imprensa",
+            "Resultados · Social",
+
+            // 04 · DIREÇÃO CRIATIVA
+            "Direcao Criativa · Posts_Prontos",
+            "Direcao Criativa · Modelos_Reels",
+            "Direcao Criativa · Logos_Branding",
+            "Direcao Criativa · Musicas_Em_Andamento",
+            "Direcao Criativa · Capas_Estetica_Albuns",
+            "Direcao Criativa · Campanhas_Slogans",
+            "Direcao Criativa · Parcerias_Artisticas",
+            "Direcao Criativa · Pesquisa_Estudos",
+
+            // 09 · REDE GLOBAL
+            "Rede Global · EUA_CANADA",
+            "Rede Global · EUROPA",
+            "Rede Global · LATAM",
+            "Rede Global · PARCERIAS_GLOBAIS"
           ];
           
-          const tag = prompt("Selecione a categoria da tarefa:\n\n" + 
-            tagOptions.map((opt, i) => `${i+1}. ${opt}`).join('\n'), "1");
+          const tag = prompt(
+            "Selecione a categoria da tarefa:\n\n" +
+              tagOptions.map((opt, i) => (i + 1) + ". " + opt).join("\n"),
+            "1"
+          );
           
           let selectedTag = "";
           if (tag !== null) {
@@ -1699,7 +1750,7 @@
               <span class="emoji">🎬</span><span>YouTube</span>
             </a>
           </div>
-        `,
+        `
       },
 
       artista: {
@@ -1729,7 +1780,7 @@
               <span class="emoji">🌐</span><span>Linkr.bio</span>
             </a>
           </div>
-        `,
+        `
       },
 
       empresa: {
@@ -1757,7 +1808,7 @@
               <span class="emoji">📊</span><span>Financeiro (Sheets)</span>
             </a>
           </div>
-        `,
+        `
       },
 
       pessoal: {
@@ -1771,7 +1822,7 @@
             <li><span class="module-item-label">💊 Saude_Mental_Suplementacao</span></li>
             <li><span class="module-item-label">👦 Filho_Mikael</span></li>
           </ul>
-        `,
+        `
       },
 
       direcao: {
@@ -1803,7 +1854,7 @@
               <span class="emoji">🧠</span><span>Gemini</span>
             </a>
           </div>
-        `,
+        `
       },
 
       agenda: {
@@ -1824,7 +1875,7 @@
               <span class="emoji">💬</span><span>WhatsApp Web</span>
             </a>
           </div>
-        `,
+        `
       },
 
       backup: {
@@ -1837,7 +1888,7 @@
             <li><span class="module-item-label">🕰️ Fotos_Antigas</span></li>
             <li><span class="module-item-label">🗃️ Pastas_Antigas</span></li>
           </ul>
-        `,
+        `
       },
 
       venda: {
@@ -1858,7 +1909,7 @@
               <span class="emoji">🧮</span><span>Calculadora Freelancer</span>
             </a>
           </div>
-        `,
+        `
       },
 
       centro: {
@@ -1871,7 +1922,7 @@
             <li><span class="module-item-label">🗺️ Mapa_Geral_Pastas</span></li>
             <li><span class="module-item-label">🧾 Fluxos_Checklists</span></li>
           </ul>
-        `,
+        `
       },
 
       rede: {
@@ -1884,7 +1935,7 @@
             <li><span class="module-item-label">🇺🇸 EUA_CANADA</span></li>
             <li><span class="module-item-label">🇪🇺 EUROPA</span></li>
           </ul>
-        `,
+        `
       },
 
       modelos: {
@@ -1897,7 +1948,7 @@
             <li><span class="module-item-label">🧠 Apresentacoes</span></li>
             <li><span class="module-item-label">📄 Docs</span></li>
           </ul>
-        `,
+        `
       },
 
       admin: {
@@ -1910,7 +1961,7 @@
             <li><span class="module-item-label">🔗 _ATALHOS</span></li>
             <li><span class="module-item-label">⚙️ Administração, scripts e atalhos internos</span></li>
           </ul>
-        `,
+        `
       },
 
       resultados: {
@@ -1923,8 +1974,8 @@
             <li><span class="module-item-label">💼 Clientes</span></li>
             <li><span class="module-item-label">📰 Imprensa</span></li>
           </ul>
-        `,
-      },
+        `
+      }
     };
 
     function renderModule(moduleKey) {
@@ -1977,7 +2028,7 @@
       textArea.focus();
       textArea.select();
       try {
-        document.execCommand('copy');
+        document.execCommand("copy");
         alert(
           "✅ Caminho copiado para a área de transferência!\n\n" +
           text +
@@ -2014,38 +2065,40 @@
       }
 
       const now = new Date();
-      const dateStr = now.toLocaleDateString('pt-BR');
-      const timeStr = now.toLocaleTimeString('pt-BR');
+      const dateStr = now.toLocaleDateString("pt-BR");
+      const timeStr = now.toLocaleTimeString("pt-BR");
 
-      let fileContent = `TAREFAS - ${modules[currentModule].title}\n`;
-      fileContent += `Exportado em: ${dateStr} às ${timeStr}\n`;
+      let fileContent = "TAREFAS - " + modules[currentModule].title + "\n";
+      fileContent += "Exportado em: " + dateStr + " às " + timeStr + "\n";
       fileContent += "=".repeat(50) + "\n\n";
 
       allTasks.forEach((task, index) => {
         const status = task.done ? "[✓] CONCLUÍDO" : "[ ] PENDENTE";
-        fileContent += `${index + 1}. ${status} - ${task.text}\n`;
-        fileContent += `   Prioridade: ${task.priority}\n`;
+        fileContent += (index + 1) + ". " + status + " - " + task.text + "\n";
+        fileContent += "   Prioridade: " + task.priority + "\n";
         if (task.tag) {
-          fileContent += `   Tag: ${task.tag}\n`;
+          fileContent += "   Tag: " + task.tag + "\n";
         }
         fileContent += "\n";
       });
 
-      const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
+      const blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = `Tarefas_${modules[currentModule].title.replace(/[^a-zA-Z0-9]/g, '_')}_${dateStr.replace(/\//g, '-')}.txt`;
+      a.download = "Tarefas_" +
+        modules[currentModule].title.replace(/[^a-zA-Z0-9]/g, "_") +
+        "_" + dateStr.replace(/\//g, "-") + ".txt";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      alert(`✅ Arquivo de tarefas exportado para sua pasta de downloads.\n\nNome: ${a.download}`);
+      alert("✅ Arquivo de tarefas exportado para sua pasta de downloads.\n\nNome: " + a.download);
     }
 
     function exportDailyReport() {
-      const today = new Date().toISOString().split('T')[0];
+      const today = new Date().toISOString().split("T")[0];
       let completedToday = [];
 
       Object.values(state.inbox).forEach(column => {
@@ -2062,53 +2115,54 @@
       }
 
       const now = new Date();
-      const dateStr = now.toLocaleDateString('pt-BR');
-      const timeStr = now.toLocaleTimeString('pt-BR');
+      const dateStr = now.toLocaleDateString("pt-BR");
+      const timeStr = now.toLocaleTimeString("pt-BR");
 
-      let fileContent = `ATA DE ATIVIDADES DIÁRIAS - PAINEL FERDYNAN\n`;
-      fileContent += `Data: ${dateStr} | Hora: ${timeStr}\n`;
+      let fileContent = "ATA DE ATIVIDADES DIÁRIAS - PAINEL FERDYNAN\n";
+      fileContent += "Data: " + dateStr + " | Hora: " + timeStr + "\n";
       fileContent += "=".repeat(60) + "\n\n";
       fileContent += "TAREFAS CONCLUÍDAS HOJE:\n\n";
 
       completedToday.forEach((task, index) => {
-        const completedTime = new Date(task.completedAt).toLocaleTimeString('pt-BR');
-        fileContent += `${index + 1}. [${completedTime}] ${task.text}\n`;
+        const completedTime = new Date(task.completedAt).toLocaleTimeString("pt-BR");
+        fileContent += (index + 1) + ". [" + completedTime + "] " + task.text + "\n";
         if (task.tag) {
-          fileContent += `   📁 ${task.tag}\n`;
+          fileContent += "   📁 " + task.tag + "\n";
         }
         fileContent += "\n";
       });
 
       fileContent += "=".repeat(60) + "\n";
-      fileContent += `Total de tarefas concluídas: ${completedToday.length}\n`;
-      const prod = Math.round((completedToday.length / (completedToday.length + getPendingTasksCount())) * 100);
-      fileContent += `Taxa de produtividade (no painel): ${isNaN(prod) ? 0 : prod}%\n`;
+      fileContent += "Total de tarefas concluídas: " + completedToday.length + "\n";
+      const prod = Math.round((completedToday.length /
+        (completedToday.length + getPendingTasksCount())) * 100);
+      fileContent += "Taxa de produtividade (no painel): " + (isNaN(prod) ? 0 : prod) + "%\n";
 
-      const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
+      const blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = `ATA_DIARIA_${dateStr.replace(/\//g, '-')}.txt`;
+      a.download = "ATA_DIARIA_" + dateStr.replace(/\//g, "-") + ".txt";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      showNotification(`✅ ATA diária exportada com ${completedToday.length} tarefas!`);
+      showNotification("✅ ATA diária exportada com " + completedToday.length + " tarefas!");
     }
 
     function createTaskFile(task, priority) {
       if (!task.tag) return;
       
       const now = new Date();
-      const dateStr = now.toLocaleDateString('pt-BR');
-      const timeStr = now.toLocaleTimeString('pt-BR');
+      const dateStr = now.toLocaleDateString("pt-BR");
+      const timeStr = now.toLocaleTimeString("pt-BR");
       
-      let fileContent = `TAREFA: ${task.text}\n`;
-      fileContent += `Criada em: ${dateStr} às ${timeStr}\n`;
-      fileContent += `Prioridade: ${priority}\n`;
-      fileContent += `Categoria: ${task.tag}\n`;
-      fileContent += `Status: ${task.done ? "CONCLUÍDO" : "PENDENTE"}\n`;
+      let fileContent = "TAREFA: " + task.text + "\n";
+      fileContent += "Criada em: " + dateStr + " às " + timeStr + "\n";
+      fileContent += "Prioridade: " + priority + "\n";
+      fileContent += "Categoria: " + task.tag + "\n";
+      fileContent += "Status: " + (task.done ? "CONCLUÍDO" : "PENDENTE") + "\n";
       fileContent += "=".repeat(50) + "\n\n";
       fileContent += "DESCRIÇÃO:\n";
       fileContent += "Adicione aqui os detalhes da tarefa...\n\n";
@@ -2119,12 +2173,14 @@
       fileContent += "NOTAS:\n";
       fileContent += "• \n";
       
-      const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
+      const blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
       
-      const fileName = `Tarefa_${task.text.substring(0, 30).replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.txt`;
+      const fileName = "Tarefa_" +
+        task.text.substring(0, 30).replace(/[^a-zA-Z0-9]/g, "_") +
+        "_" + Date.now() + ".txt";
       a.download = fileName;
       
       document.body.appendChild(a);
@@ -2132,12 +2188,12 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       
-      showNotification(`✅ Arquivo criado: ${fileName}`);
+      showNotification("✅ Arquivo criado: " + fileName);
     }
 
     function showNotification(message) {
-      const notification = document.createElement('div');
-      notification.className = 'notification';
+      const notification = document.createElement("div");
+      notification.className = "notification";
       notification.textContent = message;
       document.body.appendChild(notification);
       setTimeout(() => notification.remove(), 3000);
@@ -2151,9 +2207,9 @@
       renderModule("inbox");
       updateProgressDashboard();
 
-      document.getElementById('copy-folder-btn').addEventListener('click', copyFolderPath);
-      document.getElementById('export-tasks-btn').addEventListener('click', exportTasks);
-      document.getElementById('export-daily-btn').addEventListener('click', exportDailyReport);
+      document.getElementById("copy-folder-btn").addEventListener("click", copyFolderPath);
+      document.getElementById("export-tasks-btn").addEventListener("click", exportTasks);
+      document.getElementById("export-daily-btn").addEventListener("click", exportDailyReport);
     }
 
     document.addEventListener("DOMContentLoaded", init);
