@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -24,13 +25,19 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden; /* evita scroll lateral no geral */
+    }
+
+    body {
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: radial-gradient(circle at top, #111827, var(--bg) 65%);
       color: var(--text);
     }
@@ -39,6 +46,7 @@
       flex: 1;
       display: flex;
       min-height: 0;
+      width: 100%;
     }
 
     /* SIDEBAR */
@@ -50,6 +58,7 @@
       display: flex;
       flex-direction: column;
       gap: 18px;
+      flex-shrink: 0;
     }
 
     .brand {
@@ -70,6 +79,7 @@
       font-size: 16px;
       color: #111827;
       box-shadow: 0 0 0 3px rgba(212, 164, 90, 0.4);
+      flex-shrink: 0;
     }
 
     .brand-text-title {
@@ -100,6 +110,8 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+      max-height: calc(100vh - 180px);
+      overflow-y: auto;
     }
 
     .nav-item {
@@ -117,6 +129,7 @@
 
     .nav-item span.emoji {
       font-size: 18px;
+      flex-shrink: 0;
     }
 
     .nav-item.active {
@@ -155,6 +168,9 @@
       flex-direction: column;
       gap: 18px;
       background: radial-gradient(circle at top, #0b1120, #020617);
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
     }
 
     .main-header {
@@ -171,6 +187,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
     .title-block p {
@@ -188,12 +205,14 @@
       background: var(--accent-soft);
       color: var(--accent);
       border: 1px solid rgba(212, 164, 90, 0.7);
+      white-space: nowrap;
     }
 
     .stats-row {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .stat-card {
@@ -205,6 +224,8 @@
       box-shadow: var(--shadow-soft);
       cursor: pointer;
       transition: all 0.2s ease;
+      flex: 1 1 120px;
+      max-width: 200px;
     }
 
     .stat-card:hover {
@@ -223,6 +244,7 @@
     .stat-value {
       font-size: 18px;
       font-weight: 600;
+      word-wrap: break-word;
     }
 
     .stat-hint {
@@ -260,6 +282,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .progress-title {
@@ -335,6 +359,7 @@
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 12px;
       flex: 1;
+      width: 100%;
     }
 
     .progress-item {
@@ -361,6 +386,7 @@
       grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.4fr);
       gap: 16px;
       align-items: flex-start;
+      width: 100%;
     }
 
     .panel {
@@ -370,6 +396,7 @@
       border: 1px solid var(--border);
       box-shadow: var(--shadow-soft);
       position: relative;
+      min-width: 0;
     }
 
     .panel-header {
@@ -378,6 +405,7 @@
       align-items: center;
       gap: 8px;
       margin-bottom: 10px;
+      flex-wrap: wrap;
     }
 
     .panel-title {
@@ -411,6 +439,7 @@
       overflow-x: auto;
       padding-bottom: 4px;
       scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
     }
 
     .columns::-webkit-scrollbar {
@@ -445,6 +474,7 @@
       gap: 6px;
       align-items: baseline;
       margin-bottom: 6px;
+      flex-wrap: wrap;
     }
 
     .column-title {
@@ -487,10 +517,12 @@
     .task input[type="checkbox"] {
       margin-top: 2px;
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     .task-text {
       flex: 1;
+      min-width: 0;
     }
 
     .task.done {
@@ -505,6 +537,7 @@
       font-size: 10px;
       color: var(--muted);
       margin-top: 2px;
+      word-break: break-word;
     }
 
     .task-actions {
@@ -512,6 +545,7 @@
       gap: 4px;
       opacity: 0;
       transition: opacity 0.2s ease;
+      flex-shrink: 0;
     }
 
     .task:hover .task-actions {
@@ -552,6 +586,7 @@
       border: 1px solid var(--border);
       background: #020617;
       color: var(--text);
+      min-width: 0;
     }
 
     .task-input:focus {
@@ -565,9 +600,10 @@
       border-radius: 999px;
       border: none;
       background: var(--accent);
-     	color: #111827;
+      color: #111827;
       cursor: pointer;
       font-weight: 600;
+      flex-shrink: 0;
     }
 
     .task-add-btn:hover {
@@ -634,6 +670,7 @@
       cursor: pointer;
       transition: all 0.2s ease;
       margin-top: 4px;
+      white-space: nowrap;
     }
 
     .folder-action:hover {
@@ -686,6 +723,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 6px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .export-title {
@@ -704,6 +743,7 @@
       font-size: 11px;
       font-weight: 600;
       cursor: pointer;
+      white-space: nowrap;
     }
 
     .export-btn:hover {
@@ -724,6 +764,8 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
       z-index: 1000;
       animation: slideIn 0.3s ease;
+      max-width: 90vw;
+      word-wrap: break-word;
     }
 
     @keyframes slideIn {
@@ -742,6 +784,7 @@
       border-top: 1px solid rgba(15, 23, 42, 0.95);
       background: radial-gradient(circle at bottom, #020617, #050711 60%);
       padding: 10px 22px 12px;
+      width: 100%;
     }
 
     .footer-inner {
@@ -781,6 +824,7 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
       margin-top: 2px;
+      width: 100%;
     }
 
     .footer-col {
@@ -819,7 +863,7 @@
       padding-top: 4px;
       margin-top: 2px;
       display: flex;
-      justify-content: flex-start; /* ESQUERDA */
+      justify-content: flex-start; /* ESQUERDA no desktop */
     }
 
     .footer-meta-line {
@@ -836,21 +880,19 @@
         width: 100%;
         border-right: none;
         border-bottom: 1px solid var(--border);
+        padding: 16px 14px;
       }
-      .content {
-        grid-template-columns: 1fr;
+      .nav-list {
+        max-height: none;
       }
       .main {
         padding: 16px 16px 10px;
       }
-      .progress-layout {
-        flex-direction: row;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .footer-grid {
+      .content {
         grid-template-columns: 1fr;
+      }
+      .stats-row {
+        justify-content: flex-start;
       }
       .footer-meta {
         justify-content: center;
@@ -861,9 +903,18 @@
       }
     }
 
+    @media (max-width: 720px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .title-block h1 {
+        font-size: 20px;
+      }
+    }
+
     @media (max-width: 600px) {
-      .stats-row {
-        width: 100%;
+      .main {
+        padding: 14px 12px 10px;
       }
       .panel {
         padding: 14px 12px;
@@ -874,6 +925,53 @@
       }
       .progress-ring-wrapper {
         margin-bottom: 4px;
+      }
+      .stats-row {
+        width: 100%;
+      }
+      .stat-card {
+        max-width: none;
+      }
+      .module-actions {
+        flex-direction: row;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-text-name {
+        font-size: 14px;
+      }
+      .brand-text-title {
+        font-size: 11px;
+      }
+      .nav-item {
+        font-size: 12px;
+        padding: 6px 8px;
+      }
+      .title-block h1 {
+        font-size: 18px;
+      }
+      .progress-title,
+      .panel-title,
+      .export-title {
+        letter-spacing: 0.12em;
+        font-size: 11px;
+      }
+      .column {
+        flex: 0 0 90%;
+        min-width: 90%;
+      }
+      .folder-action {
+        font-size: 10px;
+      }
+      .export-btn {
+        font-size: 10px;
+      }
+      .notification {
+        bottom: 12px;
+        right: 12px;
+        padding: 8px 10px;
+        font-size: 11px;
       }
     }
   </style>
@@ -1898,31 +1996,17 @@
     function exportTasks() {
       let allTasks = [];
 
-      if (currentModule === 'inbox') {
-        columnsConfig.forEach(col => {
-          const tasks = state.inbox[col.key] || [];
-          tasks.forEach(task => {
-            allTasks.push({
-              text: task.text,
-              done: task.done,
-              tag: task.tag,
-              priority: col.title
-            });
+      columnsConfig.forEach(col => {
+        const tasks = state.inbox[col.key] || [];
+        tasks.forEach(task => {
+          allTasks.push({
+            text: task.text,
+            done: task.done,
+            tag: task.tag,
+            priority: col.title
           });
         });
-      } else {
-        columnsConfig.forEach(col => {
-          const tasks = state.inbox[col.key] || [];
-          tasks.forEach(task => {
-            allTasks.push({
-              text: task.text,
-              done: task.done,
-              tag: task.tag,
-              priority: col.title
-            });
-          });
-        });
-      }
+      });
 
       if (allTasks.length === 0) {
         alert("Nenhuma tarefa encontrada para este módulo.");
