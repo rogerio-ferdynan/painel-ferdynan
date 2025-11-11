@@ -3,9 +3,9 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Painel Ferdynan - Sistema de Gestão</title>
+  <title>Painel Ferdynan - Sistema de Gestão + Controle de Shows</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Painel de gestão OMNI LEGACY de Rogério Ferdynan: vida, empresa, palco e sistema de arquivos integrados." />
+  <meta name="description" content="Painel de gestão OMNI LEGACY de Rogério Ferdynan: vida, empresa, palco, financeiro de shows e saúde vocal integrados." />
   <style>
     :root {
       --bg: #050711;
@@ -380,7 +380,7 @@
       letter-spacing: 0.12em;
     }
 
-    /* NOVO: seção meta financeira + gadgets */
+    /* META FINANCEIRA + GADGETS */
     .financial-and-gadgets {
       display: grid;
       grid-template-columns: minmax(0, 2fr) minmax(0, 1.3fr);
@@ -570,13 +570,7 @@
       border: 1px solid var(--border);
     }
 
-    .content {
-      display: grid;
-      grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.4fr);
-      gap: 16px;
-      align-items: flex-start;
-    }
-
+    /* PAINEL MENSAL (SHOWS, FUNIL, VOZ) */
     .panel {
       background: rgba(11, 17, 31, 0.97);
       border-radius: var(--radius-xl);
@@ -608,6 +602,12 @@
       margin-top: 2px;
     }
 
+    .panel-tagline {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
     .pill {
       font-size: 11px;
       padding: 3px 8px;
@@ -618,7 +618,119 @@
       background: rgba(15, 23, 42, 0.95);
     }
 
-    /* INBOX RESPONSIVA */
+    /* TABELAS DO CONTROLE MENSAL */
+    .monthly-block {
+      margin-top: 8px;
+    }
+
+    .monthly-block-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin: 12px 0 4px;
+    }
+
+    .monthly-block-note {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .monthly-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .monthly-table-wrapper::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .monthly-table-wrapper::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.8);
+      border-radius: 999px;
+    }
+
+    .monthly-table-wrapper::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 999px;
+    }
+
+    .monthly-table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 620px;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+
+    .monthly-table th,
+    .monthly-table td {
+      border: 1px solid #111827;
+      padding: 6px 8px;
+      text-align: left;
+    }
+
+    .monthly-table th {
+      background: rgba(15, 23, 42, 0.95);
+      font-weight: 500;
+      color: #e5e7eb;
+      font-size: 11px;
+    }
+
+    .monthly-table tbody tr:nth-child(even) td {
+      background: rgba(15, 23, 42, 0.5);
+    }
+
+    .monthly-table tbody tr:nth-child(odd) td {
+      background: rgba(15, 23, 42, 0.25);
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    /* Inputs globais (inclui os das tabelas) */
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 4px 6px;
+      border-radius: 8px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      height: auto;
+    }
+
+    input::placeholder {
+      color: #6b7280;
+      font-size: 11px;
+    }
+
+    .small-input {
+      max-width: 70px;
+    }
+
+    .status-box {
+      max-width: 44px;
+      text-align: center;
+    }
+
+    /* LAYOUT INBOX + MÓDULO */
+    .content {
+      display: grid;
+      grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.4fr);
+      gap: 16px;
+      align-items: flex-start;
+    }
+
     .columns {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -702,6 +814,7 @@
       margin-top: 2px;
       cursor: pointer;
       flex-shrink: 0;
+      width: auto;
     }
 
     .task-text {
@@ -1080,9 +1193,6 @@
       .content {
         grid-template-columns: 1fr;
       }
-      .stats-row {
-        justify-content: flex-start;
-      }
       .financial-and-gadgets {
         grid-template-columns: 1fr;
       }
@@ -1234,13 +1344,14 @@
     </aside>
 
     <main class="main" role="main">
+      <!-- CABEÇALHO PRINCIPAL -->
       <header class="main-header">
         <div class="title-block">
           <h1>
             Ferdynan Produções
             <span class="badge">Sistema de Gestão 2025</span>
           </h1>
-          <p>Visão tática do dia a dia · Orquestração de vida, empresa e palco.</p>
+          <p>Visão tática do dia a dia · Orquestração de vida, empresa, palco e financeiro de shows.</p>
         </div>
 
         <div class="stats-row" aria-label="Indicadores principais">
@@ -1289,6 +1400,7 @@
         </div>
       </header>
 
+      <!-- PROGRESSO DO DIA -->
       <section class="progress-dashboard" aria-labelledby="progresso-dia-titulo">
         <div class="progress-header">
           <h2 class="progress-title" id="progresso-dia-titulo">Progresso do dia</h2>
@@ -1351,7 +1463,7 @@
         </div>
       </section>
 
-      <!-- NOVA SEÇÃO: META FINANCEIRA + GADGETS -->
+      <!-- META FINANCEIRA + GADGETS -->
       <section class="financial-and-gadgets" aria-label="Meta financeira e utilidades">
         <section class="panel" aria-labelledby="finance-title">
           <div class="panel-header">
@@ -1359,6 +1471,9 @@
               <h2 class="panel-title" id="finance-title">Meta financeira do mês</h2>
               <p class="panel-subtitle">
                 Meta líquida para limpar contas e respirar: R$ 10.000 livres, já considerando custos.
+              </p>
+              <p class="panel-tagline">
+                Base do modelo: show padrão R$ 500 (R$ 300 de custo, lucro R$ 200) · show premium R$ 5.000 (R$ 3.000 de custo, lucro R$ 2.000).
               </p>
             </div>
             <div class="pill">Planejamento de shows</div>
@@ -1547,6 +1662,407 @@
         </aside>
       </section>
 
+      <!-- AQUI ENTRA O CONTROLE MENSAL (PAINEL DO MÊS + SHOWS + FUNIL + VOZ) -->
+      <section class="panel" aria-label="Controle de Shows, Metas e Saúde Vocal">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Controle Mensal · Empresa / Artista</h2>
+            <p class="panel-subtitle">
+              Painel do mês: metas de shows, lucro líquido, funil de vendas premium e saúde vocal –
+              alinhados com a meta de R$ 10.000 livres.
+            </p>
+          </div>
+          <div class="pill">Shows · Funil · Voz</div>
+        </div>
+
+        <!-- PAINEL DO MÊS -->
+        <div class="monthly-block">
+          <h3 class="monthly-block-title">Painel do mês – Resultado geral</h3>
+          <p class="monthly-block-note">
+            Compare META x ATUAL e marque o status de cada indicador (✔ quando bateu, ! em alerta).
+          </p>
+
+          <div class="monthly-table-wrapper">
+            <table class="monthly-table">
+              <thead>
+                <tr>
+                  <th>Indicador</th>
+                  <th>Meta</th>
+                  <th>Atual</th>
+                  <th class="center">Status<br>(✔ / ! / vazio)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Shows premium (qtd)</td>
+                  <td>5</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Shows padrão (qtd)</td>
+                  <td>≤ 5 (total máx. 10)</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Total de shows no mês</td>
+                  <td>≤ 10</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Lucro líquido total</td>
+                  <td>≥ R$ 10.000</td>
+                  <td>R$ <input type="number" min="0" step="0.01" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Dias sem cantar (descanso da voz)</td>
+                  <td>≥ 8 dias/mês</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Leads premium contatados</td>
+                  <td>20</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Propostas enviadas (premium)</td>
+                  <td>10</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Shows premium fechados</td>
+                  <td>5</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Taxa de fechamento premium</td>
+                  <td>≥ 25%</td>
+                  <td><input type="number" min="0" max="100" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="monthly-block-note">
+            ✔ bateu a meta · ! atenção · vazio = ainda em construção.
+          </p>
+        </div>
+
+        <!-- CONTROLE DE SHOWS DO MÊS -->
+        <div class="monthly-block">
+          <h3 class="monthly-block-title">Controle de shows do mês</h3>
+          <p class="monthly-block-note">
+            Registre cada show realizado para ter visão real de cachê, custo e lucro por apresentação.
+          </p>
+
+          <div class="monthly-table-wrapper">
+            <table class="monthly-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Data</th>
+                  <th>Cliente / Evento</th>
+                  <th>Tipo de show<br />(Padrão / Premium)</th>
+                  <th>Cachê (R$)</th>
+                  <th>Custo (R$)</th>
+                  <th>Lucro (R$)</th>
+                  <th>Premium?<br />(S / N)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- 10 linhas para até 10 shows -->
+                <tr>
+                  <td>1</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" placeholder="Prefeitura, empresa, etc." /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>8</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>9</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>10</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="monthly-block-title" style="margin-top:10px;">Totais do mês</h4>
+          <div class="monthly-table-wrapper">
+            <table class="monthly-table">
+              <tbody>
+                <tr>
+                  <th>Total de shows</th>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <th>Total de shows premium</th>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <th>Receita bruta total (R$)</th>
+                  <td>R$ <input type="number" min="0" step="0.01" /></td>
+                </tr>
+                <tr>
+                  <th>Custos totais (R$)</th>
+                  <td>R$ <input type="number" min="0" step="0.01" /></td>
+                </tr>
+                <tr>
+                  <th>Lucro líquido total (R$)</th>
+                  <td>R$ <input type="number" min="0" step="0.01" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- FUNIL DE VENDAS PREMIUM -->
+        <div class="monthly-block">
+          <h3 class="monthly-block-title">Controle semanal de vendas – shows premium</h3>
+          <p class="monthly-block-note">
+            Acompanhe o fluxo de leads, propostas e fechamentos ao longo do mês.
+          </p>
+
+          <div class="monthly-table-wrapper">
+            <table class="monthly-table">
+              <thead>
+                <tr>
+                  <th>Semana do mês</th>
+                  <th>Leads contatados (qtd)</th>
+                  <th>Respostas recebidas</th>
+                  <th>Propostas enviadas</th>
+                  <th>Reuniões / chamadas</th>
+                  <th>Shows premium fechados</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Semana 1</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <td>Semana 2</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <td>Semana 3</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <td>Semana 4</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <td>Semana 5 (se houver)</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="monthly-block-title" style="margin-top:10px;">Indicadores do funil (mês)</h4>
+          <div class="monthly-table-wrapper">
+            <table class="monthly-table">
+              <tbody>
+                <tr>
+                  <th>Leads premium no mês</th>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <th>Propostas enviadas</th>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <th>Shows premium fechados</th>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <th>Taxa de fechamento (%)</th>
+                  <td><input type="number" min="0" max="100" class="small-input" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CONTROLE DA VOZ -->
+        <div class="monthly-block">
+          <h3 class="monthly-block-title">Controle da voz – saúde vocal</h3>
+          <p class="monthly-block-note">
+            Acompanhe sensação da voz, shows e observações ao longo do mês. Combine com o campo
+            “Dias sem cantar” do painel do mês para garantir descanso suficiente.
+          </p>
+
+          <div class="monthly-table-wrapper">
+            <table class="monthly-table">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Show? (S / N)</th>
+                  <th>Tipo (Padrão / Premium)</th>
+                  <th>Sensação da voz (0–10)</th>
+                  <th>Observações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" max="10" class="small-input" /></td>
+                  <td><input type="text" placeholder="cansaço, dor, ok, etc." /></td>
+                </tr>
+                <tr>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" max="10" class="small-input" /></td>
+                  <td><input type="text" placeholder="cansaço, dor, ok, etc." /></td>
+                </tr>
+                <tr>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" max="10" class="small-input" /></td>
+                  <td><input type="text" placeholder="cansaço, dor, ok, etc." /></td>
+                </tr>
+                <tr>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" max="10" class="small-input" /></td>
+                  <td><input type="text" placeholder="cansaço, dor, ok, etc." /></td>
+                </tr>
+                <tr>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                  <td><input type="text" placeholder="Padrão/Premium" /></td>
+                  <td><input type="number" min="0" max="10" class="small-input" /></td>
+                  <td><input type="text" placeholder="cansaço, dor, ok, etc." /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- INBOX + NÚCLEO SELECIONADO -->
       <section class="content" aria-label="Inbox e núcleo selecionado">
         <section class="panel" aria-labelledby="inbox-titulo">
           <div class="panel-header">
@@ -1584,22 +2100,15 @@
             <button class="folder-action" id="export-tasks-btn" type="button">
               <span aria-hidden="true">💾</span> Exportar tarefas (.txt)
             </button>
-          </div>
-
-          <div class="export-section">
-            <div class="export-header">
-              <div class="export-title">Exportação diária</div>
-              <button class="export-btn" id="export-daily-btn" type="button">📋 Gerar ATA do dia</button>
-            </div>
-            <p class="module-hint">
-              Gera um relatório das tarefas concluídas hoje em formato profissional (.txt).
-            </p>
+            <button class="folder-action" id="export-daily-btn" type="button">
+              <span aria-hidden="true">📋</span> Gerar ATA do dia
+            </button>
           </div>
         </aside>
       </section>
       <p class="hint-click">
-        💡 Dica: use este painel como rotina diária — abrir, ver a Inbox, marcar o que foi feito
-        e decidir o que vai pra qual núcleo (Artista, Empresa, Agenda, etc.).
+        💡 Dica: use este painel como rotina diária — abrir, ver a Inbox, checar o controle de shows,
+        marcar o que foi feito e decidir o que vai pra qual núcleo (Artista, Empresa, Agenda, etc.).
       </p>
     </main>
   </div>
@@ -1760,19 +2269,19 @@
     let currentModule = "inbox";
 
     const folderMap = {
-      inbox: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\00_📨 INBOX – CAIXA DE ENTRADA OPERACIONAL",
-      artista: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\01_🎤 ARTISTA_ROGERIO_FERDYNAN",
-      empresa: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\02_💼 EMPRESA_CNPJ_FERDYNAN_PRODUCOES",
-      pessoal: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\03_👨‍👦 PESSOAL_CPF_ROGERIO_GERALDO_LOPES",
-      direcao: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\04_🧠 DIRECAO_CRIATIVA_CONTEUDO",
-      agenda: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\05_📅 AGENDA_LOGISTICA",
-      backup: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\06_🔒 BACKUP_ARQUIVO_MORTO",
-      venda: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\07_💥 VENDA_MENSAL_MISSAO",
-      centro: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\08_🧩 CENTRO_CONTROLE_CONEXOES",
-      rede: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\09_🌎 REDE_GLOBAL",
-      modelos: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\10_🧾 MODELOS_OFICIAIS",
-      admin: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\11_🧰 ADMIN_SISTEMA",
-      resultados: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\12_🎯 RESULTADOS_FINAIS"
+      inbox: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\00_📨 INBOX – CAIXA DE ENTRADA OPERACIONAL",
+      artista: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\01_🎤 ARTISTA_ROGERIO_FERDYNAN",
+      empresa: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\02_💼 EMPRESA_CNPJ_FERDYNAN_PRODUCOES",
+      pessoal: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\03_👨‍👦 PESSOAL_CPF_ROGERIO_GERALDO_LOPES",
+      direcao: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\04_🧠 DIRECAO_CRIATIVA_CONTEUDO",
+      agenda: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\05_📅 AGENDA_LOGISTICA",
+      backup: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\06_🔒 BACKUP_ARQUIVO_MORTO",
+      venda: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\07_💥 VENDA_MENSAL_MISSAO",
+      centro: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\08_🧩 CENTRO_CONTROLE_CONEXOES",
+      rede: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\09_🌎 REDE_GLOBAL",
+      modelos: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\10_🧾 MODELOS_OFICIAIS",
+      admin: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\11_🧰 ADMIN_SISTEMA",
+      resultados: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\12_🎯 RESULTADOS_FINAIS"
     };
 
     function loadState() {
@@ -2690,7 +3199,7 @@
       }, 3000);
     }
 
-    /* META FINANCEIRA */
+    /* META FINANCEIRA (widget) */
     function updateFinanceWidget() {
       const META_LIQUIDA = 10000;
       const NET_SMALL = 200;   // 500 - 300
