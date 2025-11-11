@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -428,7 +427,7 @@
       background: rgba(15, 23, 42, 0.95);
     }
 
-    /* 🔥 INBOX RESPONSIVA - GRID, SEM SCROLL LATERAL */
+    /* INBOX RESPONSIVA */
     .columns {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -1790,7 +1789,33 @@
           '<p class="module-hint">' +
           "Na prática: viu algo? joga na Inbox. Em outro momento, você abre o painel e decide " +
           "para qual núcleo mandar (Artista, Empresa, Agenda, etc.)." +
-          "</p>"
+          "</p>" +
+          '<div class="module-links">' +
+          '<a href="https://web.whatsapp.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">💬</span><span>WhatsApp Web</span>' +
+          "</a>" +
+          '<a href="https://calendar.google.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📅</span><span>Google Agenda</span>' +
+          "</a>" +
+          '<a href="https://web.agendor.com.br/entrar/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📊</span><span>Agendor</span>' +
+          "</a>" +
+          '<a href="https://docs.google.com/spreadsheets/d/1iwtQoSlaRhUW115wmPv-7qYuslF4J5jcg41RzrgX7e4/edit" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📈</span><span>Planilha Financeira</span>' +
+          "</a>" +
+          '<a href="https://getmozart.ai/app" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🤖</span><span>Mozart AI</span>' +
+          "</a>" +
+          '<a href="https://mail.zoho.com/zm/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📧</span><span>Zoho Mail</span>' +
+          "</a>" +
+          '<a href="https://www.notion.so/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📓</span><span>Notion</span>' +
+          "</a>" +
+          '<a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🎬</span><span>YouTube</span>' +
+          "</a>" +
+          "</div>"
       },
 
       artista: {
@@ -1800,11 +1825,26 @@
         body:
           "<p>Espelha a pasta <strong>01_🎤 ARTISTA_ROGERIO_FERDYNAN</strong> do seu sistema:</p>" +
           '<ul class="module-list">' +
-          '<li><span class="module-item-label">📸 Fotos_Profissionais</span></li>' +
-          '<li><span class="module-item-label">🎥 Videos_de_Show</span></li>' +
-          '<li><span class="module-item-label">🎵 Repertorio</span></li>' +
-          '<li><span class="module-item-label">🖼️ Divulgacao_Capas_Stories</span></li>' +
-          "</ul>"
+          '<li><span class="module-item-label">📸 Fotos_Profissionais</span> – estúdio, ao vivo, bastidores, com fãs.</li>' +
+          '<li><span class="module-item-label">🎥 Videos_de_Show</span> – RAW, edição, final, VS_Show, backups.</li>' +
+          '<li><span class="module-item-label">🎵 Repertorio</span> – setlists, letras, blocos temáticos, ensaios.</li>' +
+          '<li><span class="module-item-label">🖼️ Divulgacao_Capas_Stories</span> – feed, stories, capas, thumbnails.</li>' +
+          "</ul>" +
+          '<p class="module-hint">' +
+          "Quando uma tarefa é sobre <strong>imagem, repertório ou material artístico</strong>, " +
+          "ela nasce na Inbox, mas o arquivo final vive neste núcleo." +
+          "</p>" +
+          '<div class="module-links">' +
+          '<a href="https://artists.spotify.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🎧</span><span>Spotify for Artists</span>' +
+          "</a>" +
+          '<a href="https://artists.bandsintown.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📍</span><span>Bandsintown</span>' +
+          "</a>" +
+          '<a href="https://linkr.bio/rogerioferdynan" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🌐</span><span>Linkr.bio</span>' +
+          "</a>" +
+          "</div>"
       },
 
       empresa: {
@@ -1815,9 +1855,23 @@
           "<p>Espelha a pasta <strong>02_💼 EMPRESA_CNPJ_FERDYNAN_PRODUCOES</strong>:</p>" +
           '<ul class="module-list">' +
           '<li><span class="module-item-label">📄 Propostas_Contratos</span></li>' +
-          '<li><span class="module-item-label">💰 Notas_Fiscais_Pagamentos</span></li>' +
-          '<li><span class="module-item-label">🧾 CNPJ_Documentos_Oficiais</span></li>' +
-          "</ul>"
+          '<li><span class="module-item-label">💰 Notas_Fiscais_Pagamentos</span> – notas, relatórios, contas bancárias.</li>' +
+          '<li><span class="module-item-label">🧾 CNPJ_Documentos_Oficiais</span> – Receita Federal, certidões, calendário fiscal.</li>' +
+          '<li><span class="module-item-label">🏙️ Clientes_Prefeituras</span> – DDD37, outras cidades MG, Brasil, internacional.</li>' +
+          '<li><span class="module-item-label">📊 Tabelas_Precos_Planilhas</span> – business plan, planilhas de venda.</li>' +
+          "</ul>" +
+          '<p class="module-hint">' +
+          "Qualquer tarefa que envolve <strong>dinheiro, documento oficial ou prefeituras</strong> " +
+          "provavelmente pertence aqui." +
+          "</p>" +
+          '<div class="module-links">' +
+          '<a href="https://docs.google.com/document/d/1UWcL2O1QFVktAEf3T7p6tkLUzY2HRiNbmHDUpDPr1xA/edit" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📄</span><span>Contratos (Docs)</span>' +
+          "</a>" +
+          '<a href="https://docs.google.com/spreadsheets/d/1iwtQoSlaRhUW115wmPv-7qYuslF4J5jcg41RzrgX7e4/edit" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📊</span><span>Financeiro (Sheets)</span>' +
+          "</a>" +
+          "</div>"
       },
 
       pessoal: {
@@ -1829,6 +1883,7 @@
           '<ul class="module-list">' +
           '<li><span class="module-item-label">📜 Comprovantes_Declaracoes</span></li>' +
           '<li><span class="module-item-label">💊 Saude_Mental_Suplementacao</span></li>' +
+          '<li><span class="module-item-label">👦 Filho_Mikael</span></li>' +
           "</ul>"
       },
 
@@ -1841,7 +1896,26 @@
           '<ul class="module-list">' +
           '<li><span class="module-item-label">📢 Posts_Prontos</span></li>' +
           '<li><span class="module-item-label">🎬 Modelos_Reels</span></li>' +
-          "</ul>"
+          '<li><span class="module-item-label">🎧 Musicas_Em_Andamento</span></li>' +
+          "</ul>" +
+          '<p class="module-hint">' +
+          "Quando a tarefa é <strong>criar, refinar ou pensar conceito</strong>, " +
+          "ela provavelmente termina aqui." +
+          "</p>" +
+          '<div class="module-links">' +
+          '<a href="https://www.canva.com/pt_br/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🎨</span><span>Canva</span>' +
+          "</a>" +
+          '<a href="https://commercepro.capcut.com/ai-video-generator-v2/result" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🎬</span><span>CapCut</span>' +
+          "</a>" +
+          '<a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🤖</span><span>ChatGPT</span>' +
+          "</a>" +
+          '<a href="https://gemini.google.com/app" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🧠</span><span>Gemini</span>' +
+          "</a>" +
+          "</div>"
       },
 
       agenda: {
@@ -1853,7 +1927,15 @@
           '<ul class="module-list">' +
           '<li><span class="module-item-label">🎟️ Shows_Confirmados</span></li>' +
           '<li><span class="module-item-label">💬 Shows_Negociacao</span></li>' +
-          "</ul>"
+          "</ul>" +
+          '<div class="module-links">' +
+          '<a href="https://trello.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📌</span><span>Trello</span>' +
+          "</a>" +
+          '<a href="https://web.whatsapp.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">💬</span><span>WhatsApp Web</span>' +
+          "</a>" +
+          "</div>"
       },
 
       backup: {
@@ -1864,7 +1946,9 @@
           "<p>Espelha a pasta <strong>06_🔒 BACKUP_ARQUIVO_MORTO</strong>:</p>" +
           '<ul class="module-list">' +
           '<li><span class="module-item-label">🕰️ Fotos_Antigas</span></li>' +
+          '<li><span class="module-item-label">🗞️ Campanhas_Encerradas_LogOff</span></li>' +
           '<li><span class="module-item-label">🗃️ Pastas_Antigas</span></li>' +
+          '<li><span class="module-item-label">📱 Prints_WhatsApp</span></li>' +
           "</ul>"
       },
 
@@ -1877,7 +1961,16 @@
           '<ul class="module-list">' +
           '<li><span class="module-item-label">📰 Cartazes_Atualizados</span></li>' +
           '<li><span class="module-item-label">📘 Portfolio_PDF</span></li>' +
-          "</ul>"
+          '<li><span class="module-item-label">💬 Texto_WhatsApp_Venda</span></li>' +
+          "</ul>" +
+          '<div class="module-links">' +
+          '<a href="https://b2bleads.com.br/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📇</span><span>B2B Leads</span>' +
+          "</a>" +
+          '<a href="https://calculadora-freelae.web.app/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🧮</span><span>Calculadora Freelancer</span>' +
+          "</a>" +
+          "</div>"
       },
 
       centro: {
@@ -1889,6 +1982,7 @@
           '<ul class="module-list">' +
           '<li><span class="module-item-label">🗺️ Mapa_Geral_Pastas</span></li>' +
           '<li><span class="module-item-label">🧾 Fluxos_Checklists</span></li>' +
+          '<li><span class="module-item-label">🔗 Integracoes_Estrategicas</span></li>' +
           "</ul>"
       },
 
@@ -1901,6 +1995,7 @@
           '<ul class="module-list">' +
           '<li><span class="module-item-label">🇺🇸 EUA_CANADA</span></li>' +
           '<li><span class="module-item-label">🇪🇺 EUROPA</span></li>' +
+          '<li><span class="module-item-label">🌎 LATAM</span></li>' +
           "</ul>"
       },
 
@@ -1913,6 +2008,8 @@
           '<ul class="module-list">' +
           '<li><span class="module-item-label">🧠 Apresentacoes</span></li>' +
           '<li><span class="module-item-label">📄 Docs</span></li>' +
+          '<li><span class="module-item-label">🖼️ Identidade_Visual</span></li>' +
+          '<li><span class="module-item-label">📊 Planilhas</span></li>' +
           "</ul>"
       },
 
@@ -1937,6 +2034,7 @@
           '<ul class="module-list">' +
           '<li><span class="module-item-label">💼 Clientes</span></li>' +
           '<li><span class="module-item-label">📰 Imprensa</span></li>' +
+          '<li><span class="module-item-label">📱 Social</span></li>' +
           "</ul>"
       }
     };
