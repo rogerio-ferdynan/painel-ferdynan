@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -377,6 +378,196 @@
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.12em;
+    }
+
+    /* NOVO: seção meta financeira + gadgets */
+    .financial-and-gadgets {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.3fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .finance-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .finance-summary {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .finance-meta {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .finance-meta span {
+      color: var(--accent);
+    }
+
+    .finance-bar {
+      position: relative;
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .finance-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #16a34a, #22c55e);
+      transition: width 0.3s ease;
+    }
+
+    .finance-bar-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .finance-numbers {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .finance-number-card {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top, #020617, #020617 70%);
+      padding: 6px 8px;
+      font-size: 11px;
+    }
+
+    .finance-number-label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 2px;
+    }
+
+    .finance-number-value {
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .finance-inputs {
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .finance-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .finance-input-label {
+      flex: 1;
+    }
+
+    .finance-input-label strong {
+      display: block;
+    }
+
+    .finance-input-label small {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .finance-input-field {
+      width: 70px;
+      font-size: 12px;
+      padding: 4px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #020617;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .finance-input-field:focus-visible {
+      outline: 1px solid var(--accent);
+      border-color: var(--accent);
+    }
+
+    .finance-status {
+      font-size: 11px;
+      margin-top: 4px;
+      color: var(--muted);
+    }
+
+    .finance-status span {
+      font-weight: 600;
+    }
+
+    .finance-status--ok span {
+      color: #22c55e;
+    }
+
+    .finance-status--pending span {
+      color: #f97316;
+    }
+
+    .finance-status--zero span {
+      color: var(--muted);
+    }
+
+    .gadget-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .gadget-card {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top left, #111827, #020617 70%);
+      padding: 8px 9px;
+    }
+
+    .gadget-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gadget-body {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .gadget-links {
+      margin-top: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .gadget-embed {
+      margin-top: 6px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
     }
 
     .content {
@@ -892,6 +1083,12 @@
       .stats-row {
         justify-content: flex-start;
       }
+      .financial-and-gadgets {
+        grid-template-columns: 1fr;
+      }
+      .finance-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 720px) {
@@ -1152,6 +1349,202 @@
             </div>
           </div>
         </div>
+      </section>
+
+      <!-- NOVA SEÇÃO: META FINANCEIRA + GADGETS -->
+      <section class="financial-and-gadgets" aria-label="Meta financeira e utilidades">
+        <section class="panel" aria-labelledby="finance-title">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title" id="finance-title">Meta financeira do mês</h2>
+              <p class="panel-subtitle">
+                Meta líquida para limpar contas e respirar: R$ 10.000 livres, já considerando custos.
+              </p>
+            </div>
+            <div class="pill">Planejamento de shows</div>
+          </div>
+
+          <div class="finance-grid">
+            <div class="finance-summary">
+              <div class="finance-meta">
+                Meta líquida: <span id="finance-meta">R$ 10.000</span>
+              </div>
+
+              <div class="finance-bar" aria-hidden="true">
+                <div class="finance-bar-fill" id="finance-bar-fill"></div>
+              </div>
+              <div class="finance-bar-label" id="finance-bar-label">
+                0% da meta alcançada
+              </div>
+
+              <div class="finance-numbers">
+                <div class="finance-number-card">
+                  <div class="finance-number-label">Receita bruta</div>
+                  <div class="finance-number-value" id="finance-bruto">R$ 0</div>
+                </div>
+                <div class="finance-number-card">
+                  <div class="finance-number-label">Custos estimados</div>
+                  <div class="finance-number-value" id="finance-custos">R$ 0</div>
+                </div>
+                <div class="finance-number-card">
+                  <div class="finance-number-label">Lucro líquido</div>
+                  <div class="finance-number-value" id="finance-liquido">R$ 0</div>
+                </div>
+                <div class="finance-number-card">
+                  <div class="finance-number-label">Shows pequenos faltantes</div>
+                  <div class="finance-number-value" id="finance-faltam-shows">0</div>
+                </div>
+              </div>
+
+              <p class="module-hint">
+                Lógica: show padrão (R$ 500) deixa <strong>R$ 200 livres</strong>. Show premium
+                (R$ 5.000) deixa <strong>R$ 2.000 livres</strong>. A meta é bater R$ 10.000 de lucro líquido.
+              </p>
+
+              <p class="finance-status finance-status--zero" id="finance-status">
+                Situação: <span>meta ainda não iniciada.</span>
+              </p>
+            </div>
+
+            <div class="finance-inputs" aria-label="Configuração de shows para meta financeira">
+              <div class="finance-input-row">
+                <div class="finance-input-label">
+                  <strong>Shows padrão</strong>
+                  <small>Cachê R$ 500 · Custo R$ 300 · Lucro R$ 200</small>
+                </div>
+                <input
+                  type="number"
+                  id="shows-pequenos"
+                  class="finance-input-field"
+                  min="0"
+                  step="1"
+                  value="0"
+                  aria-label="Quantidade de shows padrão no mês"
+                />
+              </div>
+
+              <div class="finance-input-row">
+                <div class="finance-input-label">
+                  <strong>Shows premium</strong>
+                  <small>Cachê R$ 5.000 · Custo R$ 3.000 · Lucro R$ 2.000</small>
+                </div>
+                <input
+                  type="number"
+                  id="shows-grandes"
+                  class="finance-input-field"
+                  min="0"
+                  step="1"
+                  value="0"
+                  aria-label="Quantidade de shows premium no mês"
+                />
+              </div>
+
+              <p class="module-hint">
+                Exemplo: só com shows de R$ 500, você precisaria de
+                <strong>50 shows</strong> (50 × 200 = 10.000). Já com 2 shows premium (2 × 2.000 = 4.000),
+                a meta cai para 30 shows pequenos (30 × 200 = 6.000).
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel panel-gadgets" aria-label="Gadgets rápidos">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Gadgets · Clima & Música</h2>
+              <p class="panel-subtitle">
+                Atalhos para cuidar do corpo, voz e vibe antes dos shows.
+              </p>
+            </div>
+            <div class="pill">Suporte diário</div>
+          </div>
+
+          <div class="gadget-grid">
+            <div class="gadget-card">
+              <div class="gadget-title">
+                <span aria-hidden="true">⛅</span>
+                Clima · Lagoa da Prata & BH
+              </div>
+              <div class="gadget-body">
+                Veja o tempo antes de pegar estrada ou marcar ensaio ao ar livre.
+                <div class="gadget-links">
+                  <a
+                    href="https://www.climatempo.com.br/previsao-do-tempo/cidade/330/lagoadaprata-mg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-chip"
+                  >
+                    <span class="emoji">📍</span><span>Lagoa da Prata</span>
+                  </a>
+                  <a
+                    href="https://www.climatempo.com.br/previsao-do-tempo/cidade/321/belohorizonte-mg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-chip"
+                  >
+                    <span class="emoji">🏙️</span><span>Belo Horizonte</span>
+                  </a>
+                  <a
+                    href="https://weather.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-chip"
+                  >
+                    <span class="emoji">🌎</span><span>Weather.com</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="gadget-card">
+              <div class="gadget-title">
+                <span aria-hidden="true">🎧</span>
+                Música & Ferramentas de palco
+              </div>
+              <div class="gadget-body">
+                Afinar, marcar BPM e entrar no clima certo antes de subir no palco.
+                <div class="gadget-links">
+                  <a
+                    href="https://tuner.ninja/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-chip"
+                  >
+                    <span class="emoji">🎸</span><span>Afinador online</span>
+                  </a>
+                  <a
+                    href="https://www.flutetunes.com/metronome/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-chip"
+                  >
+                    <span class="emoji">⏱️</span><span>Metrônomo</span>
+                  </a>
+                  <a
+                    href="https://music.youtube.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-chip"
+                  >
+                    <span class="emoji">▶️</span><span>YouTube Music</span>
+                  </a>
+                </div>
+                <div class="gadget-embed" aria-label="Player do Spotify">
+                  <iframe
+                    style="border-radius:0; width:100%; height:120px;"
+                    src="https://open.spotify.com/embed/artist/570xnV2TU8QMAZGFDpVf5E"
+                    width="100%"
+                    height="120"
+                    frameborder="0"
+                    allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
       </section>
 
       <section class="content" aria-label="Inbox e núcleo selecionado">
@@ -2297,6 +2690,92 @@
       }, 3000);
     }
 
+    /* META FINANCEIRA */
+    function updateFinanceWidget() {
+      const META_LIQUIDA = 10000;
+      const NET_SMALL = 200;   // 500 - 300
+      const NET_BIG = 2000;    // 5000 - 3000
+      const GROSS_SMALL = 500;
+      const COST_SMALL = 300;
+      const GROSS_BIG = 5000;
+      const COST_BIG = 3000;
+
+      const inputSmall = document.getElementById("shows-pequenos");
+      const inputBig = document.getElementById("shows-grandes");
+
+      if (!inputSmall || !inputBig) return;
+
+      const qSmall = Math.max(0, parseInt(inputSmall.value, 10) || 0);
+      const qBig = Math.max(0, parseInt(inputBig.value, 10) || 0);
+
+      const bruto = qSmall * GROSS_SMALL + qBig * GROSS_BIG;
+      const custos = qSmall * COST_SMALL + qBig * COST_BIG;
+      const liquido = bruto - custos;
+
+      const pct = META_LIQUIDA > 0 ? Math.min(120, (liquido / META_LIQUIDA) * 100) : 0;
+
+      const faltam = liquido >= META_LIQUIDA
+        ? 0
+        : Math.ceil((META_LIQUIDA - liquido) / NET_SMALL);
+
+      const brutoEl = document.getElementById("finance-bruto");
+      const custosEl = document.getElementById("finance-custos");
+      const liquidoEl = document.getElementById("finance-liquido");
+      const faltamEl = document.getElementById("finance-faltam-shows");
+      const barFill = document.getElementById("finance-bar-fill");
+      const barLabel = document.getElementById("finance-bar-label");
+      const statusEl = document.getElementById("finance-status");
+
+      function formatBRL(v) {
+        return "R$ " + v.toLocaleString("pt-BR");
+      }
+
+      if (brutoEl) brutoEl.textContent = formatBRL(bruto);
+      if (custosEl) custosEl.textContent = formatBRL(custos);
+      if (liquidoEl) liquidoEl.textContent = formatBRL(Math.max(liquido, 0));
+      if (faltamEl) faltamEl.textContent = String(Math.max(faltam, 0));
+      if (barFill) barFill.style.width = Math.max(0, pct) + "%";
+      if (barLabel) {
+        const safePct = META_LIQUIDA > 0 ? Math.max(0, Math.min(100, Math.round((liquido / META_LIQUIDA) * 100))) : 0;
+        barLabel.textContent = safePct + "% da meta alcançada";
+      }
+
+      if (statusEl) {
+        statusEl.classList.remove("finance-status--ok", "finance-status--pending", "finance-status--zero");
+
+        if (liquido <= 0 && qSmall === 0 && qBig === 0) {
+          statusEl.classList.add("finance-status--zero");
+          statusEl.innerHTML = 'Situação: <span>meta ainda não iniciada.</span>';
+        } else if (liquido >= META_LIQUIDA) {
+          statusEl.classList.add("finance-status--ok");
+          statusEl.innerHTML = 'Situação: <span>meta batida! Você já tem ' +
+            formatBRL(liquido) +
+            ' livres.</span>';
+        } else {
+          statusEl.classList.add("finance-status--pending");
+          statusEl.innerHTML =
+            'Situação: <span>faltam ' +
+            formatBRL(Math.max(META_LIQUIDA - liquido, 0)) +
+            ' de lucro líquido</span> — equivalente a ' +
+            Math.max(faltam, 0) +
+            ' shows padrão (R$ 500) se não vender mais premium.';
+        }
+      }
+    }
+
+    function setupFinanceWidget() {
+      const inputSmall = document.getElementById("shows-pequenos");
+      const inputBig = document.getElementById("shows-grandes");
+      if (!inputSmall || !inputBig) return;
+
+      ["input", "change"].forEach(function (ev) {
+        inputSmall.addEventListener(ev, updateFinanceWidget);
+        inputBig.addEventListener(ev, updateFinanceWidget);
+      });
+
+      updateFinanceWidget();
+    }
+
     function init() {
       renderStats();
       setupStatsEditing();
@@ -2304,6 +2783,7 @@
       setupSidebar();
       renderModule("inbox");
       updateProgressDashboard();
+      setupFinanceWidget();
 
       const copyBtn = document.getElementById("copy-folder-btn");
       const exportTasksBtn = document.getElementById("export-tasks-btn");
