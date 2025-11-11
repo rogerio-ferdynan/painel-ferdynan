@@ -4,20 +4,18 @@
   <meta charset="UTF-8" />
   <title>Painel Ferdynan - Sistema de Gestão</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Painel de gestão OMNI LEGACY de Rogério Ferdynan: vida, empresa, palco e sistema de arquivos integrados." />
   <style>
     :root {
-      --bg: #050711;
-      --bg-elevated: #0b111f;
-      --brand: #111827;
-      --accent: #d4a45a;
-      --accent-soft: rgba(212, 164, 90, 0.14);
+      --bg: #050816;
+      --bg-elevated: #0b1020;
+      --accent: #f97316;
+      --accent-soft: rgba(249, 115, 22, 0.1);
       --text: #f9fafb;
       --muted: #9ca3af;
-      --border: #1f2933;
+      --border: #1f2937;
       --radius-lg: 18px;
       --radius-xl: 22px;
-      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.45);
     }
 
     * {
@@ -26,44 +24,26 @@
 
     body {
       margin: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
-      background: radial-gradient(circle at top, #111827, var(--bg) 65%);
+      background: radial-gradient(circle at top, #111827, #020617 60%);
       color: var(--text);
-      overflow-x: hidden;
     }
 
     .app {
-      flex: 1;
       display: flex;
-      min-height: 0;
-      width: 100%;
-      overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-
+    /* SIDEBAR */
     .sidebar {
       width: 280px;
       padding: 20px 18px;
       border-right: 1px solid var(--border);
-      background: linear-gradient(180deg, #111827, #050711);
+      background: radial-gradient(circle at top left, #111827, #020617 60%);
       display: flex;
       flex-direction: column;
       gap: 18px;
-      flex-shrink: 0;
     }
 
     .brand {
@@ -76,25 +56,25 @@
       width: 38px;
       height: 38px;
       border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #facc6b, var(--accent));
+      background: linear-gradient(135deg, #f97316, #fb923c);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
       font-size: 16px;
       color: #111827;
-      box-shadow: 0 0 0 3px rgba(212, 164, 90, 0.4);
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.3);
     }
 
     .brand-text-title {
-      font-size: 12px;
+      font-size: 14px;
       text-transform: uppercase;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.12em;
       color: var(--muted);
     }
 
     .brand-text-name {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 600;
     }
 
@@ -127,33 +107,23 @@
       cursor: pointer;
       border: 1px solid transparent;
       transition: all 0.2s ease;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .nav-item span.emoji {
       font-size: 18px;
-      flex-shrink: 0;
     }
 
     .nav-item.active {
-      background: linear-gradient(135deg, #d4a45a, #b97a34);
+      background: linear-gradient(135deg, #f97316, #fb923c);
       color: #111827;
-      border-color: rgba(212, 164, 90, 0.7);
-      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.7);
+      border-color: rgba(249, 115, 22, 0.3);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
     }
 
-    .nav-item:not(.active):hover,
-    .nav-item:focus-visible {
-      background: rgba(15, 23, 42, 0.9);
+    .nav-item:not(.active):hover {
+      background: rgba(15, 23, 42, 0.8);
       border-color: var(--border);
       color: #e5e7eb;
-      outline: none;
-    }
-
-    .nav-item:focus-visible {
-      box-shadow: 0 0 0 2px var(--accent);
     }
 
     .sidebar-footer {
@@ -162,23 +132,15 @@
       color: var(--muted);
       border-top: 1px dashed var(--border);
       padding-top: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
     }
 
-    .sidebar-footer-line {
-      font-size: 11px;
-    }
-
+    /* MAIN */
     .main {
       flex: 1;
-      min-width: 0;
-      padding: 22px 28px 16px;
+      padding: 22px 28px 28px;
       display: flex;
       flex-direction: column;
       gap: 18px;
-      background: radial-gradient(circle at top, #0b1120, #020617);
     }
 
     .main-header {
@@ -195,7 +157,6 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-wrap: wrap;
     }
 
     .title-block p {
@@ -212,39 +173,29 @@
       border-radius: 999px;
       background: var(--accent-soft);
       color: var(--accent);
-      border: 1px solid rgba(212, 164, 90, 0.7);
-      white-space: nowrap;
+      border: 1px solid rgba(249, 115, 22, 0.4);
     }
 
     .stats-row {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      justify-content: flex-end;
     }
 
     .stat-card {
       min-width: 130px;
       padding: 10px 12px;
       border-radius: var(--radius-lg);
-      background: radial-gradient(circle at top, #111827, #020617 65%);
+      background: radial-gradient(circle at top, #111827, #020617 60%);
       border: 1px solid var(--border);
       box-shadow: var(--shadow-soft);
       cursor: pointer;
       transition: all 0.2s ease;
-      flex: 1 1 130px;
-      max-width: 200px;
     }
 
-    .stat-card:hover,
-    .stat-card:focus-visible {
+    .stat-card:hover {
       border-color: var(--accent);
       transform: translateY(-2px);
-      outline: none;
-    }
-
-    .stat-card:focus-visible {
-      box-shadow: 0 0 0 2px var(--accent);
     }
 
     .stat-label {
@@ -266,6 +217,7 @@
       margin-top: 2px;
     }
 
+    /* Barra de progresso das stats */
     .stat-progress {
       height: 4px;
       background: rgba(15, 23, 42, 0.9);
@@ -276,15 +228,16 @@
 
     .stat-progress-bar {
       height: 100%;
-      background: linear-gradient(90deg, #d4a45a, #b97a34);
+      background: linear-gradient(90deg, #f97316, #fb923c);
       width: 60%;
       transition: width 0.4s ease;
     }
 
+    /* DASHBOARD DE PROGRESSO DO DIA */
     .progress-dashboard {
-      background: rgba(11, 17, 31, 0.97);
+      background: rgba(15, 23, 42, 0.96);
       border-radius: var(--radius-xl);
-      padding: 14px 16px 14px;
+      padding: 14px 16px;
       border: 1px solid var(--border);
       box-shadow: var(--shadow-soft);
     }
@@ -303,73 +256,10 @@
       color: var(--muted);
     }
 
-    .progress-layout {
-      display: flex;
-      gap: 18px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .progress-ring-wrapper {
-      position: relative;
-      width: 96px;
-      height: 96px;
-      flex-shrink: 0;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle at 30% 20%, #020617, #0b1120 70%);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
-    }
-
-    .progress-ring {
-      transform: rotate(-90deg);
-    }
-
-    .progress-ring circle {
-      transition: stroke-dashoffset 0.4s ease;
-    }
-
-    .progress-ring-bg {
-      stroke: rgba(148, 163, 184, 0.4);
-    }
-
-    .progress-ring-value {
-      stroke-linecap: round;
-      filter: drop-shadow(0 0 8px rgba(212, 164, 90, 0.8));
-    }
-
-    .progress-ring-center {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-    }
-
-    .progress-ring-percentage {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .progress-ring-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
     .progress-stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 12px;
-      flex: 1;
-      width: 100%;
     }
 
     .progress-item {
@@ -390,6 +280,7 @@
       letter-spacing: 0.12em;
     }
 
+    /* CONTENT (2 painéis lado a lado) */
     .content {
       display: grid;
       grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.4fr);
@@ -398,7 +289,7 @@
     }
 
     .panel {
-      background: rgba(11, 17, 31, 0.97);
+      background: rgba(15, 23, 42, 0.96);
       border-radius: var(--radius-xl);
       padding: 16px 16px 14px;
       border: 1px solid var(--border);
@@ -412,7 +303,6 @@
       align-items: center;
       gap: 8px;
       margin-bottom: 10px;
-      flex-wrap: wrap;
     }
 
     .panel-title {
@@ -435,9 +325,9 @@
       border: 1px solid var(--border);
       color: var(--muted);
       white-space: nowrap;
-      background: rgba(15, 23, 42, 0.95);
     }
 
+    /* INBOX COLUMNS – HORIZONTAL / RESPONSIVO */
     .columns {
       display: flex;
       gap: 10px;
@@ -445,7 +335,6 @@
       overflow-x: auto;
       padding-bottom: 4px;
       scroll-snap-type: x mandatory;
-      width: 100%;
     }
 
     .columns::-webkit-scrollbar {
@@ -453,7 +342,7 @@
     }
 
     .columns::-webkit-scrollbar-track {
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(15, 23, 42, 0.7);
       border-radius: 999px;
     }
 
@@ -463,7 +352,7 @@
     }
 
     .column {
-      background: radial-gradient(circle at top left, #111827, #020617 65%);
+      background: radial-gradient(circle at top left, #020617, #020617 65%);
       border-radius: 16px;
       padding: 10px 10px 8px;
       border: 1px solid var(--border);
@@ -516,7 +405,7 @@
     }
 
     .task:hover {
-      background: rgba(15, 23, 42, 0.7);
+      background: rgba(15, 23, 42, 0.5);
     }
 
     .task input[type="checkbox"] {
@@ -563,7 +452,7 @@
     }
 
     .task-action-btn:hover {
-      background: rgba(15, 23, 42, 0.95);
+      background: rgba(15, 23, 42, 0.9);
       color: var(--accent);
     }
 
@@ -589,7 +478,7 @@
       color: var(--text);
     }
 
-    .task-input:focus-visible {
+    .task-input:focus {
       outline: 1px solid var(--accent);
       border-color: var(--accent);
     }
@@ -609,6 +498,7 @@
       filter: brightness(1.05);
     }
 
+    /* SIDE PANEL */
     .module-body {
       font-size: 12px;
       color: var(--muted);
@@ -645,7 +535,7 @@
     .hint-click {
       font-size: 11px;
       color: var(--muted);
-      margin-top: 4px;
+      margin-top: 6px;
     }
 
     .module-actions {
@@ -663,21 +553,19 @@
       border-radius: 6px;
       background: var(--accent-soft);
       color: var(--accent);
-      border: 1px solid rgba(212, 164, 90, 0.7);
+      border: 1px solid rgba(249, 115, 22, 0.4);
       font-size: 11px;
       cursor: pointer;
       transition: all 0.2s ease;
       margin-top: 4px;
     }
 
-    .folder-action:hover,
-    .folder-action:focus-visible {
+    .folder-action:hover {
       background: var(--accent);
       color: #111827;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(212, 164, 90, 0.4);
     }
 
+    /* LINKS DOS MÓDULOS */
     .module-links {
       margin-top: 10px;
       display: flex;
@@ -690,7 +578,7 @@
       padding: 5px 10px;
       border: 1px solid var(--border);
       font-size: 11px;
-      background: rgba(15, 23, 42, 0.98);
+      background: rgba(15, 23, 42, 0.95);
       color: var(--text);
       text-decoration: none;
       display: inline-flex;
@@ -703,18 +591,17 @@
       font-size: 14px;
     }
 
-    .link-chip:hover,
-    .link-chip:focus-visible {
+    .link-chip:hover {
       border-color: var(--accent);
       background: var(--accent-soft);
       color: var(--accent);
-      outline: none;
     }
 
+    /* EXPORT SECTION (ATA DIÁRIA) */
     .export-section {
       margin-top: 12px;
       padding: 10px 12px;
-      background: rgba(15, 23, 42, 0.98);
+      background: rgba(15, 23, 42, 0.96);
       border-radius: 12px;
       border: 1px dashed var(--border);
     }
@@ -724,8 +611,6 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 6px;
-      gap: 8px;
-      flex-wrap: wrap;
     }
 
     .export-title {
@@ -736,7 +621,7 @@
     }
 
     .export-btn {
-      background: linear-gradient(135deg, #16a34a, #15803d);
+      background: linear-gradient(135deg, #10b981, #059669);
       color: #f9fafb;
       border: none;
       padding: 6px 10px;
@@ -744,31 +629,26 @@
       font-size: 11px;
       font-weight: 600;
       cursor: pointer;
-      white-space: nowrap;
     }
 
-    .export-btn:hover,
-    .export-btn:focus-visible {
+    .export-btn:hover {
       filter: brightness(1.05);
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.5);
     }
 
+    /* NOTIFICAÇÃO */
     .notification {
       position: fixed;
-      bottom: 16px;
-      right: 16px;
+      bottom: 20px;
+      right: 20px;
       background: var(--accent);
       color: #111827;
       padding: 10px 15px;
       border-radius: 8px;
       font-size: 12px;
       font-weight: 600;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       z-index: 1000;
       animation: slideIn 0.3s ease;
-      max-width: min(320px, 100% - 32px);
-      box-sizing: border-box;
     }
 
     @keyframes slideIn {
@@ -782,97 +662,7 @@
       }
     }
 
-    .app-footer {
-      border-top: 1px solid rgba(15, 23, 42, 0.95);
-      background: radial-gradient(circle at bottom, #020617, #050711 60%);
-      padding: 10px 22px 12px;
-    }
-
-    .footer-inner {
-      max-width: 1180px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .footer-primary {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .footer-name {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .footer-name span {
-      font-weight: 400;
-      opacity: 0.9;
-      margin-left: 4px;
-    }
-
-    .footer-roles {
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 2px;
-    }
-
-    .footer-col {
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .footer-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      margin-bottom: 2px;
-      color: #d1d5db;
-    }
-
-    .footer-text {
-      margin-bottom: 4px;
-      line-height: 1.35;
-    }
-
-    .footer-text a {
-      color: #e5e7eb;
-      text-decoration: none;
-      border-bottom: 1px dashed rgba(148, 163, 184, 0.4);
-    }
-
-    .footer-text a:hover,
-    .footer-text a:focus-visible {
-      color: var(--accent);
-      border-bottom-style: solid;
-      outline: none;
-    }
-
-    .footer-meta {
-      font-size: 10px;
-      color: #e5e7eb;
-      border-top: 1px dashed rgba(31, 41, 55, 0.95);
-      padding-top: 4px;
-      margin-top: 2px;
-      display: flex;
-      justify-content: flex-start;
-    }
-
-    .footer-meta-line {
-      white-space: nowrap;
-      text-align: left;
-    }
-
+    /* RESPONSIVO */
     @media (max-width: 900px) {
       .app {
         flex-direction: column;
@@ -882,413 +672,240 @@
         border-right: none;
         border-bottom: 1px solid var(--border);
       }
-      .main {
-        padding: 16px 16px 10px;
-      }
       .content {
         grid-template-columns: 1fr;
       }
-      .stats-row {
-        justify-content: flex-start;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-      .footer-meta {
-        justify-content: center;
-      }
-      .footer-meta-line {
-        white-space: normal;
-        text-align: center;
-      }
-      .title-block h1 {
-        font-size: 18px;
-      }
-      .badge {
-        font-size: 10px;
+      .main {
+        padding: 16px;
       }
     }
 
     @media (max-width: 600px) {
+      .stats-row {
+        width: 100%;
+      }
       .panel {
         padding: 14px 12px;
-      }
-      .progress-layout {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .progress-ring-wrapper {
-        margin-bottom: 4px;
-      }
-      .columns {
-        padding-bottom: 8px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .main {
-        padding: 12px 10px 8px;
-      }
-      .sidebar {
-        padding: 12px 12px;
-      }
-      .nav-item {
-        font-size: 12px;
-      }
-      .panel-title {
-        font-size: 11px;
-        letter-spacing: 0.12em;
-      }
-      .panel-subtitle {
-        font-size: 11px;
-      }
-      .footer-name {
-        font-size: 12px;
-      }
-      .footer-roles,
-      .footer-col {
-        font-size: 10px;
       }
     }
   </style>
 </head>
 <body>
   <div class="app">
-    <aside class="sidebar" aria-label="Navegação principal">
+    <!-- LATERAL -->
+    <aside class="sidebar">
       <div class="brand">
-        <div class="brand-avatar" aria-hidden="true">RF</div>
+        <div class="brand-avatar">RF</div>
         <div>
           <div class="brand-text-title">Painel de comando</div>
-          <div class="brand-text-name">rogerioferdynan.com</div>
+          <div class="brand-text-name">Ferdynan Legacy System</div>
         </div>
       </div>
 
       <div>
-        <h2 class="sidebar-section-title">Núcleos principais</h2>
+        <div class="sidebar-section-title">Núcleos principais</div>
         <ul class="nav-list" id="nav-list">
-          <li
-            class="nav-item active"
-            data-module="inbox"
-            role="button"
-            tabindex="0"
-            aria-current="page"
-          >
-            <span class="emoji" aria-hidden="true">📨</span>
+          <li class="nav-item active" data-module="inbox">
+            <span class="emoji">📨</span>
             <span>00 · Inbox Operacional</span>
           </li>
-          <li class="nav-item" data-module="artista" role="button" tabindex="0">
-            <span class="emoji" aria-hidden="true">🎤</span>
+          <li class="nav-item" data-module="artista">
+            <span class="emoji">🎤</span>
             <span>01 · Artista Rogério Ferdynan</span>
           </li>
-          <li class="nav-item" data-module="empresa" role="button" tabindex="0">
-            <span class="emoji" aria-hidden="true">💼</span>
+          <li class="nav-item" data-module="empresa">
+            <span class="emoji">💼</span>
             <span>02 · Empresa CNPJ</span>
           </li>
-          <li class="nav-item" data-module="pessoal" role="button" tabindex="0">
-            <span class="emoji" aria-hidden="true">👨‍👦</span>
+          <li class="nav-item" data-module="pessoal">
+            <span class="emoji">👨‍👦</span>
             <span>03 · Pessoal CPF</span>
           </li>
-          <li class="nav-item" data-module="direcao" role="button" tabindex="0">
-            <span class="emoji" aria-hidden="true">🧠</span>
+          <li class="nav-item" data-module="direcao">
+            <span class="emoji">🧠</span>
             <span>04 · Direção Criativa</span>
           </li>
-          <li class="nav-item" data-module="agenda" role="button" tabindex="0">
-            <span class="emoji" aria-hidden="true">📅</span>
+          <li class="nav-item" data-module="agenda">
+            <span class="emoji">📅</span>
             <span>05 · Agenda & Logística</span>
           </li>
-          <li class="nav-item" data-module="backup" role="button" tabindex="0">
-            <span class="emoji" aria-hidden="true">🔒</span>
+          <li class="nav-item" data-module="backup">
+            <span class="emoji">🔒</span>
             <span>06 · Backup / Arquivo Morto</span>
           </li>
-          <li class="nav-item" data-module="venda" role="button" tabindex="0">
-            <span class="emoji" aria-hidden="true">💥</span>
+          <li class="nav-item" data-module="venda">
+            <span class="emoji">💥</span>
             <span>07 · Venda Mensal</span>
           </li>
-          <li class="nav-item" data-module="centro" role="button" tabindex="0">
-            <span class="emoji" aria-hidden="true">🧩</span>
+          <li class="nav-item" data-module="centro">
+            <span class="emoji">🧩</span>
             <span>08 · Centro de Controle</span>
           </li>
-          <li class="nav-item" data-module="rede" role="button" tabindex="0">
-            <span class="emoji" aria-hidden="true">🌎</span>
+          <li class="nav-item" data-module="rede">
+            <span class="emoji">🌎</span>
             <span>09 · Rede Global</span>
           </li>
-          <li class="nav-item" data-module="modelos" role="button" tabindex="0">
-            <span class="emoji" aria-hidden="true">🧾</span>
+          <li class="nav-item" data-module="modelos">
+            <span class="emoji">🧾</span>
             <span>10 · Modelos Oficiais</span>
           </li>
-          <li class="nav-item" data-module="admin" role="button" tabindex="0">
-            <span class="emoji" aria-hidden="true">🧰</span>
+          <li class="nav-item" data-module="admin">
+            <span class="emoji">🧰</span>
             <span>11 · Admin do Sistema</span>
           </li>
-          <li class="nav-item" data-module="resultados" role="button" tabindex="0">
-            <span class="emoji" aria-hidden="true">🎯</span>
+          <li class="nav-item" data-module="resultados">
+            <span class="emoji">🎯</span>
             <span>12 · Resultados Finais</span>
           </li>
         </ul>
       </div>
 
-      <footer class="sidebar-footer">
-        <div class="sidebar-footer-line">OMNI LEGACY 8.0</div>
+      <div class="sidebar-footer">
+        <div>Versão 3 · Criação automática de arquivos</div>
         <div class="muted">
-          Tarefas geram arquivos espelho na arquitetura OMNI, mantendo tudo rastreável.
+          As tarefas criadas geram automaticamente arquivos nas pastas correspondentes.
         </div>
-      </footer>
+      </div>
     </aside>
 
-    <main class="main" role="main">
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="main">
       <header class="main-header">
         <div class="title-block">
           <h1>
-            Ferdynan Produções
+            Painel Ferdynan
             <span class="badge">Sistema de Gestão 2025</span>
           </h1>
           <p>Visão tática do dia a dia · Orquestração de vida, empresa e palco.</p>
         </div>
 
-        <div class="stats-row" aria-label="Indicadores principais">
-          <div
-            class="stat-card"
-            data-stat="shows"
-            role="button"
-            tabindex="0"
-            aria-label="Editar quantidade de shows no mês"
-          >
+        <div class="stats-row">
+          <div class="stat-card" data-stat="shows">
             <div class="stat-label">Shows no mês</div>
             <div class="stat-value" id="stat-shows">12</div>
             <div class="stat-progress">
               <div class="stat-progress-bar" id="bar-shows"></div>
             </div>
-            <div class="stat-hint">Clique ou pressione Enter para ajustar</div>
+            <div class="stat-hint">Clique para ajustar</div>
           </div>
-          <div
-            class="stat-card"
-            data-stat="faturamento"
-            role="button"
-            tabindex="0"
-            aria-label="Editar faturamento do mês"
-          >
+          <div class="stat-card" data-stat="faturamento">
             <div class="stat-label">Faturamento</div>
             <div class="stat-value" id="stat-faturamento">R$ 85.000</div>
             <div class="stat-progress">
               <div class="stat-progress-bar" id="bar-faturamento"></div>
             </div>
-            <div class="stat-hint">Clique ou pressione Enter para ajustar</div>
+            <div class="stat-hint">Clique para ajustar</div>
           </div>
-          <div
-            class="stat-card"
-            data-stat="propostas"
-            role="button"
-            tabindex="0"
-            aria-label="Editar número de propostas abertas"
-          >
+          <div class="stat-card" data-stat="propostas">
             <div class="stat-label">Propostas abertas</div>
             <div class="stat-value" id="stat-propostas">7</div>
             <div class="stat-progress">
               <div class="stat-progress-bar" id="bar-propostas"></div>
             </div>
-            <div class="stat-hint">Clique ou pressione Enter para ajustar</div>
+            <div class="stat-hint">Clique para ajustar</div>
           </div>
         </div>
       </header>
 
-      <section class="progress-dashboard" aria-labelledby="progresso-dia-titulo">
+      <!-- PROGRESSO DO DIA -->
+      <section class="progress-dashboard">
         <div class="progress-header">
-          <h2 class="progress-title" id="progresso-dia-titulo">Progresso do dia</h2>
+          <div class="progress-title">Progresso do dia</div>
         </div>
-
-        <div class="progress-layout">
-          <div class="progress-ring-wrapper" aria-hidden="true">
-            <svg class="progress-ring" width="96" height="96">
-              <defs>
-                <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#d4a45a" />
-                  <stop offset="100%" stop-color="#b97a34" />
-                </linearGradient>
-              </defs>
-              <circle
-                class="progress-ring-bg"
-                stroke-width="6"
-                fill="transparent"
-                r="38"
-                cx="48"
-                cy="48"
-              ></circle>
-              <circle
-                id="progress-ring-circle"
-                class="progress-ring-value"
-                stroke="url(#progressGradient)"
-                stroke-width="6"
-                fill="transparent"
-                r="38"
-                cx="48"
-                cy="48"
-                stroke-dasharray="0 0"
-                stroke-dashoffset="0"
-              ></circle>
-            </svg>
-            <div class="progress-ring-center">
-              <div class="progress-ring-percentage" id="progress-ring-percentage">0%</div>
-              <div class="progress-ring-label">do dia</div>
-            </div>
+        <div class="progress-stats">
+          <div class="progress-item">
+            <div class="progress-number" id="progress-total">0</div>
+            <div class="progress-label">Total de tarefas</div>
           </div>
-
-          <div class="progress-stats" aria-label="Resumo de tarefas do dia">
-            <div class="progress-item">
-              <div class="progress-number" id="progress-total">0</div>
-              <div class="progress-label">Total de tarefas</div>
-            </div>
-            <div class="progress-item">
-              <div class="progress-number" id="progress-done">0</div>
-              <div class="progress-label">Concluídas</div>
-            </div>
-            <div class="progress-item">
-              <div class="progress-number" id="progress-pending">0</div>
-              <div class="progress-label">Pendentes</div>
-            </div>
-            <div class="progress-item">
-              <div class="progress-number" id="progress-score">0/10</div>
-              <div class="progress-label">Índice de foco</div>
-            </div>
+          <div class="progress-item">
+            <div class="progress-number" id="progress-done">0</div>
+            <div class="progress-label">Concluídas</div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-number" id="progress-percentage">0%</div>
+            <div class="progress-label">Progresso</div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-number" id="progress-pending">0</div>
+            <div class="progress-label">Pendentes</div>
           </div>
         </div>
       </section>
 
-      <section class="content" aria-label="Inbox e núcleo selecionado">
-        <section class="panel" aria-labelledby="inbox-titulo">
+      <section class="content">
+        <!-- INBOX OPERACIONAL -->
+        <section class="panel">
           <div class="panel-header">
             <div>
-              <h2 class="panel-title" id="inbox-titulo">Inbox · Caixa de Entrada Operacional</h2>
-              <p class="panel-subtitle">
+              <div class="panel-title">Inbox · Caixa de Entrada Operacional</div>
+              <div class="panel-subtitle">
                 Tudo que chega primeiro cai aqui. Depois você envia para o núcleo certo.
-              </p>
+              </div>
             </div>
             <div class="pill">Foco de hoje</div>
           </div>
 
-          <div class="columns" id="columns" aria-label="Colunas de tarefas"></div>
+          <div class="columns" id="columns">
+            <!-- colunas geradas via JS -->
+          </div>
         </section>
 
-        <aside class="panel" aria-labelledby="module-title">
+        <!-- LADO DIREITO: NÚCLEO SELECIONADO -->
+        <aside class="panel">
           <div class="panel-header">
             <div>
-              <h2 class="panel-title" id="module-title">
+              <div class="panel-title" id="module-title">
                 00 · Inbox Operacional
-              </h2>
-              <p class="panel-subtitle" id="module-subtitle">
+              </div>
+              <div class="panel-subtitle" id="module-subtitle">
                 Processar, decidir, delegar. Nada dorme na sua cabeça: tudo vem pra cá.
-              </p>
+              </div>
             </div>
             <div class="pill" id="module-tag">Visão rápida do núcleo</div>
           </div>
 
-          <div class="module-body" id="module-body"></div>
+          <div class="module-body" id="module-body">
+            <!-- Conteúdo do núcleo selecionado via JS -->
+          </div>
           
           <div class="module-actions">
-            <button class="folder-action" id="copy-folder-btn" type="button">
-              <span aria-hidden="true">📁</span> Copiar caminho da pasta
+            <button class="folder-action" id="copy-folder-btn">
+              <span>📁</span> Copiar caminho da pasta
             </button>
-            <button class="folder-action" id="export-tasks-btn" type="button">
-              <span aria-hidden="true">💾</span> Exportar tarefas (.txt)
+            <button class="folder-action" id="export-tasks-btn">
+              <span>💾</span> Exportar tarefas (.txt)
             </button>
           </div>
 
           <div class="export-section">
             <div class="export-header">
               <div class="export-title">Exportação diária</div>
-              <button class="export-btn" id="export-daily-btn" type="button">📋 Gerar ATA do dia</button>
+              <button class="export-btn" id="export-daily-btn">📋 Gerar ATA do dia</button>
             </div>
-            <p class="module-hint">
+            <div class="module-hint">
               Gera um relatório das tarefas concluídas hoje em formato profissional (.txt).
-            </p>
+            </div>
           </div>
         </aside>
       </section>
-      <p class="hint-click">
+      <div class="hint-click">
         💡 Dica: use este painel como rotina diária — abrir, ver a Inbox, marcar o que foi feito
         e decidir o que vai pra qual núcleo (Artista, Empresa, Agenda, etc.).
-      </p>
+      </div>
     </main>
   </div>
 
-  <footer class="app-footer" aria-label="Informações de contato e créditos">
-    <div class="footer-inner">
-      <div class="footer-primary">
-        <div class="footer-name">
-          Rogério Geraldo Lopes <span>(Ferdynan)</span>
-        </div>
-        <div class="footer-roles">
-          Cantor | Produtor Musical | Instrutor de Música
-        </div>
-      </div>
-
-      <div class="footer-grid">
-        <div class="footer-col">
-          <div class="footer-label">Endereço</div>
-          <div class="footer-text">
-            Rua Amazonas, nº 124, Bairro Marília,<br />
-            Lagoa da Prata/MG – CEP 35592-220
-          </div>
-          <div class="footer-text">
-            Escritório Central: Belo Horizonte – MG<br />
-            Unidade Operacional: Lagoa da Prata – MG
-          </div>
-        </div>
-
-        <div class="footer-col">
-          <div class="footer-label">Contato</div>
-          <div class="footer-text">
-            Telefone: (31) 98506-5356 | (37) 99123-3577
-          </div>
-          <div class="footer-text">
-            E-mail:
-            <a href="mailto:contato@rogerioferdynan.com">contato@rogerioferdynan.com</a>
-          </div>
-          <div class="footer-text">
-            Website:
-            <a href="https://rogerioferdynan.com/" target="_blank" rel="noopener noreferrer">rogerioferdynan.com</a>
-          </div>
-        </div>
-
-        <div class="footer-col">
-          <div class="footer-label">Canais digitais</div>
-          <div class="footer-text">
-            <a href="https://rogerioferdynan.com/" target="_blank" rel="noopener noreferrer">Site oficial</a><br />
-            <a href="https://painel.rogerioferdynan.com/" target="_blank" rel="noopener noreferrer">painel.rogerioferdynan.com</a><br />
-            <a href="https://blog.rogerioferdynan.com/" target="_blank" rel="noopener noreferrer">blog.rogerioferdynan.com</a><br />
-            <a href="https://open.spotify.com/artist/570xnV2TU8QMAZGFDpVf5E" target="_blank" rel="noopener noreferrer">Spotify · Perfil do Artista</a>
-          </div>
-          <div class="footer-label">Redes sociais</div>
-          <div class="footer-text">
-            <a href="https://www.instagram.com/rogerioferdynan" target="_blank" rel="noopener noreferrer">Instagram</a> ·
-            <a href="https://www.bandsintown.com/pt/a/15376245-rogerio-ferdynan" target="_blank" rel="noopener noreferrer">Bandsintown</a> ·
-            <a href="https://x.com/rogerioferdynan" target="_blank" rel="noopener noreferrer">Twitter/X</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-meta">
-        <span class="footer-meta-line">
-          © Todos os direitos reservados · Ferdynan Produções · 2025 · CNPJ: 59.765.869/0001-70 · OMNI LEGACY 8.0
-        </span>
-      </div>
-    </div>
-  </footer>
-
   <script>
-    function clone(obj) {
-      return JSON.parse(JSON.stringify(obj));
-    }
-
+    // -------------------------
+    // ESTADO INICIAL
+    // -------------------------
     const STORAGE_KEY = "painelFerdynan_v3";
 
     const defaultState = {
       stats: {
         shows: 12,
         faturamento: "R$ 85.000",
-        propostas: 7
+        propostas: 7,
       },
       inbox: {
         aProcessar: [
@@ -1298,7 +915,7 @@
             done: false,
             tag: "Empresa · Propostas_Contratos",
             createdAt: new Date().toISOString()
-          }
+          },
         ],
         alta: [
           {
@@ -1307,7 +924,7 @@
             done: false,
             tag: "Artista · Midia_Jornal_TV_Radio",
             createdAt: new Date().toISOString()
-          }
+          },
         ],
         media: [
           {
@@ -1316,14 +933,14 @@
             done: false,
             tag: "Artista · Fotos_Profissionais",
             createdAt: new Date().toISOString()
-          }
+          },
         ],
         delegar: [
           {
             id: "t4",
             text: "Editar vídeo do show em SP",
             done: false,
-            tag: "Artista · Videos_de_Show",
+            tag: "Direção Criativa · Vídeos_de_Show",
             createdAt: new Date().toISOString()
           },
           {
@@ -1339,39 +956,45 @@
             done: false,
             tag: "Empresa · Notas_Fiscais_Pagamentos",
             createdAt: new Date().toISOString()
-          }
-        ]
-      }
+          },
+        ],
+      },
     };
 
     let state = loadState();
     let currentModule = "inbox";
 
+    // -------------------------
+    // MAPA DE PASTAS
+    // -------------------------
     const folderMap = {
-      inbox: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\00_📨 INBOX – CAIXA DE ENTRADA OPERACIONAL",
-      artista: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\01_🎤 ARTISTA_ROGERIO_FERDYNAN",
-      empresa: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\02_💼 EMPRESA_CNPJ_FERDYNAN_PRODUCOES",
-      pessoal: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\03_👨‍👦 PESSOAL_CPF_ROGERIO_GERALDO_LOPES",
-      direcao: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\04_🧠 DIRECAO_CRIATIVA_CONTEUDO",
-      agenda: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\05_📅 AGENDA_LOGISTICA",
-      backup: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\06_🔒 BACKUP_ARQUIVO_MORTO",
-      venda: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\07_💥 VENDA_MENSAL_MISSAO",
-      centro: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\08_🧩 CENTRO_CONTROLE_CONEXOES",
-      rede: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\09_🌎 REDE_GLOBAL",
-      modelos: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\10_🧾 MODELOS_OFICIAIS",
-      admin: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\11_🧰 ADMIN_SISTEMA",
-      resultados: "D:\\FERDYNAN_LEGACY_SYSTEM_2025\\12_🎯 RESULTADOS_FINAIS"
+      inbox: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\00_📨 INBOX – CAIXA DE ENTRADA OPERACIONAL",
+      artista: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\01_🎤 ARTISTA_ROGERIO_FERDYNAN",
+      empresa: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\02_💼 EMPRESA_CNPJ_FERDYNAN_PRODUCOES",
+      pessoal: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\03_👨‍👦 PESSOAL_CPF_ROGERIO_GERALDO_LOPES",
+      direcao: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\04_🧠 DIRECAO_CRIATIVA_CONTEUDO",
+      agenda: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\05_📅 AGENDA_LOGISTICA",
+      backup: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\06_🔒 BACKUP_ARQUIVO_MORTO",
+      venda: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\07_💥 VENDA_MENSAL_MISSAO",
+      centro: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\08_🧩 CENTRO_CONTROLE_CONEXOES",
+      rede: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\09_🌎 REDE_GLOBAL",
+      modelos: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\10_🧾 MODELOS_OFICIAIS",
+      admin: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\11_🧰 ADMIN_SISTEMA",
+      resultados: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\12_🎯 RESULTADOS_FINAIS"
     };
 
+    // -------------------------
+    // CARREGA / SALVA
+    // -------------------------
     function loadState() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return clone(defaultState);
+        if (!raw) return structuredClone(defaultState);
         const parsed = JSON.parse(raw);
-        return Object.assign(clone(defaultState), parsed);
+        return { ...structuredClone(defaultState), ...parsed };
       } catch (e) {
         console.error("Erro carregando estado, usando padrão", e);
-        return clone(defaultState);
+        return structuredClone(defaultState);
       }
     }
 
@@ -1384,12 +1007,15 @@
       }
     }
 
+    // -------------------------
+    // DASHBOARD DE PROGRESSO
+    // -------------------------
     function updateProgressDashboard() {
       let totalTasks = 0;
       let doneTasks = 0;
 
-      Object.values(state.inbox).forEach(function (col) {
-        col.forEach(function (task) {
+      Object.values(state.inbox).forEach(col => {
+        col.forEach(task => {
           totalTasks++;
           if (task.done) doneTasks++;
         });
@@ -1398,74 +1024,48 @@
       const percentage = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
       const pending = totalTasks - doneTasks;
 
-      const totalEl = document.getElementById("progress-total");
-      const doneEl = document.getElementById("progress-done");
-      const pendingEl = document.getElementById("progress-pending");
-      const ringPctEl = document.getElementById("progress-ring-percentage");
-      const scoreEl = document.getElementById("progress-score");
-
-      if (totalEl) totalEl.textContent = String(totalTasks);
-      if (doneEl) doneEl.textContent = String(doneTasks);
-      if (pendingEl) pendingEl.textContent = String(pending);
-      if (ringPctEl) ringPctEl.textContent = percentage + "%";
-
-      const focusScore = totalTasks > 0 ? percentage / 10 : 0;
-      if (scoreEl) {
-        scoreEl.textContent = focusScore.toFixed(1).replace(".", ",") + "/10";
-      }
-
-      const circle = document.getElementById("progress-ring-circle");
-      if (circle) {
-        const radius = circle.r.baseVal.value;
-        const circumference = 2 * Math.PI * radius;
-        circle.style.strokeDasharray = circumference + " " + circumference;
-        const offset = circumference - (percentage / 100) * circumference;
-        circle.style.strokeDashoffset = offset;
-      }
+      document.getElementById("progress-total").textContent = totalTasks;
+      document.getElementById("progress-done").textContent = doneTasks;
+      document.getElementById("progress-percentage").textContent = percentage + "%";
+      document.getElementById("progress-pending").textContent = pending;
     }
 
     function getPendingTasksCount() {
       let pending = 0;
-      Object.values(state.inbox).forEach(function (col) {
-        col.forEach(function (task) {
+      Object.values(state.inbox).forEach(col => {
+        col.forEach(task => {
           if (!task.done) pending++;
         });
       });
       return pending;
     }
 
+    // -------------------------
+    // RENDER STATS
+    // -------------------------
     function renderStats() {
-      const showsEl = document.getElementById("stat-shows");
-      const fatEl = document.getElementById("stat-faturamento");
-      const propEl = document.getElementById("stat-propostas");
+      document.getElementById("stat-shows").textContent = state.stats.shows;
+      document.getElementById("stat-faturamento").textContent = state.stats.faturamento;
+      document.getElementById("stat-propostas").textContent = state.stats.propostas;
 
-      if (showsEl) showsEl.textContent = String(state.stats.shows);
-      if (fatEl) fatEl.textContent = state.stats.faturamento;
-      if (propEl) propEl.textContent = String(state.stats.propostas);
-
-      const barShows = document.getElementById("bar-shows");
-      const barFat = document.getElementById("bar-faturamento");
-      const barProp = document.getElementById("bar-propostas");
-
-      if (barShows) barShows.style.width = "80%";
-      if (barFat) barFat.style.width = "65%";
-      if (barProp) barProp.style.width = "45%";
+      // barras de progresso simples (mock)
+      document.getElementById("bar-shows").style.width = "80%";
+      document.getElementById("bar-faturamento").style.width = "65%";
+      document.getElementById("bar-propostas").style.width = "45%";
     }
 
     function setupStatsEditing() {
-      document.querySelectorAll(".stat-card").forEach(function (card) {
-        function handleEdit() {
-          const type = card.getAttribute("data-stat");
-          if (!type) return;
+      document.querySelectorAll(".stat-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const type = card.dataset.stat;
           let current = state.stats[type];
-          const labelMap = {
+          const label = {
             shows: "Quantos shows no mês?",
             faturamento: "Qual o faturamento (ex.: R$ 85.000)?",
-            propostas: "Quantas propostas abertas?"
-          };
-          const label = labelMap[type] || "Valor";
+            propostas: "Quantas propostas abertas?",
+          }[type];
 
-          const value = window.prompt(label, String(current));
+          const value = window.prompt(label, current);
           if (value === null || value === "") return;
 
           if (type === "shows" || type === "propostas") {
@@ -1480,31 +1080,41 @@
           }
           saveState();
           renderStats();
-        }
-
-        card.addEventListener("click", handleEdit);
-        card.addEventListener("keydown", function (e) {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            handleEdit();
-          }
         });
       });
     }
 
+    // -------------------------
+    // INBOX / CHECKLIST
+    // -------------------------
     const columnsConfig = [
-      { key: "aProcessar", title: "A PROCESSAR", titleShort: "A_PROCESSAR", tag: "Entrou agora" },
-      { key: "alta",       title: "ALTA",        titleShort: "ALTA",        tag: "Impacto direto" },
-      { key: "media",      title: "MÉDIA",       titleShort: "MEDIA",       tag: "Importante, não urgente" },
-      { key: "delegar",    title: "DELEGAR",     titleShort: "DELEGAR",     tag: "Equipe / parceiros" }
+      {
+        key: "aProcessar",
+        title: "A PROCESSAR",
+        tag: "Entrou agora",
+      },
+      {
+        key: "alta",
+        title: "ALTA",
+        tag: "Impacto direto",
+      },
+      {
+        key: "media",
+        title: "MÉDIA",
+        tag: "Importante, não urgente",
+      },
+      {
+        key: "delegar",
+        title: "DELEGAR",
+        tag: "Equipe / parceiros",
+      },
     ];
 
     function renderInbox() {
       const container = document.getElementById("columns");
-      if (!container) return;
       container.innerHTML = "";
 
-      columnsConfig.forEach(function (col) {
+      columnsConfig.forEach((col) => {
         const columnEl = document.createElement("div");
         columnEl.className = "column";
 
@@ -1528,16 +1138,16 @@
 
         const tasks = state.inbox[col.key] || [];
 
-        tasks.forEach(function (task) {
+        tasks.forEach((task) => {
           const li = document.createElement("li");
           li.className = "task" + (task.done ? " done" : "");
-          li.setAttribute("data-task-id", task.id);
+          li.dataset.taskId = task.id;
 
           const checkbox = document.createElement("input");
           checkbox.type = "checkbox";
           checkbox.checked = task.done;
 
-          checkbox.addEventListener("click", function (e) {
+          checkbox.addEventListener("click", (e) => {
             e.stopPropagation();
             task.done = checkbox.checked;
             if (task.done) {
@@ -1558,10 +1168,10 @@
           textWrapper.appendChild(mainText);
 
           if (task.tag) {
-            const tagDiv = document.createElement("div");
-            tagDiv.className = "task-tag";
-            tagDiv.textContent = task.tag;
-            textWrapper.appendChild(tagDiv);
+            const tag = document.createElement("div");
+            tag.className = "task-tag";
+            tag.textContent = task.tag;
+            textWrapper.appendChild(tag);
           }
 
           const actionsWrapper = document.createElement("div");
@@ -1569,16 +1179,13 @@
 
           const deleteBtn = document.createElement("button");
           deleteBtn.className = "task-action-btn";
-          deleteBtn.type = "button";
           deleteBtn.innerHTML = "🗑️";
           deleteBtn.title = "Remover tarefa";
 
-          deleteBtn.addEventListener("click", function (e) {
+          deleteBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            if (window.confirm("Remover esta tarefa permanentemente?")) {
-              const idx = state.inbox[col.key].findIndex(function (t) {
-                return t.id === task.id;
-              });
+            if (confirm("Remover esta tarefa permanentemente?")) {
+              const idx = state.inbox[col.key].findIndex(t => t.id === task.id);
               if (idx > -1) {
                 state.inbox[col.key].splice(idx, 1);
                 saveState();
@@ -1597,144 +1204,50 @@
 
         columnEl.appendChild(listEl);
 
+        // Formulário para adicionar novas tarefas
         const footer = document.createElement("div");
         footer.className = "task-footer";
 
         const form = document.createElement("form");
         form.className = "task-form";
 
-        const inputId = "task-input-" + col.key;
-
-        const label = document.createElement("label");
-        label.setAttribute("for", inputId);
-        label.className = "sr-only";
-        label.textContent = "Nova tarefa na coluna " + col.title;
-
         const input = document.createElement("input");
         input.type = "text";
         input.placeholder = "Nova tarefa...";
         input.className = "task-input";
-        input.id = inputId;
 
         const btn = document.createElement("button");
         btn.type = "submit";
         btn.textContent = "+";
         btn.className = "task-add-btn";
-        btn.setAttribute("aria-label", "Adicionar tarefa em " + col.title);
 
-        form.addEventListener("submit", function (e) {
+        form.addEventListener("submit", (e) => {
           e.preventDefault();
           const value = input.value.trim();
           if (!value) return;
 
           const tagOptions = [
-            "Inbox · 01_⚡ A_PROCESSAR",
-            "Inbox · 02_👥 DELEGAR_EQUIPE",
-            "Inbox · 03_💡 INSPIRACOES_RAPIDAS",
-            "Inbox · 04_🌐 REFERENCIAS_EXTERNAS",
-
-            "Artista · 01_📸 Fotos_Profissionais",
-            "Artista · 02_🎥 Videos_de_Show",
-            "Artista · 03_🎵 Repertorio",
-            "Artista · 04_🖼️ Divulgacao_Capas_Stories",
-            "Artista · 05_📂 Portfolio",
-            "Artista · 06_🗺️ Cartazes_Por_Cidade",
-            "Artista · 07_📻 Midia_Jornal_TV_Radio",
-
-            "Empresa · 01_📄 Propostas_Contratos",
-            "Empresa · 02_💰 Notas_Fiscais_Pagamentos",
-            "Empresa · 03_🧾 CNPJ_Documentos_Oficiais",
-            "Empresa · 04_🏙️ Clientes_Prefeituras",
-            "Empresa · 05_🏦 Contabilidade_Bancos",
-            "Empresa · 06_📊 Tabelas_Precos_Planilhas",
-            "Empresa · 07_🤝 Parcerias_Comerciais",
-            "Empresa · 08_🧾 Editais_Processos_Publicos",
-            "Empresa · 09_👥 RH_Equipe",
-
-            "Pessoal · 01_📜 Comprovantes_Declaracoes",
-            "Pessoal · 02_💊 Saude_Mental_Suplementacao",
-            "Pessoal · 03_👦 Filho_Mikael",
-            "Pessoal · 04_🧘 Reflexoes_Escritos_Pessoais",
-            "Pessoal · 05_👨‍👩‍👧 Familia_Assuntos_Juridicos",
-            "Pessoal · 07_🗂️ Organizacao_Pessoal_Notion",
-            "Pessoal · 08_📚 Documentos_Civis",
-
-            "Agenda · 01_🎟️ Shows_Confirmados",
-            "Agenda · 02_💬 Shows_Negociacao",
-            "Agenda · 03_🗓️ Agenda_Mensal",
-            "Agenda · 04_✅ Checklist_Show",
-            "Agenda · 05_🛣️ Relatorios_Deslocamentos",
-            "Agenda · 06_⚙️ Equipamentos_Carga",
-            "Agenda · 07_👷 Equipe_Tecnica_Apoio",
-            "Agenda · 08_🎤 Requisitos_Camarim_Rider_Tecnico",
-
-            "Backup · 01_🕰️ Fotos_Antigas",
-            "Backup · 02_🗞️ Campanhas_Encerradas_LogOff",
-            "Backup · 03_🗃️ Pastas_Antigas",
-            "Backup · 04_📱 Prints_WhatsApp",
-
-            "Venda · 01_📰 Cartazes_Atualizados",
-            "Venda · 02_📘 Portfolio_PDF",
-            "Venda · 03_💬 Texto_WhatsApp_Venda",
-            "Venda · 04_🔥 Contatos_Quentes",
-            "Venda · 05_📄 Propostas_Contratos",
-            "Venda · 06_💸 Pagamentos_Pendencias",
-            "Venda · 07_🎞️ Videos_Enviar",
-
-            "Centro · 01_🗺️ Mapa_Geral_Pastas",
-            "Centro · 02_🧾 Fluxos_Checklists",
-            "Centro · 03_🔗 Integracoes_Estrategicas",
-            "Centro · 04_🧱 Modelos_Universais",
-            "Centro · 05_📆 Painel_Mensal_Missoes",
-
-            "Modelos Oficiais · 01_🧠 Apresentacoes",
-            "Modelos Oficiais · 02_📄 Docs",
-            "Modelos Oficiais · 03_🖼️ Identidade_Visual",
-            "Modelos Oficiais · 04_📊 Planilhas",
-
-            "Admin · 🔗 _ATALHOS",
-            "Admin · ⚙️ Administração, scripts e atalhos internos",
-
-            "Resultados · 01_💼 Clientes",
-            "Resultados · 02_📰 Imprensa",
-            "Resultados · 03_📱 Social",
-
-            "Direcao Criativa · 01_📢 Posts_Prontos",
-            "Direcao Criativa · 02_🎬 Modelos_Reels",
-            "Direcao Criativa · 03_🏷️ Logos_Branding",
-            "Direcao Criativa · 04_🎧 Musicas_Em_Andamento",
-            "Direcao Criativa · 05_💿 Capas_Estetica_Albuns",
-            "Direcao Criativa · 06_🧩 Campanhas_Slogans",
-            "Direcao Criativa · 07_🎭 Parcerias_Artisticas",
-            "Direcao Criativa · 08_🔍 Pesquisa_Estudos",
-
-            "Rede Global · 01_🇺🇸 EUA_CANADA",
-            "Rede Global · 02_🇪🇺 EUROPA",
-            "Rede Global · 03_🌎 LATAM",
-            "Rede Global · 04_🤝 PARCERIAS_GLOBAIS"
+            "Empresa · Propostas_Contratos",
+            "Artista · Midia_Jornal_TV_Radio",
+            "Artista · Fotos_Profissionais",
+            "Direção Criativa · Vídeos_de_Show",
+            "Empresa · Tabelas_Precos_Planilhas",
+            "Empresa · Notas_Fiscais_Pagamentos"
           ];
-
-          const promptMessage =
-            "Selecione a categoria da tarefa:\n\n" +
-            tagOptions
-              .map(function (opt, i) {
-                return (i + 1) + ". " + opt;
-              })
-              .join("\n") +
-            "\n\nOu digite uma categoria personalizada.";
-
-          const tagChoice = window.prompt(promptMessage, "1");
-
+          
+          const tag = prompt("Selecione a categoria da tarefa:\n\n" + 
+            tagOptions.map((opt, i) => `${i+1}. ${opt}`).join('\n'), "1");
+          
           let selectedTag = "";
-          if (tagChoice !== null) {
-            const tagIndex = parseInt(tagChoice, 10) - 1;
-            if (!isNaN(tagIndex) && tagIndex >= 0 && tagIndex < tagOptions.length) {
+          if (tag !== null) {
+            const tagIndex = parseInt(tag) - 1;
+            if (tagIndex >= 0 && tagIndex < tagOptions.length) {
               selectedTag = tagOptions[tagIndex];
-            } else if (tagChoice.trim() !== "") {
-              selectedTag = tagChoice.trim();
+            } else if (tag.trim() !== "") {
+              selectedTag = tag;
             }
           }
-
+          
           const newTask = {
             id: "t_" + Date.now(),
             text: value,
@@ -1747,10 +1260,9 @@
           input.value = "";
           renderInbox();
 
-          createTaskFile(newTask, col.titleShort);
+          createTaskFile(newTask, col.title);
         });
 
-        form.appendChild(label);
         form.appendChild(input);
         form.appendChild(btn);
         footer.appendChild(form);
@@ -1758,329 +1270,323 @@
 
         container.appendChild(columnEl);
       });
-
-      updateProgressDashboard();
     }
 
+    // -------------------------
+    // MÓDULOS / NÚCLEOS (COM LINKS)
+    // -------------------------
     const modules = {
       inbox: {
         title: "00 · Inbox Operacional",
         subtitle: "Tudo chega aqui primeiro. Depois você decide: fazer, delegar, agendar ou arquivar.",
         tag: "Entrada de tudo",
-        body:
-          '<p>Use a Inbox como seu <strong>cérebro externo</strong>:</p>' +
-          '<ul class="module-list">' +
-          '<li><span class="module-item-label">01_⚡ A_PROCESSAR</span> – coisas que chegaram e ainda não foram decididas.</li>' +
-          '<li><span class="module-item-label">02_👥 DELEGAR_EQUIPE</span> – tarefas que outra pessoa pode executar.</li>' +
-          '<li><span class="module-item-label">03_💡 INSPIRACOES_RAPIDAS</span> – ideias, rabiscos, flashes criativos.</li>' +
-          '<li><span class="module-item-label">04_🌐 REFERENCIAS_EXTERNAS</span> – prints, links, PDFs que valem ser guardados.</li>' +
-          "</ul>" +
-          '<p class="module-hint">' +
-          "Na prática: viu algo? joga na Inbox. Em outro momento, você abre o painel e decide " +
-          "para qual núcleo mandar (Artista, Empresa, Agenda, etc.)." +
-          "</p>" +
-          '<div class="module-links">' +
-          '<a href="https://web.whatsapp.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">💬</span><span>WhatsApp Web</span>' +
-          "</a>" +
-          '<a href="https://calendar.google.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">📅</span><span>Google Agenda</span>' +
-          "</a>" +
-          '<a href="https://web.agendor.com.br/entrar/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">📊</span><span>Agendor</span>' +
-          "</a>" +
-          '<a href="https://docs.google.com/spreadsheets/d/1iwtQoSlaRhUW115wmPv-7qYuslF4J5jcg41RzrgX7e4/edit" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">📈</span><span>Planilha Financeira</span>' +
-          "</a>" +
-          '<a href="https://getmozart.ai/app" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">🤖</span><span>Mozart AI</span>' +
-          "</a>" +
-          '<a href="https://mail.zoho.com/zm/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">📧</span><span>Zoho Mail</span>' +
-          "</a>" +
-          '<a href="https://www.notion.so/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">📓</span><span>Notion</span>' +
-          "</a>" +
-          '<a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">🎬</span><span>YouTube</span>' +
-          "</a>" +
-          "</div>"
+        body: `
+          <p>Use a Inbox como seu <strong>cérebro externo</strong>:</p>
+          <ul class="module-list">
+            <li><span class="module-item-label">01_⚡ A_PROCESSAR</span> – coisas que chegaram e ainda não foram decididas.</li>
+            <li><span class="module-item-label">02_👥 DELEGAR_EQUIPE</span> – tarefas que outra pessoa pode executar.</li>
+            <li><span class="module-item-label">03_💡 INSPIRACOES_RAPIDAS</span> – ideias, rabiscos, flashes criativos.</li>
+            <li><span class="module-item-label">04_🌐 REFERENCIAS_EXTERNAS</span> – prints, links, PDFs que valem ser guardados.</li>
+          </ul>
+          <p class="module-hint">
+            Na prática: viu algo? joga na Inbox. Em outro momento, você abre o painel e decide
+            para qual núcleo mandar (Artista, Empresa, Agenda, etc.).
+          </p>
+          <div class="module-links">
+            <a href="https://web.whatsapp.com/" target="_blank" class="link-chip">
+              <span class="emoji">💬</span><span>WhatsApp Web</span>
+            </a>
+            <a href="https://calendar.google.com/" target="_blank" class="link-chip">
+              <span class="emoji">📅</span><span>Google Agenda</span>
+            </a>
+            <a href="https://web.agendor.com.br/entrar/" target="_blank" class="link-chip">
+              <span class="emoji">📊</span><span>Agendor</span>
+            </a>
+            <a href="https://docs.google.com/spreadsheets/d/1iwtQoSlaRhUW115wmPv-7qYuslF4J5jcg41RzrgX7e4/edit" target="_blank" class="link-chip">
+              <span class="emoji">📈</span><span>Planilha Financeira</span>
+            </a>
+            <a href="https://getmozart.ai/app" target="_blank" class="link-chip">
+              <span class="emoji">🤖</span><span>Mozart AI</span>
+            </a>
+            <a href="https://mail.zoho.com/zm/" target="_blank" class="link-chip">
+              <span class="emoji">📧</span><span>Zoho Mail</span>
+            </a>
+            <a href="https://www.notion.so/" target="_blank" class="link-chip">
+              <span class="emoji">📓</span><span>Notion</span>
+            </a>
+            <a href="https://www.youtube.com/" target="_blank" class="link-chip">
+              <span class="emoji">🎬</span><span>YouTube</span>
+            </a>
+          </div>
+        `,
       },
 
       artista: {
         title: "01 · Artista Rogério Ferdynan",
         subtitle: "Tudo que sustenta a imagem, repertório e material artístico do palco.",
         tag: "Núcleo artístico",
-        body:
-          "<p>Espelha a pasta <strong>01_🎤 ARTISTA_ROGERIO_FERDYNAN</strong> do seu sistema:</p>" +
-          '<ul class="module-list">' +
-          '<li><span class="module-item-label">📸 Fotos_Profissionais</span> – estúdio, ao vivo, bastidores, com fãs.</li>' +
-          '<li><span class="module-item-label">🎥 Videos_de_Show</span> – RAW, edição, final, VS_Show, backups.</li>' +
-          '<li><span class="module-item-label">🎵 Repertorio</span> – setlists, letras, blocos temáticos, ensaios.</li>' +
-          '<li><span class="module-item-label">🖼️ Divulgacao_Capas_Stories</span> – feed, stories, capas, thumbnails.</li>' +
-          "</ul>" +
-          '<p class="module-hint">' +
-          "Quando uma tarefa é sobre <strong>imagem, repertório ou material artístico</strong>, " +
-          "ela nasce na Inbox, mas o arquivo final vive neste núcleo." +
-          "</p>" +
-          '<div class="module-links">' +
-          '<a href="https://artists.spotify.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">🎧</span><span>Spotify for Artists</span>' +
-          "</a>" +
-          '<a href="https://artists.bandsintown.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">📍</span><span>Bandsintown</span>' +
-          "</a>" +
-          '<a href="https://linkr.bio/rogerioferdynan" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">🌐</span><span>Linkr.bio</span>' +
-          "</a>" +
-          "</div>"
+        body: `
+          <p>Espelha a pasta <strong>01_🎤 ARTISTA_ROGERIO_FERDYNAN</strong> do seu sistema:</p>
+          <ul class="module-list">
+            <li><span class="module-item-label">📸 Fotos_Profissionais</span> – estúdio, ao vivo, bastidores, com fãs.</li>
+            <li><span class="module-item-label">🎥 Videos_de_Show</span> – RAW, edição, final, VS_Show, backups.</li>
+            <li><span class="module-item-label">🎵 Repertorio</span> – setlists, letras, blocos temáticos, ensaios.</li>
+            <li><span class="module-item-label">🖼️ Divulgacao_Capas_Stories</span> – feed, stories, capas, thumbnails.</li>
+          </ul>
+          <p class="module-hint">
+            Quando uma tarefa é sobre <strong>imagem, repertório ou material artístico</strong>,
+            ela nasce na Inbox, mas o arquivo final vive neste núcleo.
+          </p>
+          <div class="module-links">
+            <a href="https://artists.spotify.com/" target="_blank" class="link-chip">
+              <span class="emoji">🎧</span><span>Spotify for Artists</span>
+            </a>
+            <a href="https://artists.bandsintown.com/" target="_blank" class="link-chip">
+              <span class="emoji">📍</span><span>Bandsintown</span>
+            </a>
+            <a href="https://linkr.bio/rogerioferdynan" target="_blank" class="link-chip">
+              <span class="emoji">🌐</span><span>Linkr.bio</span>
+            </a>
+          </div>
+        `,
       },
 
       empresa: {
         title: "02 · Empresa CNPJ · Ferdynan Produções",
         subtitle: "Ferramentas para lidar com prefeitura, contratos, NF, bancos, editais.",
         tag: "Backstage da empresa",
-        body:
-          "<p>Espelha a pasta <strong>02_💼 EMPRESA_CNPJ_FERDYNAN_PRODUCOES</strong>:</p>" +
-          '<ul class="module-list">' +
-          '<li><span class="module-item-label">📄 Propostas_Contratos</span></li>' +
-          '<li><span class="module-item-label">💰 Notas_Fiscais_Pagamentos</span> – notas, relatórios, contas bancárias.</li>' +
-          '<li><span class="module-item-label">🧾 CNPJ_Documentos_Oficiais</span> – Receita Federal, certidões, calendário fiscal.</li>' +
-          '<li><span class="module-item-label">🏙️ Clientes_Prefeituras</span> – DDD37, outras cidades MG, Brasil, internacional.</li>' +
-          '<li><span class="module-item-label">📊 Tabelas_Precos_Planilhas</span> – business plan, planilhas de venda.</li>' +
-          "</ul>" +
-          '<p class="module-hint">' +
-          "Qualquer tarefa que envolve <strong>dinheiro, documento oficial ou prefeituras</strong> " +
-          "provavelmente pertence aqui." +
-          "</p>" +
-          '<div class="module-links">' +
-          '<a href="https://docs.google.com/document/d/1UWcL2O1QFVktAEf3T7p6tkLUzY2HRiNbmHDUpDPr1xA/edit" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">📄</span><span>Contratos (Docs)</span>' +
-          "</a>" +
-          '<a href="https://docs.google.com/spreadsheets/d/1iwtQoSlaRhUW115wmPv-7qYuslF4J5jcg41RzrgX7e4/edit" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">📊</span><span>Financeiro (Sheets)</span>' +
-          "</a>" +
-          "</div>"
+        body: `
+          <p>Espelha a pasta <strong>02_💼 EMPRESA_CNPJ_FERDYNAN_PRODUCOES</strong>:</p>
+          <ul class="module-list">
+            <li><span class="module-item-label">📄 Propostas_Contratos</span></li>
+            <li><span class="module-item-label">💰 Notas_Fiscais_Pagamentos</span> – notas, relatórios, contas bancárias.</li>
+            <li><span class="module-item-label">🧾 CNPJ_Documentos_Oficiais</span> – Receita Federal, certidões, calendário fiscal.</li>
+            <li><span class="module-item-label">🏙️ Clientes_Prefeituras</span> – DDD37, outras cidades MG, Brasil, internacional.</li>
+            <li><span class="module-item-label">📊 Tabelas_Precos_Planilhas</span> – business plan, planilhas de venda.</li>
+          </ul>
+          <p class="module-hint">
+            Qualquer tarefa que envolve <strong>dinheiro, documento oficial ou prefeituras</strong>
+            provavelmente pertence aqui.
+          </p>
+          <div class="module-links">
+            <a href="https://docs.google.com/document/d/1UWcL2O1QFVktAEf3T7p6tkLUzY2HRiNbmHDUpDPr1xA/edit" target="_blank" class="link-chip">
+              <span class="emoji">📄</span><span>Contratos (Docs)</span>
+            </a>
+            <a href="https://docs.google.com/spreadsheets/d/1iwtQoSlaRhUW115wmPv-7qYuslF4J5jcg41RzrgX7e4/edit" target="_blank" class="link-chip">
+              <span class="emoji">📊</span><span>Financeiro (Sheets)</span>
+            </a>
+          </div>
+        `,
       },
 
       pessoal: {
         title: "03 · Pessoal · CPF Rogério Geraldo Lopes",
         subtitle: "Saúde, documentos, família, processos, organização pessoal.",
         tag: "Você como pessoa",
-        body:
-          "<p>Espelha a pasta <strong>03_👨‍👦 PESSOAL_CPF_ROGERIO_GERALDO_LOPES</strong>:</p>" +
-          '<ul class="module-list">' +
-          '<li><span class="module-item-label">📜 Comprovantes_Declaracoes</span></li>' +
-          '<li><span class="module-item-label">💊 Saude_Mental_Suplementacao</span></li>' +
-          '<li><span class="module-item-label">👦 Filho_Mikael</span></li>' +
-          "</ul>"
+        body: `
+          <p>Espelha a pasta <strong>03_👨‍👦 PESSOAL_CPF_ROGERIO_GERALDO_LOPES</strong>:</p>
+          <ul class="module-list">
+            <li><span class="module-item-label">📜 Comprovantes_Declaracoes</span></li>
+            <li><span class="module-item-label">💊 Saude_Mental_Suplementacao</span></li>
+            <li><span class="module-item-label">👦 Filho_Mikael</span></li>
+          </ul>
+        `,
       },
 
       direcao: {
         title: "04 · Direção Criativa & Conteúdo",
         subtitle: "Músicas, campanhas, reels, estética, parcerias artísticas.",
         tag: "Cérebro criativo",
-        body:
-          "<p>Espelha a pasta <strong>04_🧠 DIRECAO_CRIATIVA_CONTEUDO</strong>:</p>" +
-          '<ul class="module-list">' +
-          '<li><span class="module-item-label">📢 Posts_Prontos</span></li>' +
-          '<li><span class="module-item-label">🎬 Modelos_Reels</span></li>' +
-          '<li><span class="module-item-label">🎧 Musicas_Em_Andamento</span></li>' +
-          "</ul>" +
-          '<p class="module-hint">' +
-          "Quando a tarefa é <strong>criar, refinar ou pensar conceito</strong>, " +
-          "ela provavelmente termina aqui." +
-          "</p>" +
-          '<div class="module-links">' +
-          '<a href="https://www.canva.com/pt_br/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">🎨</span><span>Canva</span>' +
-          "</a>" +
-          '<a href="https://commercepro.capcut.com/ai-video-generator-v2/result" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">🎬</span><span>CapCut</span>' +
-          "</a>" +
-          '<a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">🤖</span><span>ChatGPT</span>' +
-          "</a>" +
-          '<a href="https://gemini.google.com/app" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">🧠</span><span>Gemini</span>' +
-          "</a>" +
-          "</div>"
+        body: `
+          <p>Espelha a pasta <strong>04_🧠 DIRECAO_CRIATIVA_CONTEUDO</strong>:</p>
+          <ul class="module-list">
+            <li><span class="module-item-label">📢 Posts_Prontos</span></li>
+            <li><span class="module-item-label">🎬 Modelos_Reels</span></li>
+            <li><span class="module-item-label">🎧 Musicas_Em_Andamento</span></li>
+          </ul>
+          <p class="module-hint">
+            Quando a tarefa é <strong>criar, refinar ou pensar conceito</strong>,
+            ela provavelmente termina aqui.
+          </p>
+          <div class="module-links">
+            <a href="https://www.canva.com/pt_br/" target="_blank" class="link-chip">
+              <span class="emoji">🎨</span><span>Canva</span>
+            </a>
+            <a href="https://commercepro.capcut.com/ai-video-generator-v2/result" target="_blank" class="link-chip">
+              <span class="emoji">🎬</span><span>CapCut</span>
+            </a>
+            <a href="https://chatgpt.com/" target="_blank" class="link-chip">
+              <span class="emoji">🤖</span><span>ChatGPT</span>
+            </a>
+            <a href="https://gemini.google.com/app" target="_blank" class="link-chip">
+              <span class="emoji">🧠</span><span>Gemini</span>
+            </a>
+          </div>
+        `,
       },
 
       agenda: {
         title: "05 · Agenda & Logística",
         subtitle: "Shows confirmados, em negociação, deslocamentos, equipe, equipamentos.",
         tag: "Operação de palco",
-        body:
-          "<p>Espelha a pasta <strong>05_📅 AGENDA_LOGISTICA</strong>:</p>" +
-          '<ul class="module-list">' +
-          '<li><span class="module-item-label">🎟️ Shows_Confirmados</span></li>' +
-          '<li><span class="module-item-label">💬 Shows_Negociacao</span></li>' +
-          "</ul>" +
-          '<div class="module-links">' +
-          '<a href="https://trello.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">📌</span><span>Trello</span>' +
-          "</a>" +
-          '<a href="https://web.whatsapp.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">💬</span><span>WhatsApp Web</span>' +
-          "</a>" +
-          "</div>"
+        body: `
+          <p>Espelha a pasta <strong>05_📅 AGENDA_LOGISTICA</strong>:</p>
+          <ul class="module-list">
+            <li><span class="module-item-label">🎟️ Shows_Confirmados</span></li>
+            <li><span class="module-item-label">💬 Shows_Negociacao</span></li>
+          </ul>
+          <div class="module-links">
+            <a href="https://trello.com/" target="_blank" class="link-chip">
+              <span class="emoji">📌</span><span>Trello</span>
+            </a>
+            <a href="https://web.whatsapp.com/" target="_blank" class="link-chip">
+              <span class="emoji">💬</span><span>WhatsApp Web</span>
+            </a>
+          </div>
+        `,
       },
 
       backup: {
         title: "06 · Backup / Arquivo Morto",
         subtitle: "Tudo que não é mais da rotina, mas você não quer perder de vista.",
         tag: "Memória do sistema",
-        body:
-          "<p>Espelha a pasta <strong>06_🔒 BACKUP_ARQUIVO_MORTO</strong>:</p>" +
-          '<ul class="module-list">' +
-          '<li><span class="module-item-label">🕰️ Fotos_Antigas</span></li>' +
-          '<li><span class="module-item-label">🗃️ Pastas_Antigas</span></li>' +
-          "</ul>"
+        body: `
+          <p>Espelha a pasta <strong>06_🔒 BACKUP_ARQUIVO_MORTO</strong>:</p>
+          <ul class="module-list">
+            <li><span class="module-item-label">🕰️ Fotos_Antigas</span></li>
+            <li><span class="module-item-label">🗃️ Pastas_Antigas</span></li>
+          </ul>
+        `,
       },
 
       venda: {
         title: "07 · Venda Mensal · Missão",
         subtitle: "Tudo que coloca show novo na agenda e dinheiro entrando.",
         tag: "Motor comercial",
-        body:
-          "<p>Espelha a pasta <strong>07_💥 VENDA_MENSAL_MISSAO</strong>:</p>" +
-          '<ul class="module-list">' +
-          '<li><span class="module-item-label">📰 Cartazes_Atualizados</span></li>' +
-          '<li><span class="module-item-label">📘 Portfolio_PDF</span></li>' +
-          "</ul>" +
-          '<div class="module-links">' +
-          '<a href="https://b2bleads.com.br/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">📇</span><span>B2B Leads</span>' +
-          "</a>" +
-          '<a href="https://calculadora-freelae.web.app/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
-          '<span class="emoji" aria-hidden="true">🧮</span><span>Calculadora Freelancer</span>' +
-          "</a>" +
-          "</div>"
+        body: `
+          <p>Espelha a pasta <strong>07_💥 VENDA_MENSAL_MISSAO</strong>:</p>
+          <ul class="module-list">
+            <li><span class="module-item-label">📰 Cartazes_Atualizados</span></li>
+            <li><span class="module-item-label">📘 Portfolio_PDF</span></li>
+          </ul>
+          <div class="module-links">
+            <a href="https://b2bleads.com.br/" target="_blank" class="link-chip">
+              <span class="emoji">📇</span><span>B2B Leads</span>
+            </a>
+            <a href="https://calculadora-freelae.web.app/" target="_blank" class="link-chip">
+              <span class="emoji">🧮</span><span>Calculadora Freelancer</span>
+            </a>
+          </div>
+        `,
       },
 
       centro: {
         title: "08 · Centro de Controle & Conexões",
         subtitle: "Mapas, fluxos, integrações, modelos que conectam tudo.",
         tag: "Arquitetura do sistema",
-        body:
-          "<p>Espelha a pasta <strong>08_🧩 CENTRO_CONTROLE_CONEXOES</strong>:</p>" +
-          '<ul class="module-list">' +
-          '<li><span class="module-item-label">🗺️ Mapa_Geral_Pastas</span></li>' +
-          '<li><span class="module-item-label">🧾 Fluxos_Checklists</span></li>' +
-          "</ul>"
+        body: `
+          <p>Espelha a pasta <strong>08_🧩 CENTRO_CONTROLE_CONEXOES</strong>:</p>
+          <ul class="module-list">
+            <li><span class="module-item-label">🗺️ Mapa_Geral_Pastas</span></li>
+            <li><span class="module-item-label">🧾 Fluxos_Checklists</span></li>
+          </ul>
+        `,
       },
 
       rede: {
         title: "09 · Rede Global",
         subtitle: "Conexões com EUA, Europa, Latam, parcerias globais.",
         tag: "Expansão",
-        body:
-          "<p>Espelha a pasta <strong>09_🌎 REDE_GLOBAL</strong>:</p>" +
-          '<ul class="module-list">' +
-          '<li><span class="module-item-label">🇺🇸 EUA_CANADA</span></li>' +
-          '<li><span class="module-item-label">🇪🇺 EUROPA</span></li>' +
-          "</ul>"
+        body: `
+          <p>Espelha a pasta <strong>09_🌎 REDE_GLOBAL</strong>:</p>
+          <ul class="module-list">
+            <li><span class="module-item-label">🇺🇸 EUA_CANADA</span></li>
+            <li><span class="module-item-label">🇪🇺 EUROPA</span></li>
+          </ul>
+        `,
       },
 
       modelos: {
         title: "10 · Modelos Oficiais",
         subtitle: "Apresentações, docs, planilhas, identidade visual.",
         tag: "Base oficial",
-        body:
-          "<p>Espelha a pasta <strong>10_🧾 MODELOS_OFICIAIS</strong>:</p>" +
-          '<ul class="module-list">' +
-          '<li><span class="module-item-label">🧠 Apresentacoes</span></li>' +
-          '<li><span class="module-item-label">📄 Docs</span></li>' +
-          "</ul>"
+        body: `
+          <p>Espelha a pasta <strong>10_🧾 MODELOS_OFICIAIS</strong>:</p>
+          <ul class="module-list">
+            <li><span class="module-item-label">🧠 Apresentacoes</span></li>
+            <li><span class="module-item-label">📄 Docs</span></li>
+          </ul>
+        `,
       },
 
       admin: {
         title: "11 · Admin do Sistema",
         subtitle: "Atalhos, scripts, regras de backup e deduplicação.",
         tag: "Bastidor técnico",
-        body:
-          "<p>Espelha a pasta <strong>11_🧰 ADMIN_SISTEMA</strong>:</p>" +
-          '<ul class="module-list">' +
-          '<li><span class="module-item-label">🔗 _ATALHOS</span></li>' +
-          '<li><span class="module-item-label">⚙️ Administração, scripts e atalhos internos</span></li>' +
-          "</ul>"
+        body: `
+          <p>Espelha a pasta <strong>11_🧰 ADMIN_SISTEMA</strong>:</p>
+          <ul class="module-list">
+            <li><span class="module-item-label">🔗 _ATALHOS</span></li>
+            <li><span class="module-item-label">⚙️ Administração, scripts e atalhos internos</span></li>
+          </ul>
+        `,
       },
 
       resultados: {
         title: "12 · Resultados Finais",
         subtitle: "Clientes, imprensa, social – o que sai para o mundo.",
         tag: "Saída final",
-        body:
-          "<p>Espelha a pasta <strong>12_🎯 RESULTADOS_FINAIS</strong>:</p>" +
-          '<ul class="module-list">' +
-          '<li><span class="module-item-label">💼 Clientes</span></li>' +
-          '<li><span class="module-item-label">📰 Imprensa</span></li>' +
-          "</ul>"
-      }
+        body: `
+          <p>Espelha a pasta <strong>12_🎯 RESULTADOS_FINAIS</strong>:</p>
+          <ul class="module-list">
+            <li><span class="module-item-label">💼 Clientes</span></li>
+            <li><span class="module-item-label">📰 Imprensa</span></li>
+          </ul>
+        `,
+      },
     };
 
     function renderModule(moduleKey) {
-      const module = modules[moduleKey] || modules.inbox;
-      const titleEl = document.getElementById("module-title");
-      const subtitleEl = document.getElementById("module-subtitle");
-      const tagEl = document.getElementById("module-tag");
-      const bodyEl = document.getElementById("module-body");
-
-      if (titleEl) titleEl.textContent = module.title;
-      if (subtitleEl) subtitleEl.textContent = module.subtitle;
-      if (tagEl) tagEl.textContent = module.tag;
-      if (bodyEl) bodyEl.innerHTML = module.body;
-
+      const module = modules[moduleKey] || modules["inbox"];
+      document.getElementById("module-title").textContent = module.title;
+      document.getElementById("module-subtitle").textContent = module.subtitle;
+      document.getElementById("module-tag").textContent = module.tag;
+      document.getElementById("module-body").innerHTML = module.body;
       currentModule = moduleKey;
     }
 
     function setupSidebar() {
       const list = document.getElementById("nav-list");
-      if (!list) return;
-      const items = list.querySelectorAll(".nav-item");
-
-      items.forEach(function (item) {
-        function activate() {
-          items.forEach(function (i) {
-            i.classList.remove("active");
-            i.removeAttribute("aria-current");
-          });
+      list.querySelectorAll(".nav-item").forEach((item) => {
+        item.addEventListener("click", () => {
+          list.querySelectorAll(".nav-item").forEach((i) => i.classList.remove("active"));
           item.classList.add("active");
-          item.setAttribute("aria-current", "page");
-          const key = item.getAttribute("data-module");
-          if (key) renderModule(key);
-        }
-
-        item.addEventListener("click", activate);
-        item.addEventListener("keydown", function (e) {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            activate();
-          }
+          const key = item.dataset.module;
+          renderModule(key);
         });
       });
     }
 
+    // -------------------------
+    // COPIAR CAMINHO DA PASTA
+    // -------------------------
     function copyFolderPath() {
       const folderPath = folderMap[currentModule];
       if (!folderPath) {
-        window.alert("Caminho da pasta não encontrado para este módulo.");
+        alert("Caminho da pasta não encontrado para este módulo.");
         return;
       }
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(folderPath)
-          .then(function () {
-            window.alert(
+          .then(() => {
+            alert(
               "✅ Caminho copiado para a área de transferência!\n\n" +
               folderPath +
               "\n\nAgora abra o Explorador de Arquivos (Win + E) e cole na barra de endereço."
             );
           })
-          .catch(function () {
-            fallbackCopyTextToClipboard(folderPath);
-          });
+          .catch(() => fallbackCopyTextToClipboard(folderPath));
       } else {
         fallbackCopyTextToClipboard(folderPath);
       }
@@ -2093,14 +1599,14 @@
       textArea.focus();
       textArea.select();
       try {
-        document.execCommand("copy");
-        window.alert(
+        document.execCommand('copy');
+        alert(
           "✅ Caminho copiado para a área de transferência!\n\n" +
           text +
           "\n\nAgora abra o Explorador de Arquivos (Win + E) e cole na barra de endereço."
         );
       } catch (err) {
-        window.alert(
+        alert(
           "Caminho da pasta:\n\n" +
           text +
           "\n\nCopie e cole manualmente no Explorador de Arquivos."
@@ -2109,68 +1615,85 @@
       document.body.removeChild(textArea);
     }
 
+    // -------------------------
+    // EXPORTAÇÃO DE TAREFAS
+    // -------------------------
     function exportTasks() {
       let allTasks = [];
 
-      columnsConfig.forEach(function (col) {
-        const tasks = state.inbox[col.key] || [];
-        tasks.forEach(function (task) {
-          allTasks.push({
-            text: task.text,
-            done: task.done,
-            tag: task.tag,
-            priority: col.title
+      if (currentModule === 'inbox') {
+        columnsConfig.forEach(col => {
+          const tasks = state.inbox[col.key] || [];
+          tasks.forEach(task => {
+            allTasks.push({
+              text: task.text,
+              done: task.done,
+              tag: task.tag,
+              priority: col.title
+            });
           });
         });
-      });
+      } else {
+        columnsConfig.forEach(col => {
+          const tasks = state.inbox[col.key] || [];
+          tasks.forEach(task => {
+            if (task.tag && task.tag.includes(modules[currentModule].title.split(' · ')[1])) {
+              allTasks.push({
+                text: task.text,
+                done: task.done,
+                tag: task.tag,
+                priority: col.title
+              });
+            }
+          });
+        });
+      }
 
       if (allTasks.length === 0) {
-        window.alert("Nenhuma tarefa encontrada para este módulo.");
+        alert("Nenhuma tarefa encontrada para este módulo.");
         return;
       }
 
       const now = new Date();
-      const dateStr = now.toLocaleDateString("pt-BR");
-      const timeStr = now.toLocaleTimeString("pt-BR");
+      const dateStr = now.toLocaleDateString('pt-BR');
+      const timeStr = now.toLocaleTimeString('pt-BR');
 
-      let fileContent = "TAREFAS - " + modules[currentModule].title + "\n";
-      fileContent += "Exportado em: " + dateStr + " às " + timeStr + "\n";
-      fileContent += Array(51).join("=") + "\n\n";
+      let fileContent = `TAREFAS - ${modules[currentModule].title}\n`;
+      fileContent += `Exportado em: ${dateStr} às ${timeStr}\n`;
+      fileContent += "=".repeat(50) + "\n\n";
 
-      allTasks.forEach(function (task, index) {
+      allTasks.forEach((task, index) => {
         const status = task.done ? "[✓] CONCLUÍDO" : "[ ] PENDENTE";
-        fileContent += (index + 1) + ". " + status + " - " + task.text + "\n";
-        fileContent += "   Prioridade: " + task.priority + "\n";
+        fileContent += `${index + 1}. ${status} - ${task.text}\n`;
+        fileContent += `   Prioridade: ${task.priority}\n`;
         if (task.tag) {
-          fileContent += "   Tag: " + task.tag + "\n";
+          fileContent += `   Tag: ${task.tag}\n`;
         }
         fileContent += "\n";
       });
 
-      const blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
+      const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
+      const a = document.createElement('a');
       a.href = url;
-      a.download =
-        "Tarefas_" +
-        modules[currentModule].title.replace(/[^a-zA-Z0-9]/g, "_") +
-        "_" +
-        dateStr.replace(/\//g, "-") +
-        ".txt";
+      a.download = `Tarefas_${modules[currentModule].title.replace(/[^a-zA-Z0-9]/g, '_')}_${dateStr.replace(/\//g, '-')}.txt`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      window.alert("✅ Arquivo de tarefas exportado para sua pasta de downloads.\n\nNome: " + a.download);
+      alert(`✅ Arquivo de tarefas exportado para sua pasta de downloads.\n\nNome: ${a.download}`);
     }
 
+    // -------------------------
+    // ATA DIÁRIA
+    // -------------------------
     function exportDailyReport() {
-      const today = new Date().toISOString().split("T")[0];
+      const today = new Date().toISOString().split('T')[0];
       let completedToday = [];
 
-      Object.values(state.inbox).forEach(function (column) {
-        column.forEach(function (task) {
+      Object.values(state.inbox).forEach(column => {
+        column.forEach(task => {
           if (task.done && task.completedAt && task.completedAt.startsWith(today)) {
             completedToday.push(task);
           }
@@ -2178,64 +1701,62 @@
       });
 
       if (completedToday.length === 0) {
-        window.alert("Nenhuma tarefa concluída hoje para exportar.");
+        alert("Nenhuma tarefa concluída hoje para exportar.");
         return;
       }
 
       const now = new Date();
-      const dateStr = now.toLocaleDateString("pt-BR");
-      const timeStr = now.toLocaleTimeString("pt-BR");
+      const dateStr = now.toLocaleDateString('pt-BR');
+      const timeStr = now.toLocaleTimeString('pt-BR');
 
-      let fileContent = "ATA DE ATIVIDADES DIÁRIAS - PAINEL FERDYNAN\n";
-      fileContent += "Data: " + dateStr + " | Hora: " + timeStr + "\n";
-      fileContent += Array(61).join("=") + "\n\n";
+      let fileContent = `ATA DE ATIVIDADES DIÁRIAS - PAINEL FERDYNAN\n`;
+      fileContent += `Data: ${dateStr} | Hora: ${timeStr}\n`;
+      fileContent += "=".repeat(60) + "\n\n";
       fileContent += "TAREFAS CONCLUÍDAS HOJE:\n\n";
 
-      completedToday.forEach(function (task, index) {
-        const completedTime = new Date(task.completedAt).toLocaleTimeString("pt-BR");
-        fileContent += (index + 1) + ". [" + completedTime + "] " + task.text + "\n";
+      completedToday.forEach((task, index) => {
+        const completedTime = new Date(task.completedAt).toLocaleTimeString('pt-BR');
+        fileContent += `${index + 1}. [${completedTime}] ${task.text}\n`;
         if (task.tag) {
-          fileContent += "   📁 " + task.tag + "\n";
+          fileContent += `   📁 ${task.tag}\n`;
         }
         fileContent += "\n";
       });
 
-      fileContent += Array(61).join("=") + "\n";
-      fileContent += "Total de tarefas concluídas: " + completedToday.length + "\n";
-      const prod = Math.round(
-        (completedToday.length /
-          (completedToday.length + getPendingTasksCount())) *
-          100
-      );
-      fileContent +=
-        "Taxa de produtividade (no painel): " + (isNaN(prod) ? 0 : prod) + "%\n";
+      fileContent += "=".repeat(60) + "\n";
+      fileContent += `Total de tarefas concluídas: ${completedToday.length}\n`;
+      const prod = Math.round((completedToday.length / (completedToday.length + getPendingTasksCount())) * 100);
+      fileContent += `Taxa de produtividade (no painel): ${isNaN(prod) ? 0 : prod}%\n`;
 
-      const blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
+      const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
+      const a = document.createElement('a');
       a.href = url;
-      a.download = "ATA_DIARIA_" + dateStr.replace(/\//g, "-") + ".txt";
+      a.download = `ATA_DIARIA_${dateStr.replace(/\//g, '-')}.txt`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      showNotification("✅ ATA diária exportada com " + completedToday.length + " tarefas!");
+      showNotification(`✅ ATA diária exportada com ${completedToday.length} tarefas!`);
     }
 
-    function createTaskFile(task, priorityShort) {
+    // -------------------------
+    // ARQUIVO AUTOMÁTICO POR TAREFA
+    // -------------------------
+    function createTaskFile(task, priority) {
       if (!task.tag) return;
-
+      
       const now = new Date();
-      const dateStr = now.toLocaleDateString("pt-BR");
-      const timeStr = now.toLocaleTimeString("pt-BR");
-
-      let fileContent = "TAREFA: " + task.text + "\n";
-      fileContent += "Criada em: " + dateStr + " às " + timeStr + "\n";
-      fileContent += "Prioridade: " + priorityShort + "\n";
-      fileContent += "Categoria: " + task.tag + "\n";
-      fileContent += "Status: " + (task.done ? "CONCLUÍDO" : "PENDENTE") + "\n";
-      fileContent += Array(51).join("=") + "\n\n";
+      const dateStr = now.toLocaleDateString('pt-BR');
+      const timeStr = now.toLocaleTimeString('pt-BR');
+      
+      let fileContent = `TAREFA: ${task.text}\n`;
+      fileContent += `Criada em: ${dateStr} às ${timeStr}\n`;
+      fileContent += `Prioridade: ${priority}\n`;
+      fileContent += `Categoria: ${task.tag}\n`;
+      fileContent += `Status: ${task.done ? "CONCLUÍDO" : "PENDENTE"}\n`;
+      fileContent += "=".repeat(50) + "\n\n";
       fileContent += "DESCRIÇÃO:\n";
       fileContent += "Adicione aqui os detalhes da tarefa...\n\n";
       fileContent += "AÇÕES NECESSÁRIAS:\n";
@@ -2244,40 +1765,41 @@
       fileContent += "- [ ] Designar responsável\n\n";
       fileContent += "NOTAS:\n";
       fileContent += "• \n";
-
-      const blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
+      
+      const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
+      const a = document.createElement('a');
       a.href = url;
-
-      const fileName =
-        "Tarefa_" +
-        task.text.substring(0, 30).replace(/[^a-zA-Z0-9]/g, "_") +
-        "_" +
-        Date.now() +
-        ".txt";
+      
+      const fileName = `Tarefa_${task.text.substring(0, 30).replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.txt`;
       a.download = fileName;
-
+      
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-
-      showNotification("✅ Arquivo criado: " + fileName);
+      
+      showNotification(`✅ Arquivo criado: ${fileName}`);
     }
 
+    // -------------------------
+    // NOTIFICAÇÃO
+    // -------------------------
     function showNotification(message) {
-      const notification = document.createElement("div");
-      notification.className = "notification";
-      notification.setAttribute("role", "status");
-      notification.setAttribute("aria-live", "polite");
+      const notification = document.createElement('div');
+      notification.className = 'notification';
       notification.textContent = message;
+      
       document.body.appendChild(notification);
-      setTimeout(function () {
+      
+      setTimeout(() => {
         notification.remove();
       }, 3000);
     }
 
+    // -------------------------
+    // BOOT
+    // -------------------------
     function init() {
       renderStats();
       setupStatsEditing();
@@ -2286,13 +1808,9 @@
       renderModule("inbox");
       updateProgressDashboard();
 
-      const copyBtn = document.getElementById("copy-folder-btn");
-      const exportTasksBtn = document.getElementById("export-tasks-btn");
-      const exportDailyBtn = document.getElementById("export-daily-btn");
-
-      if (copyBtn) copyBtn.addEventListener("click", copyFolderPath);
-      if (exportTasksBtn) exportTasksBtn.addEventListener("click", exportTasks);
-      if (exportDailyBtn) exportDailyBtn.addEventListener("click", exportDailyReport);
+      document.getElementById('copy-folder-btn').addEventListener('click', copyFolderPath);
+      document.getElementById('export-tasks-btn').addEventListener('click', exportTasks);
+      document.getElementById('export-daily-btn').addEventListener('click', exportDailyReport);
     }
 
     document.addEventListener("DOMContentLoaded", init);
