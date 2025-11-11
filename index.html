@@ -1,17 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <title>Painel Ferdynan - Sistema de Gestão</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Painel de gestão OMNI LEGACY de Rogério Ferdynan: vida, empresa, palco e sistema de arquivos integrados." />
   <style>
     :root {
-      /* Paleta industrial */
-      --bg: #050711;            /* fundo geral carvão */
-      --bg-elevated: #0b111f;   /* blocos elevados aço escuro */
-      --brand: #111827;         /* base da identidade */
-      --accent: #d4a45a;        /* dourado industrial */
+      --bg: #050711;
+      --bg-elevated: #0b111f;
+      --brand: #111827;
+      --accent: #d4a45a;
       --accent-soft: rgba(212, 164, 90, 0.14);
       --text: #f9fafb;
       --muted: #9ca3af;
@@ -34,6 +33,7 @@
         sans-serif;
       background: radial-gradient(circle at top, #111827, var(--bg) 65%);
       color: var(--text);
+      overflow-x: hidden;
     }
 
     .app {
@@ -44,7 +44,17 @@
       overflow-x: hidden;
     }
 
-    /* SIDEBAR */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
     .sidebar {
       width: 280px;
       padding: 20px 18px;
@@ -134,10 +144,16 @@
       box-shadow: 0 12px 26px rgba(0, 0, 0, 0.7);
     }
 
-    .nav-item:not(.active):hover {
+    .nav-item:not(.active):hover,
+    .nav-item:focus-visible {
       background: rgba(15, 23, 42, 0.9);
       border-color: var(--border);
       color: #e5e7eb;
+      outline: none;
+    }
+
+    .nav-item:focus-visible {
+      box-shadow: 0 0 0 2px var(--accent);
     }
 
     .sidebar-footer {
@@ -155,17 +171,14 @@
       font-size: 11px;
     }
 
-    /* MAIN */
     .main {
       flex: 1;
+      min-width: 0;
       padding: 22px 28px 16px;
       display: flex;
       flex-direction: column;
       gap: 18px;
       background: radial-gradient(circle at top, #0b1120, #020617);
-      max-width: 1200px;
-      margin: 0 auto;
-      width: 100%;
     }
 
     .main-header {
@@ -223,9 +236,15 @@
       max-width: 200px;
     }
 
-    .stat-card:hover {
+    .stat-card:hover,
+    .stat-card:focus-visible {
       border-color: var(--accent);
       transform: translateY(-2px);
+      outline: none;
+    }
+
+    .stat-card:focus-visible {
+      box-shadow: 0 0 0 2px var(--accent);
     }
 
     .stat-label {
@@ -262,7 +281,6 @@
       transition: width 0.4s ease;
     }
 
-    /* PROGRESSO DO DIA */
     .progress-dashboard {
       background: rgba(11, 17, 31, 0.97);
       border-radius: var(--radius-xl);
@@ -372,7 +390,6 @@
       letter-spacing: 0.12em;
     }
 
-    /* CONTENT */
     .content {
       display: grid;
       grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.4fr);
@@ -421,7 +438,6 @@
       background: rgba(15, 23, 42, 0.95);
     }
 
-    /* INBOX COLUMNS */
     .columns {
       display: flex;
       gap: 10px;
@@ -573,7 +589,7 @@
       color: var(--text);
     }
 
-    .task-input:focus {
+    .task-input:focus-visible {
       outline: 1px solid var(--accent);
       border-color: var(--accent);
     }
@@ -593,7 +609,6 @@
       filter: brightness(1.05);
     }
 
-    /* SIDE PANEL */
     .module-body {
       font-size: 12px;
       color: var(--muted);
@@ -655,9 +670,12 @@
       margin-top: 4px;
     }
 
-    .folder-action:hover {
+    .folder-action:hover,
+    .folder-action:focus-visible {
       background: var(--accent);
       color: #111827;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(212, 164, 90, 0.4);
     }
 
     .module-links {
@@ -685,13 +703,14 @@
       font-size: 14px;
     }
 
-    .link-chip:hover {
+    .link-chip:hover,
+    .link-chip:focus-visible {
       border-color: var(--accent);
       background: var(--accent-soft);
       color: var(--accent);
+      outline: none;
     }
 
-    /* EXPORT SECTION */
     .export-section {
       margin-top: 12px;
       padding: 10px 12px;
@@ -728,15 +747,17 @@
       white-space: nowrap;
     }
 
-    .export-btn:hover {
+    .export-btn:hover,
+    .export-btn:focus-visible {
       filter: brightness(1.05);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.5);
     }
 
-    /* NOTIFICAÇÃO */
     .notification {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
+      bottom: 16px;
+      right: 16px;
       background: var(--accent);
       color: #111827;
       padding: 10px 15px;
@@ -746,6 +767,8 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
       z-index: 1000;
       animation: slideIn 0.3s ease;
+      max-width: min(320px, 100% - 32px);
+      box-sizing: border-box;
     }
 
     @keyframes slideIn {
@@ -759,7 +782,6 @@
       }
     }
 
-    /* RODAPÉ */
     .app-footer {
       border-top: 1px solid rgba(15, 23, 42, 0.95);
       background: radial-gradient(circle at bottom, #020617, #050711 60%);
@@ -829,9 +851,11 @@
       border-bottom: 1px dashed rgba(148, 163, 184, 0.4);
     }
 
-    .footer-text a:hover {
+    .footer-text a:hover,
+    .footer-text a:focus-visible {
       color: var(--accent);
       border-bottom-style: solid;
+      outline: none;
     }
 
     .footer-meta {
@@ -849,7 +873,6 @@
       text-align: left;
     }
 
-    /* RESPONSIVO */
     @media (max-width: 900px) {
       .app {
         flex-direction: column;
@@ -934,10 +957,9 @@
 </head>
 <body>
   <div class="app">
-    <!-- LATERAL -->
-    <aside class="sidebar">
+    <aside class="sidebar" aria-label="Navegação principal">
       <div class="brand">
-        <div class="brand-avatar">RF</div>
+        <div class="brand-avatar" aria-hidden="true">RF</div>
         <div>
           <div class="brand-text-title">Painel de comando</div>
           <div class="brand-text-name">rogerioferdynan.com</div>
@@ -945,75 +967,78 @@
       </div>
 
       <div>
-        <div class="sidebar-section-title">Núcleos principais</div>
+        <h2 class="sidebar-section-title">Núcleos principais</h2>
         <ul class="nav-list" id="nav-list">
-          <li class="nav-item active" data-module="inbox">
-            <span class="emoji">📨</span>
+          <li
+            class="nav-item active"
+            data-module="inbox"
+            role="button"
+            tabindex="0"
+            aria-current="page"
+          >
+            <span class="emoji" aria-hidden="true">📨</span>
             <span>00 · Inbox Operacional</span>
           </li>
-          <li class="nav-item" data-module="artista">
-            <span class="emoji">🎤</span>
+          <li class="nav-item" data-module="artista" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🎤</span>
             <span>01 · Artista Rogério Ferdynan</span>
           </li>
-          <li class="nav-item" data-module="empresa">
-            <span class="emoji">💼</span>
+          <li class="nav-item" data-module="empresa" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">💼</span>
             <span>02 · Empresa CNPJ</span>
           </li>
-          <li class="nav-item" data-module="pessoal">
-            <span class="emoji">👨‍👦</span>
+          <li class="nav-item" data-module="pessoal" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">👨‍👦</span>
             <span>03 · Pessoal CPF</span>
           </li>
-          <li class="nav-item" data-module="direcao">
-            <span class="emoji">🧠</span>
+          <li class="nav-item" data-module="direcao" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🧠</span>
             <span>04 · Direção Criativa</span>
           </li>
-          <li class="nav-item" data-module="agenda">
-            <span class="emoji">📅</span>
+          <li class="nav-item" data-module="agenda" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">📅</span>
             <span>05 · Agenda & Logística</span>
           </li>
-          <li class="nav-item" data-module="backup">
-            <span class="emoji">🔒</span>
+          <li class="nav-item" data-module="backup" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🔒</span>
             <span>06 · Backup / Arquivo Morto</span>
           </li>
-          <li class="nav-item" data-module="venda">
-            <span class="emoji">💥</span>
+          <li class="nav-item" data-module="venda" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">💥</span>
             <span>07 · Venda Mensal</span>
           </li>
-          <li class="nav-item" data-module="centro">
-            <span class="emoji">🧩</span>
+          <li class="nav-item" data-module="centro" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🧩</span>
             <span>08 · Centro de Controle</span>
           </li>
-          <li class="nav-item" data-module="rede">
-            <span class="emoji">🌎</span>
+          <li class="nav-item" data-module="rede" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🌎</span>
             <span>09 · Rede Global</span>
           </li>
-          <li class="nav-item" data-module="modelos">
-            <span class="emoji">🧾</span>
+          <li class="nav-item" data-module="modelos" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🧾</span>
             <span>10 · Modelos Oficiais</span>
           </li>
-          <li class="nav-item" data-module="admin">
-            <span class="emoji">🧰</span>
+          <li class="nav-item" data-module="admin" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🧰</span>
             <span>11 · Admin do Sistema</span>
           </li>
-          <li class="nav-item" data-module="resultados">
-            <span class="emoji">🎯</span>
+          <li class="nav-item" data-module="resultados" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🎯</span>
             <span>12 · Resultados Finais</span>
           </li>
         </ul>
       </div>
 
-      <div class="sidebar-footer">
-        <div class="sidebar-footer-line">
-          OMNI LEGACY 8.0
-        </div>
+      <footer class="sidebar-footer">
+        <div class="sidebar-footer-line">OMNI LEGACY 8.0</div>
         <div class="muted">
           Tarefas geram arquivos espelho na arquitetura OMNI, mantendo tudo rastreável.
         </div>
-      </div>
+      </footer>
     </aside>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="main">
+    <main class="main" role="main">
       <header class="main-header">
         <div class="title-block">
           <h1>
@@ -1023,43 +1048,59 @@
           <p>Visão tática do dia a dia · Orquestração de vida, empresa e palco.</p>
         </div>
 
-        <div class="stats-row">
-          <div class="stat-card" data-stat="shows">
+        <div class="stats-row" aria-label="Indicadores principais">
+          <div
+            class="stat-card"
+            data-stat="shows"
+            role="button"
+            tabindex="0"
+            aria-label="Editar quantidade de shows no mês"
+          >
             <div class="stat-label">Shows no mês</div>
             <div class="stat-value" id="stat-shows">12</div>
             <div class="stat-progress">
               <div class="stat-progress-bar" id="bar-shows"></div>
             </div>
-            <div class="stat-hint">Clique para ajustar</div>
+            <div class="stat-hint">Clique ou pressione Enter para ajustar</div>
           </div>
-          <div class="stat-card" data-stat="faturamento">
+          <div
+            class="stat-card"
+            data-stat="faturamento"
+            role="button"
+            tabindex="0"
+            aria-label="Editar faturamento do mês"
+          >
             <div class="stat-label">Faturamento</div>
             <div class="stat-value" id="stat-faturamento">R$ 85.000</div>
             <div class="stat-progress">
               <div class="stat-progress-bar" id="bar-faturamento"></div>
             </div>
-            <div class="stat-hint">Clique para ajustar</div>
+            <div class="stat-hint">Clique ou pressione Enter para ajustar</div>
           </div>
-          <div class="stat-card" data-stat="propostas">
+          <div
+            class="stat-card"
+            data-stat="propostas"
+            role="button"
+            tabindex="0"
+            aria-label="Editar número de propostas abertas"
+          >
             <div class="stat-label">Propostas abertas</div>
             <div class="stat-value" id="stat-propostas">7</div>
             <div class="stat-progress">
               <div class="stat-progress-bar" id="bar-propostas"></div>
             </div>
-            <div class="stat-hint">Clique para ajustar</div>
+            <div class="stat-hint">Clique ou pressione Enter para ajustar</div>
           </div>
         </div>
       </header>
 
-      <!-- PROGRESSO DO DIA -->
-      <section class="progress-dashboard">
+      <section class="progress-dashboard" aria-labelledby="progresso-dia-titulo">
         <div class="progress-header">
-          <div class="progress-title">Progresso do dia</div>
+          <h2 class="progress-title" id="progresso-dia-titulo">Progresso do dia</h2>
         </div>
 
         <div class="progress-layout">
-          <!-- Gráfico circular -->
-          <div class="progress-ring-wrapper">
+          <div class="progress-ring-wrapper" aria-hidden="true">
             <svg class="progress-ring" width="96" height="96">
               <defs>
                 <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -1094,8 +1135,7 @@
             </div>
           </div>
 
-          <!-- Números -->
-          <div class="progress-stats">
+          <div class="progress-stats" aria-label="Resumo de tarefas do dia">
             <div class="progress-item">
               <div class="progress-number" id="progress-total">0</div>
               <div class="progress-label">Total de tarefas</div>
@@ -1116,71 +1156,64 @@
         </div>
       </section>
 
-      <section class="content">
-        <!-- INBOX OPERACIONAL -->
-        <section class="panel">
+      <section class="content" aria-label="Inbox e núcleo selecionado">
+        <section class="panel" aria-labelledby="inbox-titulo">
           <div class="panel-header">
             <div>
-              <div class="panel-title">Inbox · Caixa de Entrada Operacional</div>
-              <div class="panel-subtitle">
+              <h2 class="panel-title" id="inbox-titulo">Inbox · Caixa de Entrada Operacional</h2>
+              <p class="panel-subtitle">
                 Tudo que chega primeiro cai aqui. Depois você envia para o núcleo certo.
-              </div>
+              </p>
             </div>
             <div class="pill">Foco de hoje</div>
           </div>
 
-          <div class="columns" id="columns">
-            <!-- colunas geradas via JS -->
-          </div>
+          <div class="columns" id="columns" aria-label="Colunas de tarefas"></div>
         </section>
 
-        <!-- LADO DIREITO -->
-        <aside class="panel">
+        <aside class="panel" aria-labelledby="module-title">
           <div class="panel-header">
             <div>
-              <div class="panel-title" id="module-title">
+              <h2 class="panel-title" id="module-title">
                 00 · Inbox Operacional
-              </div>
-              <div class="panel-subtitle" id="module-subtitle">
+              </h2>
+              <p class="panel-subtitle" id="module-subtitle">
                 Processar, decidir, delegar. Nada dorme na sua cabeça: tudo vem pra cá.
-              </div>
+              </p>
             </div>
             <div class="pill" id="module-tag">Visão rápida do núcleo</div>
           </div>
 
-          <div class="module-body" id="module-body">
-            <!-- Conteúdo do núcleo via JS -->
-          </div>
+          <div class="module-body" id="module-body"></div>
           
           <div class="module-actions">
-            <button class="folder-action" id="copy-folder-btn">
-              <span>📁</span> Copiar caminho da pasta
+            <button class="folder-action" id="copy-folder-btn" type="button">
+              <span aria-hidden="true">📁</span> Copiar caminho da pasta
             </button>
-            <button class="folder-action" id="export-tasks-btn">
-              <span>💾</span> Exportar tarefas (.txt)
+            <button class="folder-action" id="export-tasks-btn" type="button">
+              <span aria-hidden="true">💾</span> Exportar tarefas (.txt)
             </button>
           </div>
 
           <div class="export-section">
             <div class="export-header">
               <div class="export-title">Exportação diária</div>
-              <button class="export-btn" id="export-daily-btn">📋 Gerar ATA do dia</button>
+              <button class="export-btn" id="export-daily-btn" type="button">📋 Gerar ATA do dia</button>
             </div>
-            <div class="module-hint">
+            <p class="module-hint">
               Gera um relatório das tarefas concluídas hoje em formato profissional (.txt).
-            </div>
+            </p>
           </div>
         </aside>
       </section>
-      <div class="hint-click">
+      <p class="hint-click">
         💡 Dica: use este painel como rotina diária — abrir, ver a Inbox, marcar o que foi feito
         e decidir o que vai pra qual núcleo (Artista, Empresa, Agenda, etc.).
-      </div>
+      </p>
     </main>
   </div>
 
-  <!-- RODAPÉ PROFISSIONAL -->
-  <footer class="app-footer">
+  <footer class="app-footer" aria-label="Informações de contato e créditos">
     <div class="footer-inner">
       <div class="footer-primary">
         <div class="footer-name">
@@ -1215,23 +1248,23 @@
           </div>
           <div class="footer-text">
             Website:
-            <a href="https://rogerioferdynan.com/" target="_blank">rogerioferdynan.com</a>
+            <a href="https://rogerioferdynan.com/" target="_blank" rel="noopener noreferrer">rogerioferdynan.com</a>
           </div>
         </div>
 
         <div class="footer-col">
           <div class="footer-label">Canais digitais</div>
           <div class="footer-text">
-            <a href="https://rogerioferdynan.com/" target="_blank">Site oficial</a><br />
-            <a href="https://painel.rogerioferdynan.com/" target="_blank">painel.rogerioferdynan.com</a><br />
-            <a href="https://blog.rogerioferdynan.com/" target="_blank">blog.rogerioferdynan.com</a><br />
-            <a href="https://open.spotify.com/artist/570xnV2TU8QMAZGFDpVf5E" target="_blank">Spotify · Perfil do Artista</a>
+            <a href="https://rogerioferdynan.com/" target="_blank" rel="noopener noreferrer">Site oficial</a><br />
+            <a href="https://painel.rogerioferdynan.com/" target="_blank" rel="noopener noreferrer">painel.rogerioferdynan.com</a><br />
+            <a href="https://blog.rogerioferdynan.com/" target="_blank" rel="noopener noreferrer">blog.rogerioferdynan.com</a><br />
+            <a href="https://open.spotify.com/artist/570xnV2TU8QMAZGFDpVf5E" target="_blank" rel="noopener noreferrer">Spotify · Perfil do Artista</a>
           </div>
           <div class="footer-label">Redes sociais</div>
           <div class="footer-text">
-            <a href="https://www.instagram.com/rogerioferdynan" target="_blank">Instagram</a> ·
-            <a href="https://www.bandsintown.com/pt/a/15376245-rogerio-ferdynan" target="_blank">Bandsintown</a> ·
-            <a href="https://x.com/rogerioferdynan" target="_blank">Twitter/X</a>
+            <a href="https://www.instagram.com/rogerioferdynan" target="_blank" rel="noopener noreferrer">Instagram</a> ·
+            <a href="https://www.bandsintown.com/pt/a/15376245-rogerio-ferdynan" target="_blank" rel="noopener noreferrer">Bandsintown</a> ·
+            <a href="https://x.com/rogerioferdynan" target="_blank" rel="noopener noreferrer">Twitter/X</a>
           </div>
         </div>
       </div>
@@ -1335,7 +1368,7 @@
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return clone(defaultState);
         const parsed = JSON.parse(raw);
-        return { ...clone(defaultState), ...parsed };
+        return Object.assign(clone(defaultState), parsed);
       } catch (e) {
         console.error("Erro carregando estado, usando padrão", e);
         return clone(defaultState);
@@ -1355,8 +1388,8 @@
       let totalTasks = 0;
       let doneTasks = 0;
 
-      Object.values(state.inbox).forEach(col => {
-        col.forEach(task => {
+      Object.values(state.inbox).forEach(function (col) {
+        col.forEach(function (task) {
           totalTasks++;
           if (task.done) doneTasks++;
         });
@@ -1371,12 +1404,12 @@
       const ringPctEl = document.getElementById("progress-ring-percentage");
       const scoreEl = document.getElementById("progress-score");
 
-      if (totalEl) totalEl.textContent = totalTasks;
-      if (doneEl) doneEl.textContent = doneTasks;
-      if (pendingEl) pendingEl.textContent = pending;
+      if (totalEl) totalEl.textContent = String(totalTasks);
+      if (doneEl) doneEl.textContent = String(doneTasks);
+      if (pendingEl) pendingEl.textContent = String(pending);
       if (ringPctEl) ringPctEl.textContent = percentage + "%";
 
-      const focusScore = totalTasks > 0 ? (percentage / 10) : 0;
+      const focusScore = totalTasks > 0 ? percentage / 10 : 0;
       if (scoreEl) {
         scoreEl.textContent = focusScore.toFixed(1).replace(".", ",") + "/10";
       }
@@ -1393,8 +1426,8 @@
 
     function getPendingTasksCount() {
       let pending = 0;
-      Object.values(state.inbox).forEach(col => {
-        col.forEach(task => {
+      Object.values(state.inbox).forEach(function (col) {
+        col.forEach(function (task) {
           if (!task.done) pending++;
         });
       });
@@ -1402,27 +1435,37 @@
     }
 
     function renderStats() {
-      document.getElementById("stat-shows").textContent = state.stats.shows;
-      document.getElementById("stat-faturamento").textContent = state.stats.faturamento;
-      document.getElementById("stat-propostas").textContent = state.stats.propostas;
+      const showsEl = document.getElementById("stat-shows");
+      const fatEl = document.getElementById("stat-faturamento");
+      const propEl = document.getElementById("stat-propostas");
 
-      document.getElementById("bar-shows").style.width = "80%";
-      document.getElementById("bar-faturamento").style.width = "65%";
-      document.getElementById("bar-propostas").style.width = "45%";
+      if (showsEl) showsEl.textContent = String(state.stats.shows);
+      if (fatEl) fatEl.textContent = state.stats.faturamento;
+      if (propEl) propEl.textContent = String(state.stats.propostas);
+
+      const barShows = document.getElementById("bar-shows");
+      const barFat = document.getElementById("bar-faturamento");
+      const barProp = document.getElementById("bar-propostas");
+
+      if (barShows) barShows.style.width = "80%";
+      if (barFat) barFat.style.width = "65%";
+      if (barProp) barProp.style.width = "45%";
     }
 
     function setupStatsEditing() {
-      document.querySelectorAll(".stat-card").forEach((card) => {
-        card.addEventListener("click", () => {
-          const type = card.dataset.stat;
+      document.querySelectorAll(".stat-card").forEach(function (card) {
+        function handleEdit() {
+          const type = card.getAttribute("data-stat");
+          if (!type) return;
           let current = state.stats[type];
-          const label = {
+          const labelMap = {
             shows: "Quantos shows no mês?",
             faturamento: "Qual o faturamento (ex.: R$ 85.000)?",
             propostas: "Quantas propostas abertas?"
-          }[type];
+          };
+          const label = labelMap[type] || "Valor";
 
-          const value = window.prompt(label, current);
+          const value = window.prompt(label, String(current));
           if (value === null || value === "") return;
 
           if (type === "shows" || type === "propostas") {
@@ -1437,15 +1480,23 @@
           }
           saveState();
           renderStats();
+        }
+
+        card.addEventListener("click", handleEdit);
+        card.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleEdit();
+          }
         });
       });
     }
 
     const columnsConfig = [
-      { key: "aProcessar", title: "A PROCESSAR", tag: "Entrou agora" },
-      { key: "alta",       title: "ALTA",        tag: "Impacto direto" },
-      { key: "media",      title: "MÉDIA",       tag: "Importante, não urgente" },
-      { key: "delegar",    title: "DELEGAR",     tag: "Equipe / parceiros" }
+      { key: "aProcessar", title: "A PROCESSAR", titleShort: "A_PROCESSAR", tag: "Entrou agora" },
+      { key: "alta",       title: "ALTA",        titleShort: "ALTA",        tag: "Impacto direto" },
+      { key: "media",      title: "MÉDIA",       titleShort: "MEDIA",       tag: "Importante, não urgente" },
+      { key: "delegar",    title: "DELEGAR",     titleShort: "DELEGAR",     tag: "Equipe / parceiros" }
     ];
 
     function renderInbox() {
@@ -1453,7 +1504,7 @@
       if (!container) return;
       container.innerHTML = "";
 
-      columnsConfig.forEach((col) => {
+      columnsConfig.forEach(function (col) {
         const columnEl = document.createElement("div");
         columnEl.className = "column";
 
@@ -1477,16 +1528,16 @@
 
         const tasks = state.inbox[col.key] || [];
 
-        tasks.forEach((task) => {
+        tasks.forEach(function (task) {
           const li = document.createElement("li");
           li.className = "task" + (task.done ? " done" : "");
-          li.dataset.taskId = task.id;
+          li.setAttribute("data-task-id", task.id);
 
           const checkbox = document.createElement("input");
           checkbox.type = "checkbox";
           checkbox.checked = task.done;
 
-          checkbox.addEventListener("click", (e) => {
+          checkbox.addEventListener("click", function (e) {
             e.stopPropagation();
             task.done = checkbox.checked;
             if (task.done) {
@@ -1507,10 +1558,10 @@
           textWrapper.appendChild(mainText);
 
           if (task.tag) {
-            const tag = document.createElement("div");
-            tag.className = "task-tag";
-            tag.textContent = task.tag;
-            textWrapper.appendChild(tag);
+            const tagDiv = document.createElement("div");
+            tagDiv.className = "task-tag";
+            tagDiv.textContent = task.tag;
+            textWrapper.appendChild(tagDiv);
           }
 
           const actionsWrapper = document.createElement("div");
@@ -1518,13 +1569,16 @@
 
           const deleteBtn = document.createElement("button");
           deleteBtn.className = "task-action-btn";
+          deleteBtn.type = "button";
           deleteBtn.innerHTML = "🗑️";
           deleteBtn.title = "Remover tarefa";
 
-          deleteBtn.addEventListener("click", (e) => {
+          deleteBtn.addEventListener("click", function (e) {
             e.stopPropagation();
-            if (confirm("Remover esta tarefa permanentemente?")) {
-              const idx = state.inbox[col.key].findIndex(t => t.id === task.id);
+            if (window.confirm("Remover esta tarefa permanentemente?")) {
+              const idx = state.inbox[col.key].findIndex(function (t) {
+                return t.id === task.id;
+              });
               if (idx > -1) {
                 state.inbox[col.key].splice(idx, 1);
                 saveState();
@@ -1549,138 +1603,138 @@
         const form = document.createElement("form");
         form.className = "task-form";
 
+        const inputId = "task-input-" + col.key;
+
+        const label = document.createElement("label");
+        label.setAttribute("for", inputId);
+        label.className = "sr-only";
+        label.textContent = "Nova tarefa na coluna " + col.title;
+
         const input = document.createElement("input");
         input.type = "text";
         input.placeholder = "Nova tarefa...";
         input.className = "task-input";
+        input.id = inputId;
 
         const btn = document.createElement("button");
         btn.type = "submit";
         btn.textContent = "+";
         btn.className = "task-add-btn";
+        btn.setAttribute("aria-label", "Adicionar tarefa em " + col.title);
 
-        form.addEventListener("submit", (e) => {
+        form.addEventListener("submit", function (e) {
           e.preventDefault();
           const value = input.value.trim();
           if (!value) return;
 
           const tagOptions = [
-            // 00 · INBOX
-            "Inbox · A_PROCESSAR",
-            "Inbox · DELEGAR_EQUIPE",
-            "Inbox · INSPIRACOES_RAPIDAS",
-            "Inbox · REFERENCIAS_EXTERNAS",
+            "Inbox · 01_⚡ A_PROCESSAR",
+            "Inbox · 02_👥 DELEGAR_EQUIPE",
+            "Inbox · 03_💡 INSPIRACOES_RAPIDAS",
+            "Inbox · 04_🌐 REFERENCIAS_EXTERNAS",
 
-            // 01 · ARTISTA
-            "Artista · Fotos_Profissionais",
-            "Artista · Videos_de_Show",
-            "Artista · Repertorio",
-            "Artista · Divulgacao_Capas_Stories",
-            "Artista · Midia_Jornal_TV_Radio",
-            "Artista · Cartazes_Por_Cidade",
-            "Artista · Portfolio",
+            "Artista · 01_📸 Fotos_Profissionais",
+            "Artista · 02_🎥 Videos_de_Show",
+            "Artista · 03_🎵 Repertorio",
+            "Artista · 04_🖼️ Divulgacao_Capas_Stories",
+            "Artista · 05_📂 Portfolio",
+            "Artista · 06_🗺️ Cartazes_Por_Cidade",
+            "Artista · 07_📻 Midia_Jornal_TV_Radio",
 
-            // 02 · EMPRESA
-            "Empresa · Propostas_Contratos",
-            "Empresa · Notas_Fiscais_Pagamentos",
-            "Empresa · CNPJ_Documentos_Oficiais",
-            "Empresa · Clientes_Prefeituras",
-            "Empresa · Contabilidade_Bancos",
-            "Empresa · Tabelas_Precos_Planilhas",
-            "Empresa · RH_Equipe",
-            "Empresa · Parcerias_Comerciais",
-            "Empresa · Editais_Processos_Publicos",
+            "Empresa · 01_📄 Propostas_Contratos",
+            "Empresa · 02_💰 Notas_Fiscais_Pagamentos",
+            "Empresa · 03_🧾 CNPJ_Documentos_Oficiais",
+            "Empresa · 04_🏙️ Clientes_Prefeituras",
+            "Empresa · 05_🏦 Contabilidade_Bancos",
+            "Empresa · 06_📊 Tabelas_Precos_Planilhas",
+            "Empresa · 07_🤝 Parcerias_Comerciais",
+            "Empresa · 08_🧾 Editais_Processos_Publicos",
+            "Empresa · 09_👥 RH_Equipe",
 
-            // 03 · PESSOAL
-            "Pessoal · Comprovantes_Declaracoes",
-            "Pessoal · Curriculos_Outros",
-            "Pessoal · Saude_Mental_Suplementacao",
-            "Pessoal · Filho_Mikael",
-            "Pessoal · Reflexoes_Escritos_Pessoais",
-            "Pessoal · Familia_Assuntos_Juridicos",
-            "Pessoal · Organizacao_Pessoal_Notion",
-            "Pessoal · Documentos_Civis",
+            "Pessoal · 01_📜 Comprovantes_Declaracoes",
+            "Pessoal · 02_💊 Saude_Mental_Suplementacao",
+            "Pessoal · 03_👦 Filho_Mikael",
+            "Pessoal · 04_🧘 Reflexoes_Escritos_Pessoais",
+            "Pessoal · 05_👨‍👩‍👧 Familia_Assuntos_Juridicos",
+            "Pessoal · 07_🗂️ Organizacao_Pessoal_Notion",
+            "Pessoal · 08_📚 Documentos_Civis",
 
-            // 05 · AGENDA & LOGÍSTICA
-            "Agenda · Shows_Confirmados",
-            "Agenda · Shows_Negociacao",
-            "Agenda · Agenda_Mensal",
-            "Agenda · Checklist_Show",
-            "Agenda · Equipe_Tecnica_Apoio",
-            "Agenda · Relatorios_Deslocamentos",
-            "Agenda · Equipamentos_Carga",
-            "Agenda · Requisitos_Camarim_Rider_Tecnico",
+            "Agenda · 01_🎟️ Shows_Confirmados",
+            "Agenda · 02_💬 Shows_Negociacao",
+            "Agenda · 03_🗓️ Agenda_Mensal",
+            "Agenda · 04_✅ Checklist_Show",
+            "Agenda · 05_🛣️ Relatorios_Deslocamentos",
+            "Agenda · 06_⚙️ Equipamentos_Carga",
+            "Agenda · 07_👷 Equipe_Tecnica_Apoio",
+            "Agenda · 08_🎤 Requisitos_Camarim_Rider_Tecnico",
 
-            // 06 · BACKUP
-            "Backup · Fotos_Antigas",
-            "Backup · Campanhas_Encerradas_LogOff",
-            "Backup · Pastas_Antigas",
-            "Backup · Prints_WhatsApp",
+            "Backup · 01_🕰️ Fotos_Antigas",
+            "Backup · 02_🗞️ Campanhas_Encerradas_LogOff",
+            "Backup · 03_🗃️ Pastas_Antigas",
+            "Backup · 04_📱 Prints_WhatsApp",
 
-            // 07 · VENDA MENSAL
-            "Venda · Contatos_Quentes",
-            "Venda · Cartazes_Atualizados",
-            "Venda · Portfolio_PDF",
-            "Venda · Texto_WhatsApp_Venda",
-            "Venda · Propostas_Contratos",
-            "Venda · Pagamentos_Pendencias",
-            "Venda · Videos_Enviar",
+            "Venda · 01_📰 Cartazes_Atualizados",
+            "Venda · 02_📘 Portfolio_PDF",
+            "Venda · 03_💬 Texto_WhatsApp_Venda",
+            "Venda · 04_🔥 Contatos_Quentes",
+            "Venda · 05_📄 Propostas_Contratos",
+            "Venda · 06_💸 Pagamentos_Pendencias",
+            "Venda · 07_🎞️ Videos_Enviar",
 
-            // 08 · CENTRO DE CONTROLE
-            "Centro · Mapa_Geral_Pastas",
-            "Centro · Fluxos_Checklists",
-            "Centro · Integracoes_Estrategicas",
-            "Centro · Modelos_Universais",
-            "Centro · Painel_Mensal_Missoes",
+            "Centro · 01_🗺️ Mapa_Geral_Pastas",
+            "Centro · 02_🧾 Fluxos_Checklists",
+            "Centro · 03_🔗 Integracoes_Estrategicas",
+            "Centro · 04_🧱 Modelos_Universais",
+            "Centro · 05_📆 Painel_Mensal_Missoes",
 
-            // 10 · MODELOS OFICIAIS
-            "Modelos Oficiais · Apresentacoes",
-            "Modelos Oficiais · Docs",
-            "Modelos Oficiais · Identidade_Visual",
-            "Modelos Oficiais · Planilhas",
+            "Modelos Oficiais · 01_🧠 Apresentacoes",
+            "Modelos Oficiais · 02_📄 Docs",
+            "Modelos Oficiais · 03_🖼️ Identidade_Visual",
+            "Modelos Oficiais · 04_📊 Planilhas",
 
-            // 11 · ADMIN DO SISTEMA
-            "Admin · Atalhos",
-            "Admin · Scripts_Automacoes",
+            "Admin · 🔗 _ATALHOS",
+            "Admin · ⚙️ Administração, scripts e atalhos internos",
 
-            // 12 · RESULTADOS FINAIS
-            "Resultados · Clientes",
-            "Resultados · Imprensa",
-            "Resultados · Social",
+            "Resultados · 01_💼 Clientes",
+            "Resultados · 02_📰 Imprensa",
+            "Resultados · 03_📱 Social",
 
-            // 04 · DIREÇÃO CRIATIVA
-            "Direcao Criativa · Posts_Prontos",
-            "Direcao Criativa · Modelos_Reels",
-            "Direcao Criativa · Logos_Branding",
-            "Direcao Criativa · Musicas_Em_Andamento",
-            "Direcao Criativa · Capas_Estetica_Albuns",
-            "Direcao Criativa · Campanhas_Slogans",
-            "Direcao Criativa · Parcerias_Artisticas",
-            "Direcao Criativa · Pesquisa_Estudos",
+            "Direcao Criativa · 01_📢 Posts_Prontos",
+            "Direcao Criativa · 02_🎬 Modelos_Reels",
+            "Direcao Criativa · 03_🏷️ Logos_Branding",
+            "Direcao Criativa · 04_🎧 Musicas_Em_Andamento",
+            "Direcao Criativa · 05_💿 Capas_Estetica_Albuns",
+            "Direcao Criativa · 06_🧩 Campanhas_Slogans",
+            "Direcao Criativa · 07_🎭 Parcerias_Artisticas",
+            "Direcao Criativa · 08_🔍 Pesquisa_Estudos",
 
-            // 09 · REDE GLOBAL
-            "Rede Global · EUA_CANADA",
-            "Rede Global · EUROPA",
-            "Rede Global · LATAM",
-            "Rede Global · PARCERIAS_GLOBAIS"
+            "Rede Global · 01_🇺🇸 EUA_CANADA",
+            "Rede Global · 02_🇪🇺 EUROPA",
+            "Rede Global · 03_🌎 LATAM",
+            "Rede Global · 04_🤝 PARCERIAS_GLOBAIS"
           ];
-          
-          const tag = prompt(
+
+          const promptMessage =
             "Selecione a categoria da tarefa:\n\n" +
-              tagOptions.map((opt, i) => (i + 1) + ". " + opt).join("\n"),
-            "1"
-          );
-          
+            tagOptions
+              .map(function (opt, i) {
+                return (i + 1) + ". " + opt;
+              })
+              .join("\n") +
+            "\n\nOu digite uma categoria personalizada.";
+
+          const tagChoice = window.prompt(promptMessage, "1");
+
           let selectedTag = "";
-          if (tag !== null) {
-            const tagIndex = parseInt(tag, 10) - 1;
+          if (tagChoice !== null) {
+            const tagIndex = parseInt(tagChoice, 10) - 1;
             if (!isNaN(tagIndex) && tagIndex >= 0 && tagIndex < tagOptions.length) {
               selectedTag = tagOptions[tagIndex];
-            } else if (tag.trim() !== "") {
-              selectedTag = tag;
+            } else if (tagChoice.trim() !== "") {
+              selectedTag = tagChoice.trim();
             }
           }
-          
+
           const newTask = {
             id: "t_" + Date.now(),
             text: value,
@@ -1693,9 +1747,10 @@
           input.value = "";
           renderInbox();
 
-          createTaskFile(newTask, col.title);
+          createTaskFile(newTask, col.titleShort);
         });
 
+        form.appendChild(label);
         form.appendChild(input);
         form.appendChild(btn);
         footer.appendChild(form);
@@ -1712,289 +1767,297 @@
         title: "00 · Inbox Operacional",
         subtitle: "Tudo chega aqui primeiro. Depois você decide: fazer, delegar, agendar ou arquivar.",
         tag: "Entrada de tudo",
-        body: `
-          <p>Use a Inbox como seu <strong>cérebro externo</strong>:</p>
-          <ul class="module-list">
-            <li><span class="module-item-label">01_⚡ A_PROCESSAR</span> – coisas que chegaram e ainda não foram decididas.</li>
-            <li><span class="module-item-label">02_👥 DELEGAR_EQUIPE</span> – tarefas que outra pessoa pode executar.</li>
-            <li><span class="module-item-label">03_💡 INSPIRACOES_RAPIDAS</span> – ideias, rabiscos, flashes criativos.</li>
-            <li><span class="module-item-label">04_🌐 REFERENCIAS_EXTERNAS</span> – prints, links, PDFs que valem ser guardados.</li>
-          </ul>
-          <p class="module-hint">
-            Na prática: viu algo? joga na Inbox. Em outro momento, você abre o painel e decide
-            para qual núcleo mandar (Artista, Empresa, Agenda, etc.).
-          </p>
-          <div class="module-links">
-            <a href="https://web.whatsapp.com/" target="_blank" class="link-chip">
-              <span class="emoji">💬</span><span>WhatsApp Web</span>
-            </a>
-            <a href="https://calendar.google.com/" target="_blank" class="link-chip">
-              <span class="emoji">📅</span><span>Google Agenda</span>
-            </a>
-            <a href="https://web.agendor.com.br/entrar/" target="_blank" class="link-chip">
-              <span class="emoji">📊</span><span>Agendor</span>
-            </a>
-            <a href="https://docs.google.com/spreadsheets/d/1iwtQoSlaRhUW115wmPv-7qYuslF4J5jcg41RzrgX7e4/edit" target="_blank" class="link-chip">
-              <span class="emoji">📈</span><span>Planilha Financeira</span>
-            </a>
-            <a href="https://getmozart.ai/app" target="_blank" class="link-chip">
-              <span class="emoji">🤖</span><span>Mozart AI</span>
-            </a>
-            <a href="https://mail.zoho.com/zm/" target="_blank" class="link-chip">
-              <span class="emoji">📧</span><span>Zoho Mail</span>
-            </a>
-            <a href="https://www.notion.so/" target="_blank" class="link-chip">
-              <span class="emoji">📓</span><span>Notion</span>
-            </a>
-            <a href="https://www.youtube.com/" target="_blank" class="link-chip">
-              <span class="emoji">🎬</span><span>YouTube</span>
-            </a>
-          </div>
-        `
+        body:
+          '<p>Use a Inbox como seu <strong>cérebro externo</strong>:</p>' +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">01_⚡ A_PROCESSAR</span> – coisas que chegaram e ainda não foram decididas.</li>' +
+          '<li><span class="module-item-label">02_👥 DELEGAR_EQUIPE</span> – tarefas que outra pessoa pode executar.</li>' +
+          '<li><span class="module-item-label">03_💡 INSPIRACOES_RAPIDAS</span> – ideias, rabiscos, flashes criativos.</li>' +
+          '<li><span class="module-item-label">04_🌐 REFERENCIAS_EXTERNAS</span> – prints, links, PDFs que valem ser guardados.</li>' +
+          "</ul>" +
+          '<p class="module-hint">' +
+          "Na prática: viu algo? joga na Inbox. Em outro momento, você abre o painel e decide " +
+          "para qual núcleo mandar (Artista, Empresa, Agenda, etc.)." +
+          "</p>" +
+          '<div class="module-links">' +
+          '<a href="https://web.whatsapp.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">💬</span><span>WhatsApp Web</span>' +
+          "</a>" +
+          '<a href="https://calendar.google.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">📅</span><span>Google Agenda</span>' +
+          "</a>" +
+          '<a href="https://web.agendor.com.br/entrar/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">📊</span><span>Agendor</span>' +
+          "</a>" +
+          '<a href="https://docs.google.com/spreadsheets/d/1iwtQoSlaRhUW115wmPv-7qYuslF4J5jcg41RzrgX7e4/edit" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">📈</span><span>Planilha Financeira</span>' +
+          "</a>" +
+          '<a href="https://getmozart.ai/app" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">🤖</span><span>Mozart AI</span>' +
+          "</a>" +
+          '<a href="https://mail.zoho.com/zm/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">📧</span><span>Zoho Mail</span>' +
+          "</a>" +
+          '<a href="https://www.notion.so/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">📓</span><span>Notion</span>' +
+          "</a>" +
+          '<a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">🎬</span><span>YouTube</span>' +
+          "</a>" +
+          "</div>"
       },
 
       artista: {
         title: "01 · Artista Rogério Ferdynan",
         subtitle: "Tudo que sustenta a imagem, repertório e material artístico do palco.",
         tag: "Núcleo artístico",
-        body: `
-          <p>Espelha a pasta <strong>01_🎤 ARTISTA_ROGERIO_FERDYNAN</strong> do seu sistema:</p>
-          <ul class="module-list">
-            <li><span class="module-item-label">📸 Fotos_Profissionais</span> – estúdio, ao vivo, bastidores, com fãs.</li>
-            <li><span class="module-item-label">🎥 Videos_de_Show</span> – RAW, edição, final, VS_Show, backups.</li>
-            <li><span class="module-item-label">🎵 Repertorio</span> – setlists, letras, blocos temáticos, ensaios.</li>
-            <li><span class="module-item-label">🖼️ Divulgacao_Capas_Stories</span> – feed, stories, capas, thumbnails.</li>
-          </ul>
-          <p class="module-hint">
-            Quando uma tarefa é sobre <strong>imagem, repertório ou material artístico</strong>,
-            ela nasce na Inbox, mas o arquivo final vive neste núcleo.
-          </p>
-          <div class="module-links">
-            <a href="https://artists.spotify.com/" target="_blank" class="link-chip">
-              <span class="emoji">🎧</span><span>Spotify for Artists</span>
-            </a>
-            <a href="https://artists.bandsintown.com/" target="_blank" class="link-chip">
-              <span class="emoji">📍</span><span>Bandsintown</span>
-            </a>
-            <a href="https://linkr.bio/rogerioferdynan" target="_blank" class="link-chip">
-              <span class="emoji">🌐</span><span>Linkr.bio</span>
-            </a>
-          </div>
-        `
+        body:
+          "<p>Espelha a pasta <strong>01_🎤 ARTISTA_ROGERIO_FERDYNAN</strong> do seu sistema:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">📸 Fotos_Profissionais</span> – estúdio, ao vivo, bastidores, com fãs.</li>' +
+          '<li><span class="module-item-label">🎥 Videos_de_Show</span> – RAW, edição, final, VS_Show, backups.</li>' +
+          '<li><span class="module-item-label">🎵 Repertorio</span> – setlists, letras, blocos temáticos, ensaios.</li>' +
+          '<li><span class="module-item-label">🖼️ Divulgacao_Capas_Stories</span> – feed, stories, capas, thumbnails.</li>' +
+          "</ul>" +
+          '<p class="module-hint">' +
+          "Quando uma tarefa é sobre <strong>imagem, repertório ou material artístico</strong>, " +
+          "ela nasce na Inbox, mas o arquivo final vive neste núcleo." +
+          "</p>" +
+          '<div class="module-links">' +
+          '<a href="https://artists.spotify.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">🎧</span><span>Spotify for Artists</span>' +
+          "</a>" +
+          '<a href="https://artists.bandsintown.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">📍</span><span>Bandsintown</span>' +
+          "</a>" +
+          '<a href="https://linkr.bio/rogerioferdynan" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">🌐</span><span>Linkr.bio</span>' +
+          "</a>" +
+          "</div>"
       },
 
       empresa: {
         title: "02 · Empresa CNPJ · Ferdynan Produções",
         subtitle: "Ferramentas para lidar com prefeitura, contratos, NF, bancos, editais.",
         tag: "Backstage da empresa",
-        body: `
-          <p>Espelha a pasta <strong>02_💼 EMPRESA_CNPJ_FERDYNAN_PRODUCOES</strong>:</p>
-          <ul class="module-list">
-            <li><span class="module-item-label">📄 Propostas_Contratos</span></li>
-            <li><span class="module-item-label">💰 Notas_Fiscais_Pagamentos</span> – notas, relatórios, contas bancárias.</li>
-            <li><span class="module-item-label">🧾 CNPJ_Documentos_Oficiais</span> – Receita Federal, certidões, calendário fiscal.</li>
-            <li><span class="module-item-label">🏙️ Clientes_Prefeituras</span> – DDD37, outras cidades MG, Brasil, internacional.</li>
-            <li><span class="module-item-label">📊 Tabelas_Precos_Planilhas</span> – business plan, planilhas de venda.</li>
-          </ul>
-          <p class="module-hint">
-            Qualquer tarefa que envolve <strong>dinheiro, documento oficial ou prefeituras</strong>
-            provavelmente pertence aqui.
-          </p>
-          <div class="module-links">
-            <a href="https://docs.google.com/document/d/1UWcL2O1QFVktAEf3T7p6tkLUzY2HRiNbmHDUpDPr1xA/edit" target="_blank" class="link-chip">
-              <span class="emoji">📄</span><span>Contratos (Docs)</span>
-            </a>
-            <a href="https://docs.google.com/spreadsheets/d/1iwtQoSlaRhUW115wmPv-7qYuslF4J5jcg41RzrgX7e4/edit" target="_blank" class="link-chip">
-              <span class="emoji">📊</span><span>Financeiro (Sheets)</span>
-            </a>
-          </div>
-        `
+        body:
+          "<p>Espelha a pasta <strong>02_💼 EMPRESA_CNPJ_FERDYNAN_PRODUCOES</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">📄 Propostas_Contratos</span></li>' +
+          '<li><span class="module-item-label">💰 Notas_Fiscais_Pagamentos</span> – notas, relatórios, contas bancárias.</li>' +
+          '<li><span class="module-item-label">🧾 CNPJ_Documentos_Oficiais</span> – Receita Federal, certidões, calendário fiscal.</li>' +
+          '<li><span class="module-item-label">🏙️ Clientes_Prefeituras</span> – DDD37, outras cidades MG, Brasil, internacional.</li>' +
+          '<li><span class="module-item-label">📊 Tabelas_Precos_Planilhas</span> – business plan, planilhas de venda.</li>' +
+          "</ul>" +
+          '<p class="module-hint">' +
+          "Qualquer tarefa que envolve <strong>dinheiro, documento oficial ou prefeituras</strong> " +
+          "provavelmente pertence aqui." +
+          "</p>" +
+          '<div class="module-links">' +
+          '<a href="https://docs.google.com/document/d/1UWcL2O1QFVktAEf3T7p6tkLUzY2HRiNbmHDUpDPr1xA/edit" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">📄</span><span>Contratos (Docs)</span>' +
+          "</a>" +
+          '<a href="https://docs.google.com/spreadsheets/d/1iwtQoSlaRhUW115wmPv-7qYuslF4J5jcg41RzrgX7e4/edit" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">📊</span><span>Financeiro (Sheets)</span>' +
+          "</a>" +
+          "</div>"
       },
 
       pessoal: {
         title: "03 · Pessoal · CPF Rogério Geraldo Lopes",
         subtitle: "Saúde, documentos, família, processos, organização pessoal.",
         tag: "Você como pessoa",
-        body: `
-          <p>Espelha a pasta <strong>03_👨‍👦 PESSOAL_CPF_ROGERIO_GERALDO_LOPES</strong>:</p>
-          <ul class="module-list">
-            <li><span class="module-item-label">📜 Comprovantes_Declaracoes</span></li>
-            <li><span class="module-item-label">💊 Saude_Mental_Suplementacao</span></li>
-            <li><span class="module-item-label">👦 Filho_Mikael</span></li>
-          </ul>
-        `
+        body:
+          "<p>Espelha a pasta <strong>03_👨‍👦 PESSOAL_CPF_ROGERIO_GERALDO_LOPES</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">📜 Comprovantes_Declaracoes</span></li>' +
+          '<li><span class="module-item-label">💊 Saude_Mental_Suplementacao</span></li>' +
+          '<li><span class="module-item-label">👦 Filho_Mikael</span></li>' +
+          "</ul>"
       },
 
       direcao: {
         title: "04 · Direção Criativa & Conteúdo",
         subtitle: "Músicas, campanhas, reels, estética, parcerias artísticas.",
         tag: "Cérebro criativo",
-        body: `
-          <p>Espelha a pasta <strong>04_🧠 DIRECAO_CRIATIVA_CONTEUDO</strong>:</p>
-          <ul class="module-list">
-            <li><span class="module-item-label">📢 Posts_Prontos</span></li>
-            <li><span class="module-item-label">🎬 Modelos_Reels</span></li>
-            <li><span class="module-item-label">🎧 Musicas_Em_Andamento</span></li>
-          </ul>
-          <p class="module-hint">
-            Quando a tarefa é <strong>criar, refinar ou pensar conceito</strong>,
-            ela provavelmente termina aqui.
-          </p>
-          <div class="module-links">
-            <a href="https://www.canva.com/pt_br/" target="_blank" class="link-chip">
-              <span class="emoji">🎨</span><span>Canva</span>
-            </a>
-            <a href="https://commercepro.capcut.com/ai-video-generator-v2/result" target="_blank" class="link-chip">
-              <span class="emoji">🎬</span><span>CapCut</span>
-            </a>
-            <a href="https://chatgpt.com/" target="_blank" class="link-chip">
-              <span class="emoji">🤖</span><span>ChatGPT</span>
-            </a>
-            <a href="https://gemini.google.com/app" target="_blank" class="link-chip">
-              <span class="emoji">🧠</span><span>Gemini</span>
-            </a>
-          </div>
-        `
+        body:
+          "<p>Espelha a pasta <strong>04_🧠 DIRECAO_CRIATIVA_CONTEUDO</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">📢 Posts_Prontos</span></li>' +
+          '<li><span class="module-item-label">🎬 Modelos_Reels</span></li>' +
+          '<li><span class="module-item-label">🎧 Musicas_Em_Andamento</span></li>' +
+          "</ul>" +
+          '<p class="module-hint">' +
+          "Quando a tarefa é <strong>criar, refinar ou pensar conceito</strong>, " +
+          "ela provavelmente termina aqui." +
+          "</p>" +
+          '<div class="module-links">' +
+          '<a href="https://www.canva.com/pt_br/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">🎨</span><span>Canva</span>' +
+          "</a>" +
+          '<a href="https://commercepro.capcut.com/ai-video-generator-v2/result" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">🎬</span><span>CapCut</span>' +
+          "</a>" +
+          '<a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">🤖</span><span>ChatGPT</span>' +
+          "</a>" +
+          '<a href="https://gemini.google.com/app" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">🧠</span><span>Gemini</span>' +
+          "</a>" +
+          "</div>"
       },
 
       agenda: {
         title: "05 · Agenda & Logística",
         subtitle: "Shows confirmados, em negociação, deslocamentos, equipe, equipamentos.",
         tag: "Operação de palco",
-        body: `
-          <p>Espelha a pasta <strong>05_📅 AGENDA_LOGISTICA</strong>:</p>
-          <ul class="module-list">
-            <li><span class="module-item-label">🎟️ Shows_Confirmados</span></li>
-            <li><span class="module-item-label">💬 Shows_Negociacao</span></li>
-          </ul>
-          <div class="module-links">
-            <a href="https://trello.com/" target="_blank" class="link-chip">
-              <span class="emoji">📌</span><span>Trello</span>
-            </a>
-            <a href="https://web.whatsapp.com/" target="_blank" class="link-chip">
-              <span class="emoji">💬</span><span>WhatsApp Web</span>
-            </a>
-          </div>
-        `
+        body:
+          "<p>Espelha a pasta <strong>05_📅 AGENDA_LOGISTICA</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">🎟️ Shows_Confirmados</span></li>' +
+          '<li><span class="module-item-label">💬 Shows_Negociacao</span></li>' +
+          "</ul>" +
+          '<div class="module-links">' +
+          '<a href="https://trello.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">📌</span><span>Trello</span>' +
+          "</a>" +
+          '<a href="https://web.whatsapp.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">💬</span><span>WhatsApp Web</span>' +
+          "</a>" +
+          "</div>"
       },
 
       backup: {
         title: "06 · Backup / Arquivo Morto",
         subtitle: "Tudo que não é mais da rotina, mas você não quer perder de vista.",
         tag: "Memória do sistema",
-        body: `
-          <p>Espelha a pasta <strong>06_🔒 BACKUP_ARQUIVO_MORTO</strong>:</p>
-          <ul class="module-list">
-            <li><span class="module-item-label">🕰️ Fotos_Antigas</span></li>
-            <li><span class="module-item-label">🗃️ Pastas_Antigas</span></li>
-          </ul>
-        `
+        body:
+          "<p>Espelha a pasta <strong>06_🔒 BACKUP_ARQUIVO_MORTO</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">🕰️ Fotos_Antigas</span></li>' +
+          '<li><span class="module-item-label">🗃️ Pastas_Antigas</span></li>' +
+          "</ul>"
       },
 
       venda: {
         title: "07 · Venda Mensal · Missão",
         subtitle: "Tudo que coloca show novo na agenda e dinheiro entrando.",
         tag: "Motor comercial",
-        body: `
-          <p>Espelha a pasta <strong>07_💥 VENDA_MENSAL_MISSAO</strong>:</p>
-          <ul class="module-list">
-            <li><span class="module-item-label">📰 Cartazes_Atualizados</span></li>
-            <li><span class="module-item-label">📘 Portfolio_PDF</span></li>
-          </ul>
-          <div class="module-links">
-            <a href="https://b2bleads.com.br/" target="_blank" class="link-chip">
-              <span class="emoji">📇</span><span>B2B Leads</span>
-            </a>
-            <a href="https://calculadora-freelae.web.app/" target="_blank" class="link-chip">
-              <span class="emoji">🧮</span><span>Calculadora Freelancer</span>
-            </a>
-          </div>
-        `
+        body:
+          "<p>Espelha a pasta <strong>07_💥 VENDA_MENSAL_MISSAO</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">📰 Cartazes_Atualizados</span></li>' +
+          '<li><span class="module-item-label">📘 Portfolio_PDF</span></li>' +
+          "</ul>" +
+          '<div class="module-links">' +
+          '<a href="https://b2bleads.com.br/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">📇</span><span>B2B Leads</span>' +
+          "</a>" +
+          '<a href="https://calculadora-freelae.web.app/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji" aria-hidden="true">🧮</span><span>Calculadora Freelancer</span>' +
+          "</a>" +
+          "</div>"
       },
 
       centro: {
         title: "08 · Centro de Controle & Conexões",
         subtitle: "Mapas, fluxos, integrações, modelos que conectam tudo.",
         tag: "Arquitetura do sistema",
-        body: `
-          <p>Espelha a pasta <strong>08_🧩 CENTRO_CONTROLE_CONEXOES</strong>:</p>
-          <ul class="module-list">
-            <li><span class="module-item-label">🗺️ Mapa_Geral_Pastas</span></li>
-            <li><span class="module-item-label">🧾 Fluxos_Checklists</span></li>
-          </ul>
-        `
+        body:
+          "<p>Espelha a pasta <strong>08_🧩 CENTRO_CONTROLE_CONEXOES</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">🗺️ Mapa_Geral_Pastas</span></li>' +
+          '<li><span class="module-item-label">🧾 Fluxos_Checklists</span></li>' +
+          "</ul>"
       },
 
       rede: {
         title: "09 · Rede Global",
         subtitle: "Conexões com EUA, Europa, Latam, parcerias globais.",
         tag: "Expansão",
-        body: `
-          <p>Espelha a pasta <strong>09_🌎 REDE_GLOBAL</strong>:</p>
-          <ul class="module-list">
-            <li><span class="module-item-label">🇺🇸 EUA_CANADA</span></li>
-            <li><span class="module-item-label">🇪🇺 EUROPA</span></li>
-          </ul>
-        `
+        body:
+          "<p>Espelha a pasta <strong>09_🌎 REDE_GLOBAL</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">🇺🇸 EUA_CANADA</span></li>' +
+          '<li><span class="module-item-label">🇪🇺 EUROPA</span></li>' +
+          "</ul>"
       },
 
       modelos: {
         title: "10 · Modelos Oficiais",
         subtitle: "Apresentações, docs, planilhas, identidade visual.",
         tag: "Base oficial",
-        body: `
-          <p>Espelha a pasta <strong>10_🧾 MODELOS_OFICIAIS</strong>:</p>
-          <ul class="module-list">
-            <li><span class="module-item-label">🧠 Apresentacoes</span></li>
-            <li><span class="module-item-label">📄 Docs</span></li>
-          </ul>
-        `
+        body:
+          "<p>Espelha a pasta <strong>10_🧾 MODELOS_OFICIAIS</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">🧠 Apresentacoes</span></li>' +
+          '<li><span class="module-item-label">📄 Docs</span></li>' +
+          "</ul>"
       },
 
       admin: {
         title: "11 · Admin do Sistema",
         subtitle: "Atalhos, scripts, regras de backup e deduplicação.",
         tag: "Bastidor técnico",
-        body: `
-          <p>Espelha a pasta <strong>11_🧰 ADMIN_SISTEMA</strong>:</p>
-          <ul class="module-list">
-            <li><span class="module-item-label">🔗 _ATALHOS</span></li>
-            <li><span class="module-item-label">⚙️ Administração, scripts e atalhos internos</span></li>
-          </ul>
-        `
+        body:
+          "<p>Espelha a pasta <strong>11_🧰 ADMIN_SISTEMA</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">🔗 _ATALHOS</span></li>' +
+          '<li><span class="module-item-label">⚙️ Administração, scripts e atalhos internos</span></li>' +
+          "</ul>"
       },
 
       resultados: {
         title: "12 · Resultados Finais",
         subtitle: "Clientes, imprensa, social – o que sai para o mundo.",
         tag: "Saída final",
-        body: `
-          <p>Espelha a pasta <strong>12_🎯 RESULTADOS_FINAIS</strong>:</p>
-          <ul class="module-list">
-            <li><span class="module-item-label">💼 Clientes</span></li>
-            <li><span class="module-item-label">📰 Imprensa</span></li>
-          </ul>
-        `
+        body:
+          "<p>Espelha a pasta <strong>12_🎯 RESULTADOS_FINAIS</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">💼 Clientes</span></li>' +
+          '<li><span class="module-item-label">📰 Imprensa</span></li>' +
+          "</ul>"
       }
     };
 
     function renderModule(moduleKey) {
-      const module = modules[moduleKey] || modules["inbox"];
-      document.getElementById("module-title").textContent = module.title;
-      document.getElementById("module-subtitle").textContent = module.subtitle;
-      document.getElementById("module-tag").textContent = module.tag;
-      document.getElementById("module-body").innerHTML = module.body;
+      const module = modules[moduleKey] || modules.inbox;
+      const titleEl = document.getElementById("module-title");
+      const subtitleEl = document.getElementById("module-subtitle");
+      const tagEl = document.getElementById("module-tag");
+      const bodyEl = document.getElementById("module-body");
+
+      if (titleEl) titleEl.textContent = module.title;
+      if (subtitleEl) subtitleEl.textContent = module.subtitle;
+      if (tagEl) tagEl.textContent = module.tag;
+      if (bodyEl) bodyEl.innerHTML = module.body;
+
       currentModule = moduleKey;
     }
 
     function setupSidebar() {
       const list = document.getElementById("nav-list");
-      list.querySelectorAll(".nav-item").forEach((item) => {
-        item.addEventListener("click", () => {
-          list.querySelectorAll(".nav-item").forEach((i) => i.classList.remove("active"));
+      if (!list) return;
+      const items = list.querySelectorAll(".nav-item");
+
+      items.forEach(function (item) {
+        function activate() {
+          items.forEach(function (i) {
+            i.classList.remove("active");
+            i.removeAttribute("aria-current");
+          });
           item.classList.add("active");
-          const key = item.dataset.module;
-          renderModule(key);
+          item.setAttribute("aria-current", "page");
+          const key = item.getAttribute("data-module");
+          if (key) renderModule(key);
+        }
+
+        item.addEventListener("click", activate);
+        item.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            activate();
+          }
         });
       });
     }
@@ -2002,20 +2065,22 @@
     function copyFolderPath() {
       const folderPath = folderMap[currentModule];
       if (!folderPath) {
-        alert("Caminho da pasta não encontrado para este módulo.");
+        window.alert("Caminho da pasta não encontrado para este módulo.");
         return;
       }
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(folderPath)
-          .then(() => {
-            alert(
+          .then(function () {
+            window.alert(
               "✅ Caminho copiado para a área de transferência!\n\n" +
               folderPath +
               "\n\nAgora abra o Explorador de Arquivos (Win + E) e cole na barra de endereço."
             );
           })
-          .catch(() => fallbackCopyTextToClipboard(folderPath));
+          .catch(function () {
+            fallbackCopyTextToClipboard(folderPath);
+          });
       } else {
         fallbackCopyTextToClipboard(folderPath);
       }
@@ -2029,13 +2094,13 @@
       textArea.select();
       try {
         document.execCommand("copy");
-        alert(
+        window.alert(
           "✅ Caminho copiado para a área de transferência!\n\n" +
           text +
           "\n\nAgora abra o Explorador de Arquivos (Win + E) e cole na barra de endereço."
         );
       } catch (err) {
-        alert(
+        window.alert(
           "Caminho da pasta:\n\n" +
           text +
           "\n\nCopie e cole manualmente no Explorador de Arquivos."
@@ -2047,9 +2112,9 @@
     function exportTasks() {
       let allTasks = [];
 
-      columnsConfig.forEach(col => {
+      columnsConfig.forEach(function (col) {
         const tasks = state.inbox[col.key] || [];
-        tasks.forEach(task => {
+        tasks.forEach(function (task) {
           allTasks.push({
             text: task.text,
             done: task.done,
@@ -2060,7 +2125,7 @@
       });
 
       if (allTasks.length === 0) {
-        alert("Nenhuma tarefa encontrada para este módulo.");
+        window.alert("Nenhuma tarefa encontrada para este módulo.");
         return;
       }
 
@@ -2070,9 +2135,9 @@
 
       let fileContent = "TAREFAS - " + modules[currentModule].title + "\n";
       fileContent += "Exportado em: " + dateStr + " às " + timeStr + "\n";
-      fileContent += "=".repeat(50) + "\n\n";
+      fileContent += Array(51).join("=") + "\n\n";
 
-      allTasks.forEach((task, index) => {
+      allTasks.forEach(function (task, index) {
         const status = task.done ? "[✓] CONCLUÍDO" : "[ ] PENDENTE";
         fileContent += (index + 1) + ". " + status + " - " + task.text + "\n";
         fileContent += "   Prioridade: " + task.priority + "\n";
@@ -2086,23 +2151,26 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "Tarefas_" +
+      a.download =
+        "Tarefas_" +
         modules[currentModule].title.replace(/[^a-zA-Z0-9]/g, "_") +
-        "_" + dateStr.replace(/\//g, "-") + ".txt";
+        "_" +
+        dateStr.replace(/\//g, "-") +
+        ".txt";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      alert("✅ Arquivo de tarefas exportado para sua pasta de downloads.\n\nNome: " + a.download);
+      window.alert("✅ Arquivo de tarefas exportado para sua pasta de downloads.\n\nNome: " + a.download);
     }
 
     function exportDailyReport() {
       const today = new Date().toISOString().split("T")[0];
       let completedToday = [];
 
-      Object.values(state.inbox).forEach(column => {
-        column.forEach(task => {
+      Object.values(state.inbox).forEach(function (column) {
+        column.forEach(function (task) {
           if (task.done && task.completedAt && task.completedAt.startsWith(today)) {
             completedToday.push(task);
           }
@@ -2110,7 +2178,7 @@
       });
 
       if (completedToday.length === 0) {
-        alert("Nenhuma tarefa concluída hoje para exportar.");
+        window.alert("Nenhuma tarefa concluída hoje para exportar.");
         return;
       }
 
@@ -2120,10 +2188,10 @@
 
       let fileContent = "ATA DE ATIVIDADES DIÁRIAS - PAINEL FERDYNAN\n";
       fileContent += "Data: " + dateStr + " | Hora: " + timeStr + "\n";
-      fileContent += "=".repeat(60) + "\n\n";
+      fileContent += Array(61).join("=") + "\n\n";
       fileContent += "TAREFAS CONCLUÍDAS HOJE:\n\n";
 
-      completedToday.forEach((task, index) => {
+      completedToday.forEach(function (task, index) {
         const completedTime = new Date(task.completedAt).toLocaleTimeString("pt-BR");
         fileContent += (index + 1) + ". [" + completedTime + "] " + task.text + "\n";
         if (task.tag) {
@@ -2132,11 +2200,15 @@
         fileContent += "\n";
       });
 
-      fileContent += "=".repeat(60) + "\n";
+      fileContent += Array(61).join("=") + "\n";
       fileContent += "Total de tarefas concluídas: " + completedToday.length + "\n";
-      const prod = Math.round((completedToday.length /
-        (completedToday.length + getPendingTasksCount())) * 100);
-      fileContent += "Taxa de produtividade (no painel): " + (isNaN(prod) ? 0 : prod) + "%\n";
+      const prod = Math.round(
+        (completedToday.length /
+          (completedToday.length + getPendingTasksCount())) *
+          100
+      );
+      fileContent +=
+        "Taxa de produtividade (no painel): " + (isNaN(prod) ? 0 : prod) + "%\n";
 
       const blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
       const url = URL.createObjectURL(blob);
@@ -2151,19 +2223,19 @@
       showNotification("✅ ATA diária exportada com " + completedToday.length + " tarefas!");
     }
 
-    function createTaskFile(task, priority) {
+    function createTaskFile(task, priorityShort) {
       if (!task.tag) return;
-      
+
       const now = new Date();
       const dateStr = now.toLocaleDateString("pt-BR");
       const timeStr = now.toLocaleTimeString("pt-BR");
-      
+
       let fileContent = "TAREFA: " + task.text + "\n";
       fileContent += "Criada em: " + dateStr + " às " + timeStr + "\n";
-      fileContent += "Prioridade: " + priority + "\n";
+      fileContent += "Prioridade: " + priorityShort + "\n";
       fileContent += "Categoria: " + task.tag + "\n";
       fileContent += "Status: " + (task.done ? "CONCLUÍDO" : "PENDENTE") + "\n";
-      fileContent += "=".repeat(50) + "\n\n";
+      fileContent += Array(51).join("=") + "\n\n";
       fileContent += "DESCRIÇÃO:\n";
       fileContent += "Adicione aqui os detalhes da tarefa...\n\n";
       fileContent += "AÇÕES NECESSÁRIAS:\n";
@@ -2172,31 +2244,38 @@
       fileContent += "- [ ] Designar responsável\n\n";
       fileContent += "NOTAS:\n";
       fileContent += "• \n";
-      
+
       const blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      
-      const fileName = "Tarefa_" +
+
+      const fileName =
+        "Tarefa_" +
         task.text.substring(0, 30).replace(/[^a-zA-Z0-9]/g, "_") +
-        "_" + Date.now() + ".txt";
+        "_" +
+        Date.now() +
+        ".txt";
       a.download = fileName;
-      
+
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      
+
       showNotification("✅ Arquivo criado: " + fileName);
     }
 
     function showNotification(message) {
       const notification = document.createElement("div");
       notification.className = "notification";
+      notification.setAttribute("role", "status");
+      notification.setAttribute("aria-live", "polite");
       notification.textContent = message;
       document.body.appendChild(notification);
-      setTimeout(() => notification.remove(), 3000);
+      setTimeout(function () {
+        notification.remove();
+      }, 3000);
     }
 
     function init() {
@@ -2207,9 +2286,13 @@
       renderModule("inbox");
       updateProgressDashboard();
 
-      document.getElementById("copy-folder-btn").addEventListener("click", copyFolderPath);
-      document.getElementById("export-tasks-btn").addEventListener("click", exportTasks);
-      document.getElementById("export-daily-btn").addEventListener("click", exportDailyReport);
+      const copyBtn = document.getElementById("copy-folder-btn");
+      const exportTasksBtn = document.getElementById("export-tasks-btn");
+      const exportDailyBtn = document.getElementById("export-daily-btn");
+
+      if (copyBtn) copyBtn.addEventListener("click", copyFolderPath);
+      if (exportTasksBtn) exportTasksBtn.addEventListener("click", exportTasks);
+      if (exportDailyBtn) exportDailyBtn.addEventListener("click", exportDailyReport);
     }
 
     document.addEventListener("DOMContentLoaded", init);
