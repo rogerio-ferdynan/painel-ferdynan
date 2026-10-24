@@ -1,27 +1,35 @@
 # Painel Ferdynan
 
-Painel com tabela 2026, tarefas, controle de shows, clima e chat Tawk.to.
+Endereço de produção: **https://painel.rogerioferdynan.com/**
 
-## Publicação com senha e dados centrais
+Código completo: interface em `web/`, servidor em `worker/index.mjs`, banco em `drizzle/` e construção/testes em `scripts/`.
 
-A versão completa roda no Sites como um Cloudflare Worker, com banco D1 no binding `DB`. O GitHub contém apenas código. GitHub Pages não executa esse servidor nem protege os dados com senha.
+## Domínio próprio
 
-Os arquivos editáveis da interface estão em `web/`; o servidor está em `worker/index.mjs`. Para construir: `node scripts/build-cloud.mjs`. `dist/` é gerado e não deve ser editado manualmente.
+O domínio já aponta para a Netlify. O `netlify.toml` configura uma reescrita interna HTTP 200: o navegador permanece no domínio próprio durante login, navegação, salvamento e logout. Não há redirecionamento HTML, JavaScript ou iframe para outro endereço.
 
-Secrets obrigatórios no Sites: `PANEL_PASSWORD_HASH` e `PANEL_PASSWORD_SALT`. Eles nunca devem ser gravados no repositório. O hash usa PBKDF2-SHA256, 100.000 iterações, 32 bytes, com salt textual UTF-8.
+O `index.html` da raiz contém a tela de entrada real. A Netlify executa `node scripts/build-netlify.mjs` e publica `netlify-public/`. A regra forçada mantém páginas e APIs sob a autenticação do servidor.
 
-Todas as páginas, assets e operações de dados exigem uma sessão no servidor. Há limite de tentativas e expiração de sessão. O banco salva um documento compartilhado com revisão para detectar edições concorrentes. Dados de outros dispositivos são carregados ao entrar e consultados a cada 15 segundos enquanto não há edição local pendente.
+O servidor e o banco D1 rodam na infraestrutura Sites/Cloudflare. GitHub guarda o código e a Netlify mantém o domínio. O banco existente é preservado.
 
-Ao abrir pela primeira vez, use “Importar dados deste navegador” no dispositivo que possui os dados existentes. Backups JSON antigos podem ser restaurados pela interface e enviados ao banco. Os dados locais nunca são sobrescritos automaticamente quando o banco está vazio.
+Referência: https://docs.netlify.com/manage/routing/redirects/rewrites-proxies/
 
-## Acesso ao painel
+## Senha e dados centrais
 
-[Entrar no painel protegido](https://painel-ferdynan-omni-231026.goldenwhale131.chatgpt.site/)
+A senha é validada no servidor, com limite de tentativas e sessão HttpOnly/Secure. Credenciais e registros do banco não são publicados. Secrets do Sites: `PANEL_PASSWORD_HASH` e `PANEL_PASSWORD_SALT`. O binding D1 é `DB`.
 
-O index.html da raiz encaminha ao servidor protegido. GitHub Pages não executa o banco D1. A senha e os registros reais do banco não são publicados no GitHub.
+As alterações são salvas automaticamente com controle de revisão. Aguarde **Salvo na nuvem** antes de fechar. Fechar uma janela anônima encerra a sessão, mas os dados enviados ao banco permanecem.
 
-## Verificação
+Para os dados antigos, use **Importar dados deste navegador**. Se estiverem em arquivo local ou em outro endereço, exporte **Backup completo** e use **Restaurar** no domínio de produção. O armazenamento local é separado por endereço.
 
-Use Node.js 24 ou superior: `node scripts/build-cloud.mjs` e `node scripts/test-cloud.mjs`. Os testes usam SQLite em memória e credenciais fictícias.
+## Construção e testes
 
-Alterações são enviadas automaticamente desde a primeira edição. Aguarde **Salvo na nuvem** antes de fechar. Fechar uma janela anônima encerra a sessão, mas preserva os registros já enviados ao banco.
+Node.js 24 ou superior:
+
+```sh
+node scripts/build-cloud.mjs
+node scripts/test-cloud.mjs
+node scripts/build-netlify.mjs
+```
+
+Os testes usam SQLite em memória e credenciais fictícias. A publicação do servidor usa `.openai/hosting.json`; mudar apenas o GitHub não publica automaticamente um novo Worker no Sites.

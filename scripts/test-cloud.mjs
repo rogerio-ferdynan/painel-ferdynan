@@ -17,6 +17,8 @@ const payload={state:{stats:{shows:1,faturamento:'R$ 500',propostas:0},inbox:{aP
 async function save(revision,body=payload){return request('/api/state',{method:'PUT',headers:{Cookie:cookie,Origin:origin,'Content-Type':'application/json'},body:JSON.stringify({revision,payload:body})})}
 assert.equal((await save(0)).status,200);assert.equal((await save(0)).status,409);assert.equal((await save(1,{})).status,400);
 const login2=await request('/api/login',{method:'POST',headers:{Origin:origin,'CF-Connecting-IP':'other-device'},body:new URLSearchParams({password:'test-pass'})});const cookie2=login2.headers.get('set-cookie').split(';')[0];
+const customDomainLogin=await request('/api/login',{method:'POST',headers:{Origin:'https://painel.rogerioferdynan.com','CF-Connecting-IP':'custom-domain-device'},body:new URLSearchParams({password:'test-pass'})});assert.equal(customDomainLogin.status,303);assert.equal(customDomainLogin.headers.get('location'),'/');
+const customDomainCookie=customDomainLogin.headers.get('set-cookie').split(';')[0];assert.equal((await request('/api/state',{headers:{Cookie:customDomainCookie}})).status,200);
 assert.deepEqual((await (await request('/api/state',{headers:{Cookie:cookie2}})).json()).payload,payload);
 const page=await (await request('/',{headers:{Cookie:cookie}})).text();assert.ok(!page.includes('"text":"</script>'));assert.ok(page.includes('\\u003c/script>'));
 assert.equal((await request('/api/state',{method:'PUT',headers:{Cookie:cookie,Origin:'https://attacker.test'},body:'{}'})).status,403);

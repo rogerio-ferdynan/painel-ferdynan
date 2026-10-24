@@ -1,0 +1,20 @@
+[build]
+  command = "node scripts/build-netlify.mjs"
+  publish = "netlify-public"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# Server-side rewrite: the browser stays on painel.rogerioferdynan.com.
+# Force protects every page and API route, even when a static file exists.
+[[redirects]]
+  from = "/*"
+  to = "https://painel-ferdynan-omni-231026.goldenwhale131.chatgpt.site/:splat"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "no-store"
+    X-Content-Type-Options = "nosniff"
