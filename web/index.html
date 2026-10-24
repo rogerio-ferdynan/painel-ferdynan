@@ -1,0 +1,3210 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Painel Ferdynan - Sistema de Gestão + Controle de Shows</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Painel de gestão OMNI LEGACY de Rogério Ferdynan: vida, empresa, palco, financeiro de shows e saúde vocal integrados." />
+  <style>
+    :root {
+      --bg: #050711;
+      --bg-elevated: #0b111f;
+      --brand: #111827;
+      --accent: #d4a45a;
+      --accent-soft: rgba(212, 164, 90, 0.14);
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --border: #1f2933;
+      --radius-lg: 18px;
+      --radius-xl: 22px;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #111827, var(--bg) 65%);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    .app {
+      flex: 1;
+      display: flex;
+      min-height: 0;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    .sidebar {
+      width: 280px;
+      padding: 20px 18px;
+      border-right: 1px solid var(--border);
+      background: linear-gradient(180deg, #111827, #050711);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      flex-shrink: 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #facc6b, var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      color: #111827;
+      box-shadow: 0 0 0 3px rgba(212, 164, 90, 0.4);
+    }
+
+    .brand-text-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .brand-text-name {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .sidebar-section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    .nav-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-item {
+      border-radius: 999px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-item span.emoji {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .nav-item.active {
+      background: linear-gradient(135deg, #d4a45a, #b97a34);
+      color: #111827;
+      border-color: rgba(212, 164, 90, 0.7);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.7);
+    }
+
+    .nav-item:not(.active):hover,
+    .nav-item:focus-visible {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: var(--border);
+      color: #e5e7eb;
+      outline: none;
+    }
+
+    .nav-item:focus-visible {
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      font-size: 11px;
+      color: var(--muted);
+      border-top: 1px dashed var(--border);
+      padding-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .sidebar-footer-line {
+      font-size: 11px;
+    }
+
+    .main {
+      flex: 1;
+      min-width: 0;
+      padding: 22px 28px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background: radial-gradient(circle at top, #0b1120, #020617);
+    }
+
+    .main-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .title-block h1 {
+      font-size: 22px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .title-block p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .badge {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid rgba(212, 164, 90, 0.7);
+      white-space: nowrap;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .stat-card {
+      min-width: 130px;
+      padding: 10px 12px;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at top, #111827, #020617 65%);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex: 1 1 130px;
+      max-width: 200px;
+    }
+
+    .stat-card:hover,
+    .stat-card:focus-visible {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .stat-card:focus-visible {
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .stat-hint {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .stat-progress {
+      height: 4px;
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .stat-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #d4a45a, #b97a34);
+      width: 60%;
+      transition: width 0.4s ease;
+    }
+
+    .progress-dashboard {
+      background: rgba(11, 17, 31, 0.97);
+      border-radius: var(--radius-xl);
+      padding: 14px 16px 14px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .progress-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .progress-layout {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .progress-ring-wrapper {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      flex-shrink: 0;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 30% 20%, #020617, #0b1120 70%);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    .progress-ring {
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring circle {
+      transition: stroke-dashoffset 0.4s ease;
+    }
+
+    .progress-ring-bg {
+      stroke: rgba(148, 163, 184, 0.4);
+    }
+
+    .progress-ring-value {
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 8px rgba(212, 164, 90, 0.8));
+    }
+
+    .progress-ring-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .progress-ring-percentage {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .progress-ring-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .progress-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      flex: 1;
+      width: 100%;
+    }
+
+    .progress-item {
+      text-align: left;
+    }
+
+    .progress-number {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 2px;
+    }
+
+    .progress-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    /* META FINANCEIRA + GADGETS */
+    .financial-and-gadgets {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.3fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .finance-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .finance-summary {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .finance-meta {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .finance-meta span {
+      color: var(--accent);
+    }
+
+    .finance-bar {
+      position: relative;
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .finance-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #16a34a, #22c55e);
+      transition: width 0.3s ease;
+    }
+
+    .finance-bar-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .finance-numbers {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .finance-number-card {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top, #020617, #020617 70%);
+      padding: 6px 8px;
+      font-size: 11px;
+    }
+
+    .finance-number-label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 2px;
+    }
+
+    .finance-number-value {
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .finance-inputs {
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .finance-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .finance-input-label {
+      flex: 1;
+    }
+
+    .finance-input-label strong {
+      display: block;
+    }
+
+    .finance-input-label small {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .finance-input-field {
+      width: 70px;
+      font-size: 12px;
+      padding: 4px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #020617;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .finance-input-field:focus-visible {
+      outline: 1px solid var(--accent);
+      border-color: var(--accent);
+    }
+
+    .finance-status {
+      font-size: 11px;
+      margin-top: 4px;
+      color: var(--muted);
+    }
+
+    .finance-status span {
+      font-weight: 600;
+    }
+
+    .finance-status--ok span {
+      color: #22c55e;
+    }
+
+    .finance-status--pending span {
+      color: #f97316;
+    }
+
+    .finance-status--zero span {
+      color: var(--muted);
+    }
+
+    .gadget-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .gadget-card {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top left, #111827, #020617 70%);
+      padding: 8px 9px;
+    }
+
+    .gadget-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gadget-body {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .gadget-links {
+      margin-top: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .gadget-embed {
+      margin-top: 6px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    /* PAINEL MENSAL (SHOWS, FUNIL, VOZ) */
+    .panel {
+      background: rgba(11, 17, 31, 0.97);
+      border-radius: var(--radius-xl);
+      padding: 16px 16px 14px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .panel-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+    }
+
+    .panel-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .panel-tagline {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      white-space: nowrap;
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    /* TABELAS DO CONTROLE MENSAL */
+    .monthly-block {
+      margin-top: 8px;
+    }
+
+    .monthly-block-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin: 12px 0 4px;
+    }
+
+    .monthly-block-note {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .monthly-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .monthly-table-wrapper::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .monthly-table-wrapper::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.8);
+      border-radius: 999px;
+    }
+
+    .monthly-table-wrapper::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 999px;
+    }
+
+    .monthly-table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 620px;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+
+    .monthly-table th,
+    .monthly-table td {
+      border: 1px solid #111827;
+      padding: 6px 8px;
+      text-align: left;
+    }
+
+    .monthly-table th {
+      background: rgba(15, 23, 42, 0.95);
+      font-weight: 500;
+      color: #e5e7eb;
+      font-size: 11px;
+    }
+
+    .monthly-table tbody tr:nth-child(even) td {
+      background: rgba(15, 23, 42, 0.5);
+    }
+
+    .monthly-table tbody tr:nth-child(odd) td {
+      background: rgba(15, 23, 42, 0.25);
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    /* Inputs globais (inclui os das tabelas) */
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 4px 6px;
+      border-radius: 8px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      height: auto;
+    }
+
+    input::placeholder {
+      color: #6b7280;
+      font-size: 11px;
+    }
+
+    .small-input {
+      max-width: 70px;
+    }
+
+    .status-box {
+      max-width: 44px;
+      text-align: center;
+    }
+
+    /* LAYOUT INBOX + MÓDULO */
+    .content {
+      display: grid;
+      grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.4fr);
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 12px;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .column {
+      background: radial-gradient(circle at top left, #111827, #020617 65%);
+      border-radius: 16px;
+      padding: 10px 10px 8px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .column-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .column-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .column-tag {
+      font-size: 10px;
+      color: var(--muted);
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .task-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-height: 210px;
+      overflow-y: auto;
+    }
+
+    .task-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .task-list::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.8);
+      border-radius: 999px;
+    }
+
+    .task-list::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 999px;
+    }
+
+    .task {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 12px;
+      padding: 5px 6px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .task:hover {
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .task input[type="checkbox"] {
+      margin-top: 2px;
+      cursor: pointer;
+      flex-shrink: 0;
+      width: auto;
+    }
+
+    .task-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .task-text div:first-child {
+      font-weight: 500;
+      color: #e5e7eb;
+      margin-bottom: 2px;
+      word-wrap: break-word;
+    }
+
+    .task.done {
+      opacity: 0.6;
+    }
+
+    .task.done .task-text div:first-child {
+      text-decoration: line-through;
+    }
+
+    .task-tag {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 0;
+      word-wrap: break-word;
+    }
+
+    .task-actions {
+      display: flex;
+      gap: 4px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .task:hover .task-actions {
+      opacity: 1;
+    }
+
+    .task-action-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 2px;
+      border-radius: 4px;
+    }
+
+    .task-action-btn:hover {
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--accent);
+    }
+
+    .task-footer {
+      margin-top: 4px;
+      border-top: 1px dashed var(--border);
+      padding-top: 4px;
+    }
+
+    .task-form {
+      display: flex;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .task-input {
+      flex: 1;
+      font-size: 11px;
+      padding: 4px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #020617;
+      color: var(--text);
+      min-width: 0;
+    }
+
+    .task-input:focus-visible {
+      outline: 1px solid var(--accent);
+      border-color: var(--accent);
+    }
+
+    .task-add-btn {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: none;
+      background: var(--accent);
+      color: #111827;
+      cursor: pointer;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .task-add-btn:hover {
+      filter: brightness(1.05);
+    }
+
+    .module-body {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .module-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 6px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .module-item-label {
+      font-weight: 500;
+      color: #e5e7eb;
+    }
+
+    .module-hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .hint-click {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .module-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .folder-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid rgba(212, 164, 90, 0.7);
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 4px;
+    }
+
+    .folder-action:hover,
+    .folder-action:focus-visible {
+      background: var(--accent);
+      color: #111827;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(212, 164, 90, 0.4);
+    }
+
+    .module-links {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .link-chip {
+      border-radius: 999px;
+      padding: 5px 10px;
+      border: 1px solid var(--border);
+      font-size: 11px;
+      background: rgba(15, 23, 42, 0.98);
+      color: var(--text);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .link-chip span.emoji {
+      font-size: 14px;
+    }
+
+    .link-chip:hover,
+    .link-chip:focus-visible {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent);
+      outline: none;
+    }
+
+    .export-section {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(15, 23, 42, 0.98);
+      border-radius: 12px;
+      border: 1px dashed var(--border);
+    }
+
+    .export-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .export-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .export-btn {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: #f9fafb;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .export-btn:hover,
+    .export-btn:focus-visible {
+      filter: brightness(1.05);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.5);
+    }
+
+    .notification {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      background: var(--accent);
+      color: #111827;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+      max-width: min(320px, 100% - 32px);
+      box-sizing: border-box;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .app-footer {
+      border-top: 1px solid rgba(15, 23, 42, 0.95);
+      background: radial-gradient(circle at bottom, #020617, #050711 60%);
+      padding: 10px 22px 12px;
+    }
+
+    .footer-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .footer-primary {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .footer-name {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer-name span {
+      font-weight: 400;
+      opacity: 0.9;
+      margin-left: 4px;
+    }
+
+    .footer-roles {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .footer-col {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .footer-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 2px;
+      color: #d1d5db;
+    }
+
+    .footer-text {
+      margin-bottom: 4px;
+      line-height: 1.35;
+    }
+
+    .footer-text a {
+      color: #e5e7eb;
+      text-decoration: none;
+      border-bottom: 1px dashed rgba(148, 163, 184, 0.4);
+    }
+
+    .footer-text a:hover,
+    .footer-text a:focus-visible {
+      color: var(--accent);
+      border-bottom-style: solid;
+      outline: none;
+    }
+
+    .footer-meta {
+      font-size: 10px;
+      color: #e5e7eb;
+      border-top: 1px dashed rgba(31, 41, 55, 0.95);
+      padding-top: 4px;
+      margin-top: 2px;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .footer-meta-line {
+      white-space: nowrap;
+      text-align: left;
+    }
+
+    @media (max-width: 900px) {
+      .app {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .main {
+        padding: 16px 16px 10px;
+      }
+      .content {
+        grid-template-columns: 1fr;
+      }
+      .financial-and-gadgets {
+        grid-template-columns: 1fr;
+      }
+      .finance-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-meta {
+        justify-content: center;
+      }
+      .footer-meta-line {
+        white-space: normal;
+        text-align: center;
+      }
+      .title-block h1 {
+        font-size: 18px;
+      }
+      .badge {
+        font-size: 10px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .panel {
+        padding: 14px 12px;
+      }
+      .progress-layout {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .progress-ring-wrapper {
+        margin-bottom: 4px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main {
+        padding: 12px 10px 8px;
+      }
+      .sidebar {
+        padding: 12px 12px;
+      }
+      .nav-item {
+        font-size: 12px;
+      }
+      .panel-title {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+      }
+      .panel-subtitle {
+        font-size: 11px;
+      }
+      .footer-name {
+        font-size: 12px;
+      }
+      .footer-roles,
+      .footer-col {
+        font-size: 10px;
+      }
+    }
+  </style>
+<link rel="stylesheet" href="upgrade.css"></head>
+<body>
+  <div class="app">
+    <aside class="sidebar" aria-label="Navegação principal">
+      <div class="brand">
+        <div class="brand-avatar" aria-hidden="true">RF</div>
+        <div>
+          <div class="brand-text-title">Painel de comando</div>
+          <div class="brand-text-name">rogerioferdynan.com</div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="sidebar-section-title">Núcleos principais</h2>
+        <ul class="nav-list" id="nav-list">
+          <li
+            class="nav-item active"
+            data-module="inbox"
+            role="button"
+            tabindex="0"
+            aria-current="page"
+          >
+            <span class="emoji" aria-hidden="true">📨</span>
+            <span>00 · Inbox Operacional</span>
+          </li>
+          <li class="nav-item" data-module="artista" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🎤</span>
+            <span>01 · Artista Rogério Ferdynan</span>
+          </li>
+          <li class="nav-item" data-module="empresa" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">💼</span>
+            <span>02 · Empresa CNPJ</span>
+          </li>
+          <li class="nav-item" data-module="pessoal" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">👨‍👦</span>
+            <span>03 · Pessoal CPF</span>
+          </li>
+          <li class="nav-item" data-module="direcao" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🧠</span>
+            <span>04 · Direção Criativa</span>
+          </li>
+          <li class="nav-item" data-module="agenda" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">📅</span>
+            <span>05 · Agenda & Logística</span>
+          </li>
+          <li class="nav-item" data-module="backup" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🔒</span>
+            <span>06 · Backup / Arquivo Morto</span>
+          </li>
+          <li class="nav-item" data-module="venda" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">💥</span>
+            <span>07 · Venda Mensal</span>
+          </li>
+          <li class="nav-item" data-module="centro" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🧩</span>
+            <span>08 · Centro de Controle</span>
+          </li>
+          <li class="nav-item" data-module="rede" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🌎</span>
+            <span>09 · Rede Global</span>
+          </li>
+          <li class="nav-item" data-module="modelos" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🧾</span>
+            <span>10 · Modelos Oficiais</span>
+          </li>
+          <li class="nav-item" data-module="admin" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🧰</span>
+            <span>11 · Admin do Sistema</span>
+          </li>
+          <li class="nav-item" data-module="resultados" role="button" tabindex="0">
+            <span class="emoji" aria-hidden="true">🎯</span>
+            <span>12 · Resultados Finais</span>
+          </li>
+        </ul>
+      </div>
+
+      <footer class="sidebar-footer">
+        <div class="sidebar-footer-line">OMNI LEGACY 8.0</div>
+        <div class="muted">
+          Tarefas geram arquivos espelho na arquitetura OMNI, mantendo tudo rastreável.
+        </div>
+      </footer>
+    </aside>
+
+    <main class="main" role="main">
+      <!-- CABEÇALHO PRINCIPAL -->
+      <header class="main-header">
+        <div class="title-block">
+          <h1>
+            Ferdynan Produções
+            <span class="badge">Sistema de Gestão 2026</span>
+          </h1>
+          <p>Visão tática do dia a dia · Orquestração de vida, empresa, palco e financeiro de shows.</p>
+        </div>
+
+        <div class="stats-row" aria-label="Indicadores principais">
+          <div
+            class="stat-card"
+            data-stat="shows"
+            role="button"
+            tabindex="0"
+            aria-label="Editar quantidade de shows no mês"
+          >
+            <div class="stat-label">Shows no mês</div>
+            <div class="stat-value" id="stat-shows">12</div>
+            <div class="stat-progress">
+              <div class="stat-progress-bar" id="bar-shows"></div>
+            </div>
+            <div class="stat-hint">Clique ou pressione Enter para ajustar</div>
+          </div>
+          <div
+            class="stat-card"
+            data-stat="faturamento"
+            role="button"
+            tabindex="0"
+            aria-label="Editar faturamento do mês"
+          >
+            <div class="stat-label">Faturamento</div>
+            <div class="stat-value" id="stat-faturamento">R$ 85.000</div>
+            <div class="stat-progress">
+              <div class="stat-progress-bar" id="bar-faturamento"></div>
+            </div>
+            <div class="stat-hint">Clique ou pressione Enter para ajustar</div>
+          </div>
+          <div
+            class="stat-card"
+            data-stat="propostas"
+            role="button"
+            tabindex="0"
+            aria-label="Editar número de propostas abertas"
+          >
+            <div class="stat-label">Propostas abertas</div>
+            <div class="stat-value" id="stat-propostas">7</div>
+            <div class="stat-progress">
+              <div class="stat-progress-bar" id="bar-propostas"></div>
+            </div>
+            <div class="stat-hint">Clique ou pressione Enter para ajustar</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PROGRESSO DO DIA -->
+      <section class="progress-dashboard" aria-labelledby="progresso-dia-titulo">
+        <div class="progress-header">
+          <h2 class="progress-title" id="progresso-dia-titulo">Progresso do dia</h2>
+        </div>
+
+        <div class="progress-layout">
+          <div class="progress-ring-wrapper" aria-hidden="true">
+            <svg class="progress-ring" width="96" height="96">
+              <defs>
+                <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#d4a45a" />
+                  <stop offset="100%" stop-color="#b97a34" />
+                </linearGradient>
+              </defs>
+              <circle
+                class="progress-ring-bg"
+                stroke-width="6"
+                fill="transparent"
+                r="38"
+                cx="48"
+                cy="48"
+              ></circle>
+              <circle
+                id="progress-ring-circle"
+                class="progress-ring-value"
+                stroke="url(#progressGradient)"
+                stroke-width="6"
+                fill="transparent"
+                r="38"
+                cx="48"
+                cy="48"
+                stroke-dasharray="0 0"
+                stroke-dashoffset="0"
+              ></circle>
+            </svg>
+            <div class="progress-ring-center">
+              <div class="progress-ring-percentage" id="progress-ring-percentage">0%</div>
+              <div class="progress-ring-label">do dia</div>
+            </div>
+          </div>
+
+          <div class="progress-stats" aria-label="Resumo de tarefas do dia">
+            <div class="progress-item">
+              <div class="progress-number" id="progress-total">0</div>
+              <div class="progress-label">Total de tarefas</div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-number" id="progress-done">0</div>
+              <div class="progress-label">Concluídas</div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-number" id="progress-pending">0</div>
+              <div class="progress-label">Pendentes</div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-number" id="progress-score">0/10</div>
+              <div class="progress-label">Índice de foco</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel price-panel" id="price-panel" aria-labelledby="prices-title"><div class="panel-header"><div><h2 class="panel-title" id="prices-title">Tabela de valores · 2026</h2><p class="panel-subtitle">Matriz de preços modulares · referência fornecida por você</p></div><span class="pill">6 formatos</span></div><div class="price-scroll"><table class="price-table"><thead><tr><th scope="col">Nível</th><th scope="col">Formato</th><th scope="col">Cachê</th><th scope="col">Custo</th><th scope="col">Lucro</th></tr></thead><tbody><tr><th scope="row">1.0 Básico</th><td>Voz + base simples</td><td>R$ 500</td><td>R$ 300</td><td class="profit">R$ 200</td></tr><tr><th scope="row">2.0 Essencial</th><td>Voz + base (90 min)</td><td>R$ 1.200</td><td>R$ 550</td><td class="profit">R$ 650</td></tr><tr><th scope="row">3.0 Padrão</th><td>Duo / banda (2h)</td><td>R$ 1.800</td><td>R$ 900</td><td class="profit">R$ 900</td></tr><tr><th scope="row">4.0 Premium</th><td>Banda completa</td><td>R$ 3.500</td><td>R$ 1.900</td><td class="profit">R$ 1.600</td></tr><tr><th scope="row">5.0 Evento Público</th><td>Prefeitura</td><td>R$ 8.000</td><td>R$ 4.200</td><td class="profit">R$ 3.800</td></tr><tr><th scope="row">6.1 Réveillon</th><td>Evento topo</td><td>R$ 12.000+</td><td>R$ 6.000</td><td class="profit">R$ 6.000+</td></tr></tbody></table></div><p class="module-hint">A modularidade permite adaptar o formato ao orçamento do cliente preservando a margem. Réveillon: cachê e lucro a partir dos valores indicados.</p></section><!-- META FINANCEIRA + GADGETS -->
+      <section class="financial-and-gadgets" aria-label="Meta financeira e utilidades">
+        <section class="panel" aria-labelledby="finance-title">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title" id="finance-title">Meta financeira do mês</h2>
+              <p class="panel-subtitle">
+                Meta líquida para limpar contas e respirar: R$ 10.000 livres, já considerando custos.
+              </p>
+              <p class="panel-tagline">
+                Tabela modular 2026: seis formatos, do Básico ao Réveillon. Valores e margens conforme a tabela enviada.</p>
+            </div>
+            <div class="pill">Planejamento de shows</div>
+          </div>
+
+          <div class="finance-grid">
+            <div class="finance-summary">
+              <div class="finance-meta">
+                Meta líquida: <span id="finance-meta">R$ 10.000</span>
+              </div>
+
+              <div class="finance-bar" aria-hidden="true">
+                <div class="finance-bar-fill" id="finance-bar-fill"></div>
+              </div>
+              <div class="finance-bar-label" id="finance-bar-label">
+                0% da meta alcançada
+              </div>
+
+              <div class="finance-numbers">
+                <div class="finance-number-card">
+                  <div class="finance-number-label">Receita bruta</div>
+                  <div class="finance-number-value" id="finance-bruto">R$ 0</div>
+                </div>
+                <div class="finance-number-card">
+                  <div class="finance-number-label">Custos estimados</div>
+                  <div class="finance-number-value" id="finance-custos">R$ 0</div>
+                </div>
+                <div class="finance-number-card">
+                  <div class="finance-number-label">Lucro líquido</div>
+                  <div class="finance-number-value" id="finance-liquido">R$ 0</div>
+                </div>
+                <div class="finance-number-card">
+                  <div class="finance-number-label">Falta para a meta (R$)</div>
+                  <div class="finance-number-value" id="finance-faltam-shows">R$ 10.000</div>
+                </div>
+              </div>
+
+              <p class="module-hint">
+                Simulação por formato: receita menos custos estimados. Os registros dos shows realizados ficam no controle mensal.</p>
+
+              <p class="finance-status finance-status--zero" id="finance-status">
+                Situação: <span>meta ainda não iniciada.</span>
+              </p>
+            </div>
+
+            <div class="finance-inputs" aria-label="Simulador de shows pela tabela 2026"><div class="finance-input-row"><div class="finance-input-label"><strong>1.0 Básico</strong><small><span>Cachê R$ 500</span><span>Custo R$ 300</span><span>Lucro R$ 200</span></small></div><label class="qty-label">Qtd.<input type="number" id="shows-pequenos" class="finance-input-field" min="0" max="9999" step="1" value="0" aria-label="Quantidade de shows 1.0 Básico"></label></div><div class="finance-input-row"><div class="finance-input-label"><strong>2.0 Essencial</strong><small><span>Cachê R$ 1.200</span><span>Custo R$ 550</span><span>Lucro R$ 650</span></small></div><label class="qty-label">Qtd.<input type="number" id="shows-essencial" class="finance-input-field" min="0" max="9999" step="1" value="0" aria-label="Quantidade de shows 2.0 Essencial"></label></div><div class="finance-input-row"><div class="finance-input-label"><strong>3.0 Padrão</strong><small><span>Cachê R$ 1.800</span><span>Custo R$ 900</span><span>Lucro R$ 900</span></small></div><label class="qty-label">Qtd.<input type="number" id="shows-padrao" class="finance-input-field" min="0" max="9999" step="1" value="0" aria-label="Quantidade de shows 3.0 Padrão"></label></div><div class="finance-input-row"><div class="finance-input-label"><strong>4.0 Premium</strong><small><span>Cachê R$ 3.500</span><span>Custo R$ 1.900</span><span>Lucro R$ 1.600</span></small></div><label class="qty-label">Qtd.<input type="number" id="shows-grandes" class="finance-input-field" min="0" max="9999" step="1" value="0" aria-label="Quantidade de shows 4.0 Premium"></label></div><div class="finance-input-row"><div class="finance-input-label"><strong>5.0 Evento Público</strong><small><span>Cachê R$ 8.000</span><span>Custo R$ 4.200</span><span>Lucro R$ 3.800</span></small></div><label class="qty-label">Qtd.<input type="number" id="shows-publico" class="finance-input-field" min="0" max="9999" step="1" value="0" aria-label="Quantidade de shows 5.0 Evento Público"></label></div><div class="finance-input-row"><div class="finance-input-label"><strong>6.1 Réveillon</strong><small><span>Cachê R$ 12.000+</span><span>Custo R$ 6.000</span><span>Lucro R$ 6.000+</span></small></div><label class="qty-label">Qtd.<input type="number" id="shows-reveillon" class="finance-input-field" min="0" max="9999" step="1" value="0" aria-label="Quantidade de shows 6.1 Réveillon"></label></div><p class="module-hint">Informe a quantidade de cada formato. Réveillon usa o valor mínimo de R$ 12.000; o cachê final pode ser maior.</p></div></div></section><aside class="panel panel-gadgets" aria-label="Gadgets rápidos">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Gadgets · Clima & Música</h2>
+              <p class="panel-subtitle">
+                Atalhos para cuidar do corpo, voz e vibe antes dos shows.
+              </p>
+            </div>
+            <div class="pill">Suporte diário</div>
+          </div>
+
+          <div class="gadget-grid">
+            <div class="gadget-card">
+              <div class="gadget-title">
+                <span aria-hidden="true">⛅</span>
+                Clima · Lagoa da Prata & BH
+              </div>
+              <div class="gadget-body">
+                Veja o tempo antes de pegar estrada ou marcar ensaio ao ar livre.
+                <div class="gadget-links">
+                  <a
+                    href="https://www.climatempo.com.br/previsao-do-tempo/cidade/330/lagoadaprata-mg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-chip"
+                  >
+                    <span class="emoji">📍</span><span>Lagoa da Prata</span>
+                  </a>
+                  <a
+                    href="https://www.climatempo.com.br/previsao-do-tempo/cidade/321/belohorizonte-mg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-chip"
+                  >
+                    <span class="emoji">🏙️</span><span>Belo Horizonte</span>
+                  </a>
+                  <a
+                    href="https://weather.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-chip"
+                  >
+                    <span class="emoji">🌎</span><span>Weather.com</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="gadget-card">
+              <div class="gadget-title">
+                <span aria-hidden="true">🎧</span>
+                Música & Ferramentas de palco
+              </div>
+              <div class="gadget-body">
+                Afinar, marcar BPM e entrar no clima certo antes de subir no palco.
+                <div class="gadget-links">
+                  <a
+                    href="https://tuner.ninja/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-chip"
+                  >
+                    <span class="emoji">🎸</span><span>Afinador online</span>
+                  </a>
+                  <a
+                    href="https://www.flutetunes.com/metronome/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-chip"
+                  >
+                    <span class="emoji">⏱️</span><span>Metrônomo</span>
+                  </a>
+                  <a
+                    href="https://music.youtube.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-chip"
+                  >
+                    <span class="emoji">▶️</span><span>YouTube Music</span>
+                  </a>
+                </div>
+                <div class="gadget-embed" aria-label="Player do Spotify">
+                  <iframe
+                    style="border-radius:0; width:100%; height:120px;"
+                    src="https://open.spotify.com/embed/artist/570xnV2TU8QMAZGFDpVf5E"
+                    width="100%"
+                    height="120"
+                    frameborder="0"
+                    allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- AQUI ENTRA O CONTROLE MENSAL (PAINEL DO MÊS + SHOWS + FUNIL + VOZ) -->
+      <section class="panel" aria-label="Controle de Shows, Metas e Saúde Vocal">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Controle Mensal · Empresa / Artista</h2>
+            <p class="panel-subtitle">
+              Painel do mês: metas de shows, lucro líquido, funil de vendas premium e saúde vocal –
+              alinhados com a meta de R$ 10.000 livres.
+            </p>
+          </div>
+          <div class="pill">Shows · Funil · Voz</div>
+        </div>
+
+        <!-- PAINEL DO MÊS -->
+        <div class="monthly-block">
+          <h3 class="monthly-block-title">Painel do mês – Resultado geral</h3>
+          <p class="monthly-block-note">
+            Compare META x ATUAL e marque o status de cada indicador (✔ quando bateu, ! em alerta).
+          </p>
+
+          <div class="monthly-table-wrapper">
+            <table class="monthly-table">
+              <thead>
+                <tr>
+                  <th>Indicador</th>
+                  <th>Meta</th>
+                  <th>Atual</th>
+                  <th class="center">Status<br>(✔ / ! / vazio)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Shows premium (qtd)</td>
+                  <td>5</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Shows padrão (qtd)</td>
+                  <td>≤ 5 (total máx. 10)</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Total de shows no mês</td>
+                  <td>≤ 10</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Lucro líquido total</td>
+                  <td>≥ R$ 10.000</td>
+                  <td>R$ <input type="number" min="0" step="0.01" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Dias sem cantar (descanso da voz)</td>
+                  <td>≥ 8 dias/mês</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Leads premium contatados</td>
+                  <td>20</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Propostas enviadas (premium)</td>
+                  <td>10</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Shows premium fechados</td>
+                  <td>5</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+                <tr>
+                  <td>Taxa de fechamento premium</td>
+                  <td>≥ 25%</td>
+                  <td><input type="number" min="0" max="100" class="small-input" /></td>
+                  <td class="center"><input type="text" class="status-box" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="monthly-block-note">
+            ✔ bateu a meta · ! atenção · vazio = ainda em construção.
+          </p>
+        </div>
+
+        <!-- CONTROLE DE SHOWS DO MÊS -->
+        <div class="monthly-block">
+          <h3 class="monthly-block-title">Controle de shows do mês</h3>
+          <p class="monthly-block-note">
+            Registre cada show realizado para ter visão real de cachê, custo e lucro por apresentação.
+          </p>
+
+          <div class="monthly-table-wrapper">
+            <table class="monthly-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Data</th>
+                  <th>Cliente / Evento</th>
+                  <th>Tipo de show<br />(Tabela 2026)</th>
+                  <th>Cachê (R$)</th>
+                  <th>Custo (R$)</th>
+                  <th>Lucro (R$)</th>
+                  <th>Premium?<br />(S / N)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- 10 linhas para até 10 shows -->
+                <tr>
+                  <td>1</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" placeholder="Prefeitura, empresa, etc." /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>8</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>9</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+                <tr>
+                  <td>10</td>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="number" min="0" step="0.01" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="monthly-block-title" style="margin-top:10px;">Totais do mês</h4>
+          <div class="monthly-table-wrapper">
+            <table class="monthly-table">
+              <tbody>
+                <tr>
+                  <th>Total de shows</th>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <th>Total de shows premium</th>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <th>Receita bruta total (R$)</th>
+                  <td>R$ <input type="number" min="0" step="0.01" /></td>
+                </tr>
+                <tr>
+                  <th>Custos totais (R$)</th>
+                  <td>R$ <input type="number" min="0" step="0.01" /></td>
+                </tr>
+                <tr>
+                  <th>Lucro líquido total (R$)</th>
+                  <td>R$ <input type="number" min="0" step="0.01" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- FUNIL DE VENDAS PREMIUM -->
+        <div class="monthly-block">
+          <h3 class="monthly-block-title">Controle semanal de vendas – shows premium</h3>
+          <p class="monthly-block-note">
+            Acompanhe o fluxo de leads, propostas e fechamentos ao longo do mês.
+          </p>
+
+          <div class="monthly-table-wrapper">
+            <table class="monthly-table">
+              <thead>
+                <tr>
+                  <th>Semana do mês</th>
+                  <th>Leads contatados (qtd)</th>
+                  <th>Respostas recebidas</th>
+                  <th>Propostas enviadas</th>
+                  <th>Reuniões / chamadas</th>
+                  <th>Shows premium fechados</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Semana 1</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <td>Semana 2</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <td>Semana 3</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <td>Semana 4</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <td>Semana 5 (se houver)</td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="monthly-block-title" style="margin-top:10px;">Indicadores do funil (mês)</h4>
+          <div class="monthly-table-wrapper">
+            <table class="monthly-table">
+              <tbody>
+                <tr>
+                  <th>Leads premium no mês</th>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <th>Propostas enviadas</th>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <th>Shows premium fechados</th>
+                  <td><input type="number" min="0" class="small-input" /></td>
+                </tr>
+                <tr>
+                  <th>Taxa de fechamento (%)</th>
+                  <td><input type="number" min="0" max="100" class="small-input" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CONTROLE DA VOZ -->
+        <div class="monthly-block">
+          <h3 class="monthly-block-title">Controle da voz – saúde vocal</h3>
+          <p class="monthly-block-note">
+            Acompanhe sensação da voz, shows e observações ao longo do mês. Combine com o campo
+            “Dias sem cantar” do painel do mês para garantir descanso suficiente.
+          </p>
+
+          <div class="monthly-table-wrapper">
+            <table class="monthly-table">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Show? (S / N)</th>
+                  <th>Formato 2026</th>
+                  <th>Sensação da voz (0–10)</th>
+                  <th>Observações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" max="10" class="small-input" /></td>
+                  <td><input type="text" placeholder="cansaço, dor, ok, etc." /></td>
+                </tr>
+                <tr>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" max="10" class="small-input" /></td>
+                  <td><input type="text" placeholder="cansaço, dor, ok, etc." /></td>
+                </tr>
+                <tr>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" max="10" class="small-input" /></td>
+                  <td><input type="text" placeholder="cansaço, dor, ok, etc." /></td>
+                </tr>
+                <tr>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" max="10" class="small-input" /></td>
+                  <td><input type="text" placeholder="cansaço, dor, ok, etc." /></td>
+                </tr>
+                <tr>
+                  <td><input type="text" placeholder="dd/mm" /></td>
+                  <td><input type="text" class="small-input" placeholder="S/N" /></td>
+                  <td><input type="text" placeholder="Básico / Essencial / Padrão / Premium / Evento Público / Réveillon" /></td>
+                  <td><input type="number" min="0" max="10" class="small-input" /></td>
+                  <td><input type="text" placeholder="cansaço, dor, ok, etc." /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- INBOX + NÚCLEO SELECIONADO -->
+      <section class="content" aria-label="Inbox e núcleo selecionado">
+        <section class="panel" aria-labelledby="inbox-titulo">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title" id="inbox-titulo">Inbox · Caixa de Entrada Operacional</h2>
+              <p class="panel-subtitle">
+                Tudo que chega primeiro cai aqui. Depois você envia para o núcleo certo.
+              </p>
+            </div>
+            <div class="pill">Foco de hoje</div>
+          </div>
+
+          <div class="columns" id="columns" aria-label="Colunas de tarefas"></div>
+        </section>
+
+        <aside class="panel" aria-labelledby="module-title">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title" id="module-title">
+                00 · Inbox Operacional
+              </h2>
+              <p class="panel-subtitle" id="module-subtitle">
+                Processar, decidir, delegar. Nada dorme na sua cabeça: tudo vem pra cá.
+              </p>
+            </div>
+            <div class="pill" id="module-tag">Visão rápida do núcleo</div>
+          </div>
+
+          <div class="module-body" id="module-body"></div>
+          
+          <div class="module-actions">
+            <button class="folder-action" id="copy-folder-btn" type="button">
+              <span aria-hidden="true">📁</span> Copiar caminho da pasta
+            </button>
+            <button class="folder-action" id="export-tasks-btn" type="button">
+              <span aria-hidden="true">💾</span> Exportar tarefas (.txt)
+            </button>
+            <button class="folder-action" id="export-daily-btn" type="button">
+              <span aria-hidden="true">📋</span> Gerar ATA do dia
+            </button>
+          </div>
+        </aside>
+      </section>
+      <p class="hint-click">
+        💡 Dica: use este painel como rotina diária — abrir, ver a Inbox, checar o controle de shows,
+        marcar o que foi feito e decidir o que vai pra qual núcleo (Artista, Empresa, Agenda, etc.).
+      </p>
+    </main>
+  </div>
+
+  <footer class="app-footer" aria-label="Informações de contato e créditos">
+    <div class="footer-inner">
+      <div class="footer-primary">
+        <div class="footer-name">
+          Rogério Geraldo Lopes <span>(Ferdynan)</span>
+        </div>
+        <div class="footer-roles">
+          Cantor | Produtor Musical | Instrutor de Música
+        </div>
+      </div>
+
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-label">Endereço</div>
+          <div class="footer-text">
+            Rua Amazonas, nº 124, Bairro Marília,<br />
+            Lagoa da Prata/MG – CEP 35592-220
+          </div>
+          <div class="footer-text">
+            Escritório Central: Belo Horizonte – MG<br />
+            Unidade Operacional: Lagoa da Prata – MG
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-label">Contato</div>
+          <div class="footer-text">
+            Telefone: (31) 98506-5356 | (37) 99123-3577
+          </div>
+          <div class="footer-text">
+            E-mail:
+            <a href="mailto:contato@rogerioferdynan.com">contato@rogerioferdynan.com</a>
+          </div>
+          <div class="footer-text">
+            Website:
+            <a href="https://rogerioferdynan.com/" target="_blank" rel="noopener noreferrer">rogerioferdynan.com</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-label">Canais digitais</div>
+          <div class="footer-text">
+            <a href="https://rogerioferdynan.com/" target="_blank" rel="noopener noreferrer">Site oficial</a><br />
+            <a href="https://painel.rogerioferdynan.com/" target="_blank" rel="noopener noreferrer">painel.rogerioferdynan.com</a><br />
+            <a href="https://blog.rogerioferdynan.com/" target="_blank" rel="noopener noreferrer">blog.rogerioferdynan.com</a><br />
+            <a href="https://open.spotify.com/artist/570xnV2TU8QMAZGFDpVf5E" target="_blank" rel="noopener noreferrer">Spotify · Perfil do Artista</a>
+          </div>
+          <div class="footer-label">Redes sociais</div>
+          <div class="footer-text">
+            <a href="https://www.instagram.com/rogerioferdynan" target="_blank" rel="noopener noreferrer">Instagram</a> ·
+            <a href="https://www.bandsintown.com/pt/a/15376245-rogerio-ferdynan" target="_blank" rel="noopener noreferrer">Bandsintown</a> ·
+            <a href="https://x.com/rogerioferdynan" target="_blank" rel="noopener noreferrer">Twitter/X</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-meta">
+        <span class="footer-meta-line">
+          © Todos os direitos reservados · Ferdynan Produções · 2026 · CNPJ: 59.765.869/0001-70 · OMNI LEGACY 8.0
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function clone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    const STORAGE_KEY = "painelFerdynan_v4";
+
+    const defaultState = {
+      stats: {
+        shows: 12,
+        faturamento: "R$ 85.000",
+        propostas: 7
+      },
+      inbox: {
+        aProcessar: [
+          {
+            id: "t1",
+            text: "Revisar proposta Prefeitura de BH",
+            done: false,
+            tag: "Empresa · Propostas_Contratos",
+            createdAt: new Date().toISOString()
+          },
+          {
+            id: "t2x",
+            text: "Atualizar Repertório",
+            done: false,
+            tag: "Direção Criativa · Repertorio",
+            createdAt: new Date().toISOString()
+          },
+          {
+            id: "t3x",
+            text: "Fazer outro ensaio em estúdio",
+            done: false,
+            tag: "Artista · Fotos_Profissionais",
+            createdAt: new Date().toISOString()
+          }
+        ],
+        alta: [
+          {
+            id: "t2",
+            text: "Enviar material para rádio",
+            done: false,
+            tag: "Artista · Midia_Jornal_TV_Radio",
+            createdAt: new Date().toISOString()
+          },
+          {
+            id: "t2y",
+            text: "CNH - Olhar documentos",
+            done: false,
+            tag: "Pessoal · Documentos_Civis",
+            createdAt: new Date().toISOString()
+          }
+        ],
+        media: [
+          {
+            id: "t3",
+            text: "Agendar ensaio fotográfico",
+            done: false,
+            tag: "Artista · Fotos_Profissionais",
+            createdAt: new Date().toISOString()
+          }
+        ],
+        delegar: [
+          {
+            id: "t4",
+            text: "Editar vídeo do show em SP",
+            done: false,
+            tag: "Artista · Videos_de_Show",
+            createdAt: new Date().toISOString()
+          },
+          {
+            id: "t5",
+            text: "Atualizar planilha financeira",
+            done: false,
+            tag: "Empresa · Tabelas_Precos_Planilhas",
+            createdAt: new Date().toISOString()
+          },
+          {
+            id: "t6",
+            text: "Enviar NF para contabilidade",
+            done: false,
+            tag: "Empresa · Notas_Fiscais_Pagamentos",
+            createdAt: new Date().toISOString()
+          }
+        ]
+      }
+    };
+
+    let state = loadState();
+    let currentModule = "inbox";
+
+    const folderMap = {
+      inbox: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\00_📨 INBOX – CAIXA DE ENTRADA OPERACIONAL",
+      artista: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\01_🎤 ARTISTA_ROGERIO_FERDYNAN",
+      empresa: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\02_💼 EMPRESA_CNPJ_FERDYNAN_PRODUCOES",
+      pessoal: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\03_👨‍👦 PESSOAL_CPF_ROGERIO_GERALDO_LOPES",
+      direcao: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\04_🧠 DIRECAO_CRIATIVA_CONTEUDO",
+      agenda: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\05_📅 AGENDA_LOGISTICA",
+      backup: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\06_🔒 BACKUP_ARQUIVO_MORTO",
+      venda: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\07_💥 VENDA_MENSAL_MISSAO",
+      centro: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\08_🧩 CENTRO_CONTROLE_CONEXOES",
+      rede: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\09_🌎 REDE_GLOBAL",
+      modelos: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\10_🧾 MODELOS_OFICIAIS",
+      admin: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\11_🧰 ADMIN_SISTEMA",
+      resultados: "D:\\\\FERDYNAN_LEGACY_SYSTEM_2025\\\\12_🎯 RESULTADOS_FINAIS"
+    };
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return clone(defaultState);
+        const parsed = JSON.parse(raw);
+        return Object.assign(clone(defaultState), parsed);
+      } catch (e) {
+        console.error("Erro carregando estado, usando padrão", e);
+        return clone(defaultState);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        updateProgressDashboard();
+      } catch (e) {
+        console.error("Erro salvando estado", e);
+      }
+    }
+
+    function updateProgressDashboard() {
+      let totalTasks = 0;
+      let doneTasks = 0;
+
+      Object.values(state.inbox).forEach(function (col) {
+        col.forEach(function (task) {
+          totalTasks++;
+          if (task.done) doneTasks++;
+        });
+      });
+
+      const percentage = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
+      const pending = totalTasks - doneTasks;
+
+      const totalEl = document.getElementById("progress-total");
+      const doneEl = document.getElementById("progress-done");
+      const pendingEl = document.getElementById("progress-pending");
+      const ringPctEl = document.getElementById("progress-ring-percentage");
+      const scoreEl = document.getElementById("progress-score");
+
+      if (totalEl) totalEl.textContent = String(totalTasks);
+      if (doneEl) doneEl.textContent = String(doneTasks);
+      if (pendingEl) pendingEl.textContent = String(pending);
+      if (ringPctEl) ringPctEl.textContent = percentage + "%";
+
+      const focusScore = totalTasks > 0 ? percentage / 10 : 0;
+      if (scoreEl) {
+        scoreEl.textContent = focusScore.toFixed(1).replace(".", ",") + "/10";
+      }
+
+      const circle = document.getElementById("progress-ring-circle");
+      if (circle) {
+        const radius = circle.r.baseVal.value;
+        const circumference = 2 * Math.PI * radius;
+        circle.style.strokeDasharray = circumference + " " + circumference;
+        const offset = circumference - (percentage / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
+      }
+    }
+
+    function getPendingTasksCount() {
+      let pending = 0;
+      Object.values(state.inbox).forEach(function (col) {
+        col.forEach(function (task) {
+          if (!task.done) pending++;
+        });
+      });
+      return pending;
+    }
+
+    function renderStats() {
+      const showsEl = document.getElementById("stat-shows");
+      const fatEl = document.getElementById("stat-faturamento");
+      const propEl = document.getElementById("stat-propostas");
+
+      if (showsEl) showsEl.textContent = String(state.stats.shows);
+      if (fatEl) fatEl.textContent = state.stats.faturamento;
+      if (propEl) propEl.textContent = String(state.stats.propostas);
+
+      const barShows = document.getElementById("bar-shows");
+      const barFat = document.getElementById("bar-faturamento");
+      const barProp = document.getElementById("bar-propostas");
+
+      if (barShows) barShows.style.width = "80%";
+      if (barFat) barFat.style.width = "65%";
+      if (barProp) barProp.style.width = "45%";
+    }
+
+    function setupStatsEditing() {
+      document.querySelectorAll(".stat-card").forEach(function (card) {
+        function handleEdit() {
+          const type = card.getAttribute("data-stat");
+          if (!type) return;
+          let current = state.stats[type];
+          const labelMap = {
+            shows: "Quantos shows no mês?",
+            faturamento: "Qual o faturamento (ex.: R$ 85.000)?",
+            propostas: "Quantas propostas abertas?"
+          };
+          const label = labelMap[type] || "Valor";
+
+          const value = window.prompt(label, String(current));
+          if (value === null || value === "") return;
+
+          if (type === "shows" || type === "propostas") {
+            const num = parseInt(value, 10);
+            if (!isNaN(num)) {
+              state.stats[type] = num;
+            } else {
+              state.stats[type] = value;
+            }
+          } else {
+            state.stats[type] = value;
+          }
+          saveState();
+          renderStats();
+        }
+
+        card.addEventListener("click", handleEdit);
+        card.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleEdit();
+          }
+        });
+      });
+    }
+
+    const columnsConfig = [
+      { key: "aProcessar", title: "A PROCESSAR", titleShort: "A_PROCESSAR", tag: "Entrou agora" },
+      { key: "alta",       title: "ALTA",        titleShort: "ALTA",        tag: "Impacto direto" },
+      { key: "media",      title: "MÉDIA",       titleShort: "MEDIA",       tag: "Importante, não urgente" },
+      { key: "delegar",    title: "DELEGAR",     titleShort: "DELEGAR",     tag: "Equipe / parceiros" }
+    ];
+
+    function renderInbox() {
+      const container = document.getElementById("columns");
+      if (!container) return;
+      container.innerHTML = "";
+
+      columnsConfig.forEach(function (col) {
+        const columnEl = document.createElement("div");
+        columnEl.className = "column";
+
+        const headerEl = document.createElement("div");
+        headerEl.className = "column-header";
+
+        const titleEl = document.createElement("div");
+        titleEl.className = "column-title";
+        titleEl.textContent = col.title;
+
+        const tagEl = document.createElement("div");
+        tagEl.className = "column-tag";
+        tagEl.textContent = col.tag;
+
+        headerEl.appendChild(titleEl);
+        headerEl.appendChild(tagEl);
+        columnEl.appendChild(headerEl);
+
+        const listEl = document.createElement("ul");
+        listEl.className = "task-list";
+
+        const tasks = state.inbox[col.key] || [];
+
+        tasks.forEach(function (task) {
+          const li = document.createElement("li");
+          li.className = "task" + (task.done ? " done" : "");
+          li.setAttribute("data-task-id", task.id);
+
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = task.done;
+
+          checkbox.addEventListener("click", function (e) {
+            e.stopPropagation();
+            task.done = checkbox.checked;
+            if (task.done) {
+              li.classList.add("done");
+              task.completedAt = new Date().toISOString();
+            } else {
+              li.classList.remove("done");
+              delete task.completedAt;
+            }
+            saveState();
+          });
+
+          const textWrapper = document.createElement("div");
+          textWrapper.className = "task-text";
+
+          const mainText = document.createElement("div");
+          mainText.textContent = task.text;
+          textWrapper.appendChild(mainText);
+
+          if (task.tag) {
+            const tagDiv = document.createElement("div");
+            tagDiv.className = "task-tag";
+            tagDiv.textContent = task.tag;
+            textWrapper.appendChild(tagDiv);
+          }
+
+          const actionsWrapper = document.createElement("div");
+          actionsWrapper.className = "task-actions";
+
+          const deleteBtn = document.createElement("button");
+          deleteBtn.className = "task-action-btn";
+          deleteBtn.type = "button";
+          deleteBtn.innerHTML = "🗑️";
+          deleteBtn.title = "Remover tarefa";
+
+          deleteBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (window.confirm("Remover esta tarefa permanentemente?")) {
+              const idx = state.inbox[col.key].findIndex(function (t) {
+                return t.id === task.id;
+              });
+              if (idx > -1) {
+                state.inbox[col.key].splice(idx, 1);
+                saveState();
+                renderInbox();
+              }
+            }
+          });
+
+          actionsWrapper.appendChild(deleteBtn);
+
+          li.appendChild(checkbox);
+          li.appendChild(textWrapper);
+          li.appendChild(actionsWrapper);
+          listEl.appendChild(li);
+        });
+
+        columnEl.appendChild(listEl);
+
+        const footer = document.createElement("div");
+        footer.className = "task-footer";
+
+        const form = document.createElement("form");
+        form.className = "task-form";
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = "Nova tarefa...";
+        input.className = "task-input";
+        input.setAttribute("aria-label", "Nova tarefa na coluna " + col.title);
+
+        const btn = document.createElement("button");
+        btn.type = "submit";
+        btn.textContent = "+";
+        btn.className = "task-add-btn";
+        btn.setAttribute("aria-label", "Adicionar tarefa em " + col.title);
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const value = input.value.trim();
+          if (!value) return;
+
+          const tagOptions = [
+            "Inbox · 01_⚡ A_PROCESSAR",
+            "Inbox · 02_👥 DELEGAR_EQUIPE",
+            "Inbox · 03_💡 INSPIRACOES_RAPIDAS",
+            "Inbox · 04_🌐 REFERENCIAS_EXTERNAS",
+
+            "Artista · 01_📸 Fotos_Profissionais",
+            "Artista · 02_🎥 Videos_de_Show",
+            "Artista · 03_🎵 Repertorio",
+            "Artista · 04_🖼️ Divulgacao_Capas_Stories",
+            "Artista · 05_📂 Portfolio",
+            "Artista · 06_🗺️ Cartazes_Por_Cidade",
+            "Artista · 07_📻 Midia_Jornal_TV_Radio",
+
+            "Empresa · 01_📄 Propostas_Contratos",
+            "Empresa · 02_💰 Notas_Fiscais_Pagamentos",
+            "Empresa · 03_🧾 CNPJ_Documentos_Oficiais",
+            "Empresa · 04_🏙️ Clientes_Prefeituras",
+            "Empresa · 05_🏦 Contabilidade_Bancos",
+            "Empresa · 06_📊 Tabelas_Precos_Planilhas",
+            "Empresa · 07_🤝 Parcerias_Comerciais",
+            "Empresa · 08_🧾 Editais_Processos_Publicos",
+            "Empresa · 09_👥 RH_Equipe",
+
+            "Pessoal · 01_📜 Comprovantes_Declaracoes",
+            "Pessoal · 02_💊 Saude_Mental_Suplementacao",
+            "Pessoal · 03_👦 Filho_Mikael",
+            "Pessoal · 04_🧘 Reflexoes_Escritos_Pessoais",
+            "Pessoal · 05_👨‍👩‍👧 Familia_Assuntos_Juridicos",
+            "Pessoal · 07_🗂️ Organizacao_Pessoal_Notion",
+            "Pessoal · 08_📚 Documentos_Civis",
+
+            "Agenda · 01_🎟️ Shows_Confirmados",
+            "Agenda · 02_💬 Shows_Negociacao",
+            "Agenda · 03_🗓️ Agenda_Mensal",
+            "Agenda · 04_✅ Checklist_Show",
+            "Agenda · 05_🛣️ Relatorios_Deslocamentos",
+            "Agenda · 06_⚙️ Equipamentos_Carga",
+            "Agenda · 07_👷 Equipe_Tecnica_Apoio",
+            "Agenda · 08_🎤 Requisitos_Camarim_Rider_Tecnico",
+
+            "Backup · 01_🕰️ Fotos_Antigas",
+            "Backup · 02_🗞️ Campanhas_Encerradas_LogOff",
+            "Backup · 03_🗃️ Pastas_Antigas",
+            "Backup · 04_📱 Prints_WhatsApp",
+
+            "Venda · 01_📰 Cartazes_Atualizados",
+            "Venda · 02_📘 Portfolio_PDF",
+            "Venda · 03_💬 Texto_WhatsApp_Venda",
+            "Venda · 04_🔥 Contatos_Quentes",
+            "Venda · 05_📄 Propostas_Contratos",
+            "Venda · 06_💸 Pagamentos_Pendencias",
+            "Venda · 07_🎞️ Videos_Enviar",
+
+            "Centro · 01_🗺️ Mapa_Geral_Pastas",
+            "Centro · 02_🧾 Fluxos_Checklists",
+            "Centro · 03_🔗 Integracoes_Estrategicas",
+            "Centro · 04_🧱 Modelos_Universais",
+            "Centro · 05_📆 Painel_Mensal_Missoes",
+
+            "Modelos Oficiais · 01_🧠 Apresentacoes",
+            "Modelos Oficiais · 02_📄 Docs",
+            "Modelos Oficiais · 03_🖼️ Identidade_Visual",
+            "Modelos Oficiais · 04_📊 Planilhas",
+
+            "Admin · 🔗 _ATALHOS",
+            "Admin · ⚙️ Administração, scripts e atalhos internos",
+
+            "Resultados · 01_💼 Clientes",
+            "Resultados · 02_📰 Imprensa",
+            "Resultados · 03_📱 Social",
+
+            "Direcao Criativa · 01_📢 Posts_Prontos",
+            "Direcao Criativa · 02_🎬 Modelos_Reels",
+            "Direcao Criativa · 03_🏷️ Logos_Branding",
+            "Direcao Criativa · 04_🎧 Musicas_Em_Andamento",
+            "Direcao Criativa · 05_💿 Capas_Estetica_Albuns",
+            "Direcao Criativa · 06_🧩 Campanhas_Slogans",
+            "Direcao Criativa · 07_🎭 Parcerias_Artisticas",
+            "Direcao Criativa · 08_🔍 Pesquisa_Estudos",
+
+            "Rede Global · 01_🇺🇸 EUA_CANADA",
+            "Rede Global · 02_🇪🇺 EUROPA",
+            "Rede Global · 03_🌎 LATAM",
+            "Rede Global · 04_🤝 PARCERIAS_GLOBAIS"
+          ];
+
+          const promptMessage =
+            "Selecione a categoria da tarefa:\n\n" +
+            tagOptions
+              .map(function (opt, i) {
+                return (i + 1) + ". " + opt;
+              })
+              .join("\n") +
+            "\n\nOu digite uma categoria personalizada.";
+
+          const tagChoice = window.prompt(promptMessage, "1");
+
+          let selectedTag = "";
+          if (tagChoice !== null) {
+            const tagIndex = parseInt(tagChoice, 10) - 1;
+            if (!isNaN(tagIndex) && tagIndex >= 0 && tagIndex < tagOptions.length) {
+              selectedTag = tagOptions[tagIndex];
+            } else if (tagChoice.trim() !== "") {
+              selectedTag = tagChoice.trim();
+            }
+          }
+
+          const newTask = {
+            id: "t_" + Date.now(),
+            text: value,
+            done: false,
+            tag: selectedTag,
+            createdAt: new Date().toISOString()
+          };
+          state.inbox[col.key].push(newTask);
+          saveState();
+          input.value = "";
+          renderInbox();
+
+          createTaskFile(newTask, col.titleShort);
+        });
+
+        form.appendChild(input);
+        form.appendChild(btn);
+        footer.appendChild(form);
+        columnEl.appendChild(footer);
+
+        container.appendChild(columnEl);
+      });
+
+      updateProgressDashboard();
+    }
+
+    const modules = {
+      inbox: {
+        title: "00 · Inbox Operacional",
+        subtitle: "Tudo chega aqui primeiro. Depois você decide: fazer, delegar, agendar ou arquivar.",
+        tag: "Entrada de tudo",
+        body:
+          '<p>Use a Inbox como seu <strong>cérebro externo</strong>:</p>' +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">01_⚡ A_PROCESSAR</span> – coisas que chegaram e ainda não foram decididas.</li>' +
+          '<li><span class="module-item-label">02_👥 DELEGAR_EQUIPE</span> – tarefas que outra pessoa pode executar.</li>' +
+          '<li><span class="module-item-label">03_💡 INSPIRACOES_RAPIDAS</span> – ideias, rabiscos, flashes criativos.</li>' +
+          '<li><span class="module-item-label">04_🌐 REFERENCIAS_EXTERNAS</span> – prints, links, PDFs que valem ser guardados.</li>' +
+          "</ul>" +
+          '<p class="module-hint">' +
+          "Na prática: viu algo? joga na Inbox. Em outro momento, você abre o painel e decide " +
+          "para qual núcleo mandar (Artista, Empresa, Agenda, etc.)." +
+          "</p>" +
+          '<div class="module-links">' +
+          '<a href="https://web.whatsapp.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">💬</span><span>WhatsApp Web</span>' +
+          "</a>" +
+          '<a href="https://calendar.google.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📅</span><span>Google Agenda</span>' +
+          "</a>" +
+          '<a href="https://web.agendor.com.br/entrar/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📊</span><span>Agendor</span>' +
+          "</a>" +
+          '<a href="https://docs.google.com/spreadsheets/d/1iwtQoSlaRhUW115wmPv-7qYuslF4J5jcg41RzrgX7e4/edit" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📈</span><span>Planilha Financeira</span>' +
+          "</a>" +
+          '<a href="https://getmozart.ai/app" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🤖</span><span>Mozart AI</span>' +
+          "</a>" +
+          '<a href="https://mail.zoho.com/zm/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📧</span><span>Zoho Mail</span>' +
+          "</a>" +
+          '<a href="https://www.notion.so/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📓</span><span>Notion</span>' +
+          "</a>" +
+          '<a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🎬</span><span>YouTube</span>' +
+          "</a>" +
+          "</div>"
+      },
+
+      artista: {
+        title: "01 · Artista Rogério Ferdynan",
+        subtitle: "Tudo que sustenta a imagem, repertório e material artístico do palco.",
+        tag: "Núcleo artístico",
+        body:
+          "<p>Espelha a pasta <strong>01_🎤 ARTISTA_ROGERIO_FERDYNAN</strong> do seu sistema:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">📸 Fotos_Profissionais</span> – estúdio, ao vivo, bastidores, com fãs.</li>' +
+          '<li><span class="module-item-label">🎥 Videos_de_Show</span> – RAW, edição, final, VS_Show, backups.</li>' +
+          '<li><span class="module-item-label">🎵 Repertorio</span> – setlists, letras, blocos temáticos, ensaios.</li>' +
+          '<li><span class="module-item-label">🖼️ Divulgacao_Capas_Stories</span> – feed, stories, capas, thumbnails.</li>' +
+          "</ul>" +
+          '<p class="module-hint">' +
+          "Quando uma tarefa é sobre <strong>imagem, repertório ou material artístico</strong>, " +
+          "ela nasce na Inbox, mas o arquivo final vive neste núcleo." +
+          "</p>" +
+          '<div class="module-links">' +
+          '<a href="https://artists.spotify.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🎧</span><span>Spotify for Artists</span>' +
+          "</a>" +
+          '<a href="https://artists.bandsintown.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📍</span><span>Bandsintown</span>' +
+          "</a>" +
+          '<a href="https://linkr.bio/rogerioferdynan" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🌐</span><span>Linkr.bio</span>' +
+          "</a>" +
+          "</div>"
+      },
+
+      empresa: {
+        title: "02 · Empresa CNPJ · Ferdynan Produções",
+        subtitle: "Ferramentas para lidar com prefeitura, contratos, NF, bancos, editais.",
+        tag: "Backstage da empresa",
+        body:
+          "<p>Espelha a pasta <strong>02_💼 EMPRESA_CNPJ_FERDYNAN_PRODUCOES</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">📄 Propostas_Contratos</span></li>' +
+          '<li><span class="module-item-label">💰 Notas_Fiscais_Pagamentos</span> – notas, relatórios, contas bancárias.</li>' +
+          '<li><span class="module-item-label">🧾 CNPJ_Documentos_Oficiais</span> – Receita Federal, certidões, calendário fiscal.</li>' +
+          '<li><span class="module-item-label">🏙️ Clientes_Prefeituras</span> – DDD37, outras cidades MG, Brasil, internacional.</li>' +
+          '<li><span class="module-item-label">📊 Tabelas_Precos_Planilhas</span> – business plan, planilhas de venda.</li>' +
+          "</ul>" +
+          '<p class="module-hint">' +
+          "Qualquer tarefa que envolve <strong>dinheiro, documento oficial ou prefeituras</strong> " +
+          "provavelmente pertence aqui." +
+          "</p>" +
+          '<div class="module-links">' +
+          '<a href="https://docs.google.com/document/d/1UWcL2O1QFVktAEf3T7p6tkLUzY2HRiNbmHDUpDPr1xA/edit" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📄</span><span>Contratos (Docs)</span>' +
+          "</a>" +
+          '<a href="https://docs.google.com/spreadsheets/d/1iwtQoSlaRhUW115wmPv-7qYuslF4J5jcg41RzrgX7e4/edit" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📊</span><span>Financeiro (Sheets)</span>' +
+          "</a>" +
+          "</div>"
+      },
+
+      pessoal: {
+        title: "03 · Pessoal · CPF Rogério Geraldo Lopes",
+        subtitle: "Saúde, documentos, família, processos, organização pessoal.",
+        tag: "Você como pessoa",
+        body:
+          "<p>Espelha a pasta <strong>03_👨‍👦 PESSOAL_CPF_ROGERIO_GERALDO_LOPES</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">📜 Comprovantes_Declaracoes</span></li>' +
+          '<li><span class="module-item-label">💊 Saude_Mental_Suplementacao</span></li>' +
+          '<li><span class="module-item-label">👦 Filho_Mikael</span></li>' +
+          "</ul>"
+      },
+
+      direcao: {
+        title: "04 · Direção Criativa & Conteúdo",
+        subtitle: "Músicas, campanhas, reels, estética, parcerias artísticas.",
+        tag: "Cérebro criativo",
+        body:
+          "<p>Espelha a pasta <strong>04_🧠 DIRECAO_CRIATIVA_CONTEUDO</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">📢 Posts_Prontos</span></li>' +
+          '<li><span class="module-item-label">🎬 Modelos_Reels</span></li>' +
+          '<li><span class="module-item-label">🎧 Musicas_Em_Andamento</span></li>' +
+          "</ul>" +
+          '<p class="module-hint">' +
+          "Quando a tarefa é <strong>criar, refinar ou pensar conceito</strong>, " +
+          "ela provavelmente termina aqui." +
+          "</p>" +
+          '<div class="module-links">' +
+          '<a href="https://www.canva.com/pt_br/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🎨</span><span>Canva</span>' +
+          "</a>" +
+          '<a href="https://commercepro.capcut.com/ai-video-generator-v2/result" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🎬</span><span>CapCut</span>' +
+          "</a>" +
+          '<a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🤖</span><span>ChatGPT</span>' +
+          "</a>" +
+          '<a href="https://gemini.google.com/app" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🧠</span><span>Gemini</span>' +
+          "</a>" +
+          "</div>"
+      },
+
+      agenda: {
+        title: "05 · Agenda & Logística",
+        subtitle: "Shows confirmados, em negociação, deslocamentos, equipe, equipamentos.",
+        tag: "Operação de palco",
+        body:
+          "<p>Espelha a pasta <strong>05_📅 AGENDA_LOGISTICA</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">🎟️ Shows_Confirmados</span></li>' +
+          '<li><span class="module-item-label">💬 Shows_Negociacao</span></li>' +
+          "</ul>" +
+          '<div class="module-links">' +
+          '<a href="https://trello.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📌</span><span>Trello</span>' +
+          "</a>" +
+          '<a href="https://web.whatsapp.com/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">💬</span><span>WhatsApp Web</span>' +
+          "</a>" +
+          "</div>"
+      },
+
+      backup: {
+        title: "06 · Backup / Arquivo Morto",
+        subtitle: "Tudo que não é mais da rotina, mas você não quer perder de vista.",
+        tag: "Memória do sistema",
+        body:
+          "<p>Espelha a pasta <strong>06_🔒 BACKUP_ARQUIVO_MORTO</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">🕰️ Fotos_Antigas</span></li>' +
+          '<li><span class="module-item-label">🗞️ Campanhas_Encerradas_LogOff</span></li>' +
+          '<li><span class="module-item-label">🗃️ Pastas_Antigas</span></li>' +
+          '<li><span class="module-item-label">📱 Prints_WhatsApp</span></li>' +
+          "</ul>"
+      },
+
+      venda: {
+        title: "07 · Venda Mensal · Missão",
+        subtitle: "Tudo que coloca show novo na agenda e dinheiro entrando.",
+        tag: "Motor comercial",
+        body:
+          "<p>Espelha a pasta <strong>07_💥 VENDA_MENSAL_MISSAO</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">📰 Cartazes_Atualizados</span></li>' +
+          '<li><span class="module-item-label">📘 Portfolio_PDF</span></li>' +
+          '<li><span class="module-item-label">💬 Texto_WhatsApp_Venda</span></li>' +
+          "</ul>" +
+          '<div class="module-links">' +
+          '<a href="https://b2bleads.com.br/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">📇</span><span>B2B Leads</span>' +
+          "</a>" +
+          '<a href="https://calculadora-freelae.web.app/" target="_blank" rel="noopener noreferrer" class="link-chip">' +
+          '<span class="emoji">🧮</span><span>Calculadora Freelancer</span>' +
+          "</a>" +
+          "</div>"
+      },
+
+      centro: {
+        title: "08 · Centro de Controle & Conexões",
+        subtitle: "Mapas, fluxos, integrações, modelos que conectam tudo.",
+        tag: "Arquitetura do sistema",
+        body:
+          "<p>Espelha a pasta <strong>08_🧩 CENTRO_CONTROLE_CONEXOES</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">🗺️ Mapa_Geral_Pastas</span></li>' +
+          '<li><span class="module-item-label">🧾 Fluxos_Checklists</span></li>' +
+          '<li><span class="module-item-label">🔗 Integracoes_Estrategicas</span></li>' +
+          "</ul>"
+      },
+
+      rede: {
+        title: "09 · Rede Global",
+        subtitle: "Conexões com EUA, Europa, Latam, parcerias globais.",
+        tag: "Expansão",
+        body:
+          "<p>Espelha a pasta <strong>09_🌎 REDE_GLOBAL</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">🇺🇸 EUA_CANADA</span></li>' +
+          '<li><span class="module-item-label">🇪🇺 EUROPA</span></li>' +
+          '<li><span class="module-item-label">🌎 LATAM</span></li>' +
+          "</ul>"
+      },
+
+      modelos: {
+        title: "10 · Modelos Oficiais",
+        subtitle: "Apresentações, docs, planilhas, identidade visual.",
+        tag: "Base oficial",
+        body:
+          "<p>Espelha a pasta <strong>10_🧾 MODELOS_OFICIAIS</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">🧠 Apresentacoes</span></li>' +
+          '<li><span class="module-item-label">📄 Docs</span></li>' +
+          '<li><span class="module-item-label">🖼️ Identidade_Visual</span></li>' +
+          '<li><span class="module-item-label">📊 Planilhas</span></li>' +
+          "</ul>"
+      },
+
+      admin: {
+        title: "11 · Admin do Sistema",
+        subtitle: "Atalhos, scripts, regras de backup e deduplicação.",
+        tag: "Bastidor técnico",
+        body:
+          "<p>Espelha a pasta <strong>11_🧰 ADMIN_SISTEMA</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">🔗 _ATALHOS</span></li>' +
+          '<li><span class="module-item-label">⚙️ Administração, scripts e atalhos internos</span></li>' +
+          "</ul>"
+      },
+
+      resultados: {
+        title: "12 · Resultados Finais",
+        subtitle: "Clientes, imprensa, social – o que sai para o mundo.",
+        tag: "Saída final",
+        body:
+          "<p>Espelha a pasta <strong>12_🎯 RESULTADOS_FINAIS</strong>:</p>" +
+          '<ul class="module-list">' +
+          '<li><span class="module-item-label">💼 Clientes</span></li>' +
+          '<li><span class="module-item-label">📰 Imprensa</span></li>' +
+          '<li><span class="module-item-label">📱 Social</span></li>' +
+          "</ul>"
+      }
+    };
+
+    function renderModule(moduleKey) {
+      const module = modules[moduleKey] || modules.inbox;
+      const titleEl = document.getElementById("module-title");
+      const subtitleEl = document.getElementById("module-subtitle");
+      const tagEl = document.getElementById("module-tag");
+      const bodyEl = document.getElementById("module-body");
+
+      if (titleEl) titleEl.textContent = module.title;
+      if (subtitleEl) subtitleEl.textContent = module.subtitle;
+      if (tagEl) tagEl.textContent = module.tag;
+      if (bodyEl) bodyEl.innerHTML = module.body;
+
+      currentModule = moduleKey;
+    }
+
+    function setupSidebar() {
+      const list = document.getElementById("nav-list");
+      if (!list) return;
+      const items = list.querySelectorAll(".nav-item");
+
+      items.forEach(function (item) {
+        function activate() {
+          items.forEach(function (i) {
+            i.classList.remove("active");
+            i.removeAttribute("aria-current");
+          });
+          item.classList.add("active");
+          item.setAttribute("aria-current", "page");
+          const key = item.getAttribute("data-module");
+          if (key) renderModule(key);
+        }
+
+        item.addEventListener("click", activate);
+        item.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            activate();
+          }
+        });
+      });
+    }
+
+    function copyFolderPath() {
+      const folderPath = folderMap[currentModule];
+      if (!folderPath) {
+        window.alert("Caminho da pasta não encontrado para este módulo.");
+        return;
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(folderPath)
+          .then(function () {
+            window.alert(
+              "✅ Caminho copiado para a área de transferência!\n\n" +
+              folderPath +
+              "\n\nAgora abra o Explorador de Arquivos (Win + E) e cole na barra de endereço."
+            );
+          })
+          .catch(function () {
+            fallbackCopyTextToClipboard(folderPath);
+          });
+      } else {
+        fallbackCopyTextToClipboard(folderPath);
+      }
+    }
+
+    function fallbackCopyTextToClipboard(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand("copy");
+        window.alert(
+          "✅ Caminho copiado para a área de transferência!\n\n" +
+          text +
+          "\n\nAgora abra o Explorador de Arquivos (Win + E) e cole na barra de endereço."
+        );
+      } catch (err) {
+        window.alert(
+          "Caminho da pasta:\n\n" +
+          text +
+          "\n\nCopie e cole manualmente no Explorador de Arquivos."
+        );
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function exportTasks() {
+      let allTasks = [];
+
+      columnsConfig.forEach(function (col) {
+        const tasks = state.inbox[col.key] || [];
+        tasks.forEach(function (task) {
+          allTasks.push({
+            text: task.text,
+            done: task.done,
+            tag: task.tag,
+            priority: col.title
+          });
+        });
+      });
+
+      if (allTasks.length === 0) {
+        window.alert("Nenhuma tarefa encontrada para este módulo.");
+        return;
+      }
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString("pt-BR");
+      const timeStr = now.toLocaleTimeString("pt-BR");
+
+      let fileContent = "TAREFAS - " + modules[currentModule].title + "\n";
+      fileContent += "Exportado em: " + dateStr + " às " + timeStr + "\n";
+      fileContent += Array(51).join("=") + "\n\n";
+
+      allTasks.forEach(function (task, index) {
+        const status = task.done ? "[✓] CONCLUÍDO" : "[ ] PENDENTE";
+        fileContent += (index + 1) + ". " + status + " - " + task.text + "\n";
+        fileContent += "   Prioridade: " + task.priority + "\n";
+        if (task.tag) {
+          fileContent += "   Tag: " + task.tag + "\n";
+        }
+        fileContent += "\n";
+      });
+
+      const blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download =
+        "Tarefas_" +
+        modules[currentModule].title.replace(/[^a-zA-Z0-9]/g, "_") +
+        "_" +
+        dateStr.replace(/\//g, "-") +
+        ".txt";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      window.alert("✅ Arquivo de tarefas exportado para sua pasta de downloads.\n\nNome: " + a.download);
+    }
+
+    function exportDailyReport() {
+      const today = new Date().toLocaleDateString("sv-SE");
+      let completedToday = [];
+
+      Object.values(state.inbox).forEach(function (column) {
+        column.forEach(function (task) {
+          if (task.done && task.completedAt && new Date(task.completedAt).toLocaleDateString("sv-SE") === today) {
+            completedToday.push(task);
+          }
+        });
+      });
+
+      if (completedToday.length === 0) {
+        window.alert("Nenhuma tarefa concluída hoje para exportar.");
+        return;
+      }
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString("pt-BR");
+      const timeStr = now.toLocaleTimeString("pt-BR");
+
+      let fileContent = "ATA DE ATIVIDADES DIÁRIAS - PAINEL FERDYNAN\n";
+      fileContent += "Data: " + dateStr + " | Hora: " + timeStr + "\n";
+      fileContent += Array(61).join("=") + "\n\n";
+      fileContent += "TAREFAS CONCLUÍDAS HOJE:\n\n";
+
+      completedToday.forEach(function (task, index) {
+        const completedTime = new Date(task.completedAt).toLocaleTimeString("pt-BR");
+        fileContent += (index + 1) + ". [" + completedTime + "] " + task.text + "\n";
+        if (task.tag) {
+          fileContent += "   📁 " + task.tag + "\n";
+        }
+        fileContent += "\n";
+      });
+
+      fileContent += Array(61).join("=") + "\n";
+      fileContent += "Total de tarefas concluídas: " + completedToday.length + "\n";
+      const prod = Math.round(
+        (completedToday.length /
+          (completedToday.length + getPendingTasksCount())) *
+          100
+      );
+      fileContent +=
+        "Taxa de produtividade (no painel): " + (isNaN(prod) ? 0 : prod) + "%\n";
+
+      const blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "ATA_DIARIA_" + dateStr.replace(/\//g, "-") + ".txt";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showNotification("✅ ATA diária exportada com " + completedToday.length + " tarefas!");
+    }
+
+    function createTaskFile(task, priorityShort) {
+      if (!task.tag) return;
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString("pt-BR");
+      const timeStr = now.toLocaleTimeString("pt-BR");
+
+      let fileContent = "TAREFA: " + task.text + "\n";
+      fileContent += "Criada em: " + dateStr + " às " + timeStr + "\n";
+      fileContent += "Prioridade: " + priorityShort + "\n";
+      fileContent += "Categoria: " + task.tag + "\n";
+      fileContent += "Status: " + (task.done ? "CONCLUÍDO" : "PENDENTE") + "\n";
+      fileContent += Array(51).join("=") + "\n\n";
+      fileContent += "DESCRIÇÃO:\n";
+      fileContent += "Adicione aqui os detalhes da tarefa...\n\n";
+      fileContent += "AÇÕES NECESSÁRIAS:\n";
+      fileContent += "- [ ] Definir prazo\n";
+      fileContent += "- [ ] Alocar recursos\n";
+      fileContent += "- [ ] Designar responsável\n\n";
+      fileContent += "NOTAS:\n";
+      fileContent += "• \n";
+
+      const blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+
+      const fileName =
+        "Tarefa_" +
+        task.text.substring(0, 30).replace(/[^a-zA-Z0-9]/g, "_") +
+        "_" +
+        Date.now() +
+        ".txt";
+      a.download = fileName;
+
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showNotification("✅ Arquivo criado: " + fileName);
+    }
+
+    function showNotification(message) {
+      const notification = document.createElement("div");
+      notification.className = "notification";
+      notification.setAttribute("role", "status");
+      notification.setAttribute("aria-live", "polite");
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      setTimeout(function () {
+        notification.remove();
+      }, 3000);
+    }
+
+    /* META FINANCEIRA (widget) */
+    function updateFinanceWidget() { if (window.finance2026Update) window.finance2026Update(); }
+
+    function setupFinanceWidget() {
+      const inputSmall = document.getElementById("shows-pequenos");
+      const inputBig = document.getElementById("shows-grandes");
+      if (!inputSmall || !inputBig) return;
+
+      ["input", "change"].forEach(function (ev) {
+        inputSmall.addEventListener(ev, updateFinanceWidget);
+        inputBig.addEventListener(ev, updateFinanceWidget);
+      });
+
+      updateFinanceWidget();
+    }
+
+    function init() {
+      renderStats();
+      setupStatsEditing();
+      renderInbox();
+      setupSidebar();
+      renderModule("inbox");
+      updateProgressDashboard();
+      setupFinanceWidget();
+
+      const copyBtn = document.getElementById("copy-folder-btn");
+      const exportTasksBtn = document.getElementById("export-tasks-btn");
+      const exportDailyBtn = document.getElementById("export-daily-btn");
+
+      if (copyBtn) copyBtn.addEventListener("click", copyFolderPath);
+      if (exportTasksBtn) exportTasksBtn.addEventListener("click", exportTasks);
+      if (exportDailyBtn) exportDailyBtn.addEventListener("click", exportDailyReport);
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
+<script src="finance-2026.js"></script><script src="upgrade.js"></script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6ac67fa5d3621d34c9d018b1/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>
+
