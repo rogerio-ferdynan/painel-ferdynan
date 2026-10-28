@@ -36,6 +36,18 @@ Os testes usam SQLite em memória e credenciais fictícias. A publicação do se
 
 ## Agenda própria — sem configuração
 
+## Central de operações e divulgação
+
+A visão geral reúne próximo compromisso, contagem regressiva, tarefas pendentes e saldo a receber da agenda. As áreas Tarefas, Shows, Agenda e Divulgação evitam misturar todos os controles na mesma tela. No celular, os núcleos ficam em um menu recolhível. Indicadores existentes continuam editáveis e não são substituídos pelos totais da agenda.
+
+Em Divulgação, há cópia do link e de um texto para redes, atalho para o Manager e widget oficial do artista `id_15376245`. O widget carrega somente ao abrir Divulgação, em iframe isolado sem acesso ao estado privado do painel. A lista depende do serviço externo; um link para o perfil permanece disponível se o widget não carregar. O arquivo de suporte `bandsintown.html` exige autenticação como os outros recursos do painel.
+
+O Link inteligente exclusivo não foi fornecido/confirmado. O endereço inicial é o perfil público do artista, identificado como tal. Um link HTTPS de `bnds.us` ou `bandsintown.com` pode ser salvo opcionalmente em `state.marketing.smartLink`, no banco central e backup. Não há postagem automática nas redes, integração com lista de fãs nem transferência dos valores privados para o Bandsintown.
+
+O botão Ficha do próximo compromisso exporta um `.txt` interno com os dados do compromisso e checklist de conferência. Não envia o arquivo à equipe automaticamente. Testes: `node scripts/test-tour.mjs` e `node scripts/test-cloud.mjs`.
+
+## Agenda própria — sem configuração
+
 A aba **Agenda** permite cadastrar, editar e cancelar shows, ensaios e compromissos, com cliente, local, horários de Brasília, cachê, custo e valor recebido. Usa `state.agenda` no mesmo banco central e no backup completo; nenhuma credencial externa é necessária. Registros antigos sem agenda continuam válidos.
 
 A tela mostra próximos compromissos, saldo a receber e lucro previsto dos eventos confirmados. Esses valores são independentes dos indicadores e tabelas anteriores, para preservar os lançamentos existentes. Há busca, filtros, alerta de conflito de horário, preenchimento opcional com a tabela 2026 e exportação `.ics` para importação manual em outros calendários. A exportação não sincroniza alterações futuras.

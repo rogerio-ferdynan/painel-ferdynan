@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {BAND_PROFILE,validSmartLink,validMarketing,shareLink,tourBrief} from '../web/tour-model.mjs';
+assert.ok(validSmartLink('https://bnds.us/test-link'));assert.ok(validSmartLink(BAND_PROFILE));assert.ok(validMarketing({smartLink:''}));
+for(const bad of ['javascript:alert(1)','http://bnds.us/abc','https://bnds.us.evil.test/x','https://user:pass@bnds.us/x','https://bnds.us:8080/x','https://bnds.us/',undefined])assert.ok(!validSmartLink(bad));
+assert.equal(shareLink(null),BAND_PROFILE);assert.equal(shareLink({smartLink:'https://evil.test'}),BAND_PROFILE);assert.equal(shareLink({smartLink:'https://bnds.us/test-link'}),'https://bnds.us/test-link');
+const brief=tourBrief({title:'Teste',status:'confirmed',start:'2026-12-10T19:00:00-03:00',end:'2026-12-10T21:00:00-03:00',client:'Cliente',location:'Local',notes:'Passagem às 17h',fee:350000,cost:190000,received:100000});
+assert.match(brief,/Saldo a receber: R\$\s2\.500,00/);assert.match(brief,/Passagem às 17h/);assert.match(brief,/19:00/);
+const widget=readFileSync('web/bandsintown.html','utf8');assert.match(widget,/data-artist-name="id_15376245"/);assert.match(widget,/https:\/\/widgetv3.bandsintown.com\/main.min.js/);assert.ok(!widget.includes('localStorage'));
+const tour=readFileSync('web/tour.js','utf8');assert.match(tour,/sandbox','allow-scripts allow-popups allow-popups-to-escape-sandbox'/);assert.ok(!tour.includes('allow-same-origin'));
+console.log('Divulgação verificada: links permitidos, perfil de fallback, ficha de produção e isolamento do widget.');

@@ -1260,7 +1260,7 @@
       }
     }
   </style>
-<link rel="stylesheet" href="upgrade.css"><link rel="stylesheet" href="calendar.css"></head>
+<link rel="stylesheet" href="upgrade.css"><link rel="stylesheet" href="calendar.css"><link rel="stylesheet" href="tour.css"></head>
 <body>
   <div class="app">
     <aside class="sidebar" aria-label="Navegação principal">
@@ -2257,6 +2257,7 @@
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
         updateProgressDashboard();
+        document.dispatchEvent(new Event('ferdynan:data'));
       } catch (e) {
         console.error("Erro salvando estado", e);
       }
@@ -3192,7 +3193,7 @@
 
     document.addEventListener("DOMContentLoaded", init);
   </script>
-<script src="finance-2026.js"></script><script src="upgrade.js"></script><script src="calendar.js"></script><script type="module" src="agenda.js"></script>
+<script src="finance-2026.js"></script><script src="upgrade.js"></script><script src="calendar.js"></script><script type="module" src="agenda.js"></script><script type="module" src="tour.js"></script>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();

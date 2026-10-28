@@ -1,0 +1,11 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Shows publicados · Ferdynan</title><style>body{margin:0;padding:10px;background:#11151b;color:#edf0f3;font:14px Arial,sans-serif}a{color:#d8b477}p{font-size:12px;line-height:1.6;color:#aeb9c7}#fallback{padding:12px;border:1px solid #343c47;border-radius:8px}</style></head><body>
+<p id="fallback">Agenda pública fornecida pelo Bandsintown. <a href="https://www.bandsintown.com/a/15376245-rogerio-ferdynan" target="_blank" rel="noopener noreferrer">Ver shows no perfil do artista ↗</a></p>
+<a class="bit-widget-initializer" data-artist-name="id_15376245" data-background-color="#11151b" data-separator-color="#303946" data-text-color="#edf0f3" data-font="Arial" data-auto-style="false" data-date-format="DD/MM/YYYY" data-date-orientation="horizontal" data-display-start-time="true" data-display-lineup="false" data-display-limit="all" data-language="pt" data-layout-breakpoint="600" data-event-ticket-text="INGRESSOS" data-event-ticket-cta-bg-color="#d8b477" data-event-ticket-cta-text-color="#15110b" data-event-ticket-cta-border-radius="6px" data-event-rsvp-text="LEMBRAR" data-event-rsvp-cta-text-color="#d8b477" data-event-rsvp-cta-bg-color="#11151b" data-event-rsvp-cta-border-color="#d8b477" data-follow-section-position="hidden" data-play-my-city-position="hidden" data-bit-logo-position="bottomCenter" data-bit-logo-color="#9eacba" data-app-id="2044ad0264771b20b6e67ff2d6e8c672"></a>
+<script>
+const report=()=>parent.postMessage({type:'ferdynan:bandsintown-size',height:Math.min(1600,Math.max(140,document.body.scrollHeight+30))},'*');
+new MutationObserver(report).observe(document.body,{childList:true,subtree:true});
+window.addEventListener('load',report);setTimeout(report,1500);setTimeout(report,12000);
+function widgetUnavailable(){document.getElementById('fallback').firstChild.textContent='O Bandsintown não carregou a lista neste momento. ';report();}
+</script>
+<script charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js" async onerror="widgetUnavailable()"></script>
+</body></html>

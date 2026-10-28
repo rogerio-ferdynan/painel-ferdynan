@@ -51,7 +51,7 @@ $('agenda-form').onsubmit=async event=>{event.preventDefault();if(busy)return;
  const next=items().filter(x=>x.id!==e.id).concat(e);if(!validAgenda(next)){message('A agenda atingiu o limite de 1.000 compromissos. Exporte um backup antes de reorganizar os dados.','error');return;}
  busy=true;$('agenda-submit').disabled=true;const previous=state.agenda;state.agenda=next;
  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch{state.agenda=previous;message('Não foi possível guardar o compromisso neste navegador. Nenhuma alteração foi aplicada.','error');busy=false;$('agenda-submit').disabled=false;return;}
- render();clearForm();message('Compromisso registrado. Salvando na nuvem…');
+ render();document.dispatchEvent(new Event('ferdynan:data'));clearForm();message('Compromisso registrado. Salvando na nuvem…');
  try{if(window.FerdynanCloud)await window.FerdynanCloud.flush();message(window.FerdynanCloud?'Compromisso salvo na nuvem. Ele estará disponível nos outros dispositivos após entrar ou atualizar o painel.':'Compromisso salvo neste navegador. A sincronização estará disponível no painel publicado.','ok');}catch{message('Compromisso guardado neste navegador, mas o servidor ainda não confirmou. Confira a barra de salvamento antes de fechar; não cadastre novamente.','error');}
  finally{busy=false;$('agenda-submit').disabled=false;}
 };
