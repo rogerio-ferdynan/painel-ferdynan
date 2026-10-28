@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {validAgenda,validAgendaEvent,agendaTotals,overlaps,calendarFile} from '../web/agenda-model.mjs';
+const event={id:'test-1',title:'Show; São José, MG',status:'confirmed',start:'2026-12-10T19:00:00-03:00',end:'2026-12-10T21:00:00-03:00',client:'Cliente teste',location:'Espaço de teste',notes:'Linha 1\nLinha 2',fee:350000,cost:190000,received:100000};
+assert.ok(validAgenda([event]));assert.ok(validAgenda([]));assert.ok(!validAgenda([event,event]));
+for(const patch of [{fee:-1},{received:350001},{cost:1.5},{status:'invalid'},{end:event.start},{start:'2026-02-30T19:00:00-03:00'},{title:''}])assert.ok(!validAgendaEvent({...event,...patch}));
+const same={...event,id:'test-2'};assert.ok(overlaps(event,same));assert.ok(!overlaps(event,event));assert.ok(!overlaps(event,{...same,status:'cancelled'}));assert.ok(!overlaps(event,{...same,start:event.end,end:'2026-12-10T22:00:00-03:00'}));
+const totals=agendaTotals([event,{...same,status:'cancelled'},{...same,id:'test-3',status:'planned'}],Date.parse('2026-12-01T00:00:00Z'));
+assert.equal(totals.upcoming.length,2);assert.equal(totals.profit,160000);assert.equal(totals.receivable,250000);
+assert.equal(agendaTotals([event],Date.parse('2027-01-01T00:00:00Z')).next,null);
+const ics=calendarFile([event,{...same,status:'cancelled'},{...same,id:'long',title:'Canção '.repeat(25)}]);
+assert.match(ics,/DTSTART:20261210T220000Z/);assert.match(ics,/SUMMARY:Show\\; São José\\, MG/);assert.match(ics,/DESCRIPTION:Cliente: Cliente teste\\nLinha 1\\nLinha 2/);assert.equal((ics.match(/BEGIN:VEVENT/g)||[]).length,2);
+assert.ok(ics.split('\r\n').every(line=>new TextEncoder().encode(line).length<=75));
+console.log('Agenda verificada: valores, datas, conflitos, cancelamento, totais e exportação .ics com Unicode.');

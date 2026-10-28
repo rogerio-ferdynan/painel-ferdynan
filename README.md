@@ -34,9 +34,17 @@ node scripts/build-netlify.mjs
 
 Os testes usam SQLite em memória e credenciais fictícias. A publicação do servidor usa `.openai/hosting.json`; mudar apenas o GitHub não publica automaticamente um novo Worker no Sites.
 
-## Google Agenda
+## Agenda própria — sem configuração
 
-A aba Google Agenda usa autorização própria da Google Calendar API para a agenda `contato@rogerioferdynan.com`. A integração instalada no chat não é reutilizada como credencial do site.
+A aba **Agenda** permite cadastrar, editar e cancelar shows, ensaios e compromissos, com cliente, local, horários de Brasília, cachê, custo e valor recebido. Usa `state.agenda` no mesmo banco central e no backup completo; nenhuma credencial externa é necessária. Registros antigos sem agenda continuam válidos.
+
+A tela mostra próximos compromissos, saldo a receber e lucro previsto dos eventos confirmados. Esses valores são independentes dos indicadores e tabelas anteriores, para preservar os lançamentos existentes. Há busca, filtros, alerta de conflito de horário, preenchimento opcional com a tabela 2026 e exportação `.ics` para importação manual em outros calendários. A exportação não sincroniza alterações futuras.
+
+Testes: `node scripts/test-agenda.mjs` e `node scripts/test-cloud.mjs` (inclui agenda compartilhada entre sessões e rejeição de revisão antiga). Prévia isolada: construa o Worker e execute `node scripts/preview.mjs`; usa banco temporário e senha de teste `preview-only`, sem dados de produção.
+
+## Google Agenda (opcional)
+
+A opção recolhida **Google Agenda · conexão opcional**, dentro da aba Agenda, usa autorização própria da Google Calendar API para a agenda `contato@rogerioferdynan.com`. A agenda própria funciona sem ela. Os registros próprios e os eventos Google são independentes; conectar não transfere nem sincroniza automaticamente os dois conjuntos. A integração instalada no chat não é reutilizada como credencial do site.
 
 ### Configuração única
 

@@ -24,5 +24,12 @@ const page=await (await request('/',{headers:{Cookie:cookie}})).text();assert.ok
 assert.equal((await request('/api/state',{method:'PUT',headers:{Cookie:cookie,Origin:'https://attacker.test'},body:'{}'})).status,403);
 for(let i=0;i<5;i++)assert.equal((await request('/api/login',{method:'POST',headers:{Origin:origin,'CF-Connecting-IP':'bad-ip'},body:new URLSearchParams({password:'wrong'})})).status,401);
 assert.equal((await request('/api/login',{method:'POST',headers:{Origin:origin,'CF-Connecting-IP':'bad-ip'},body:new URLSearchParams({password:'test-pass'})})).status,429);
+const agendaEvent={id:'cross-device-show',title:'Show de teste',status:'confirmed',start:'2026-12-10T19:00:00-03:00',end:'2026-12-10T21:00:00-03:00',client:'Teste',location:'Local',notes:'',fee:350000,cost:190000,received:100000};
+const withAgenda={...payload,state:{...payload.state,agenda:[agendaEvent]}};
+assert.equal((await save(1,withAgenda)).status,200);
+const onOtherDevice=await (await request('/api/state',{headers:{Cookie:cookie2}})).json();assert.deepEqual(onOtherDevice.payload.state.agenda,[agendaEvent]);assert.deepEqual(onOtherDevice.payload.state.stats,payload.state.stats);
+assert.equal((await save(2,{...withAgenda,state:{...withAgenda.state,agenda:[{...agendaEvent,received:350001}]}})).status,400);
+assert.equal((await save(1,payload)).status,409);
+assert.equal((await request('/agenda-model.mjs',{headers:{Cookie:cookie}})).status,200);
 assert.equal((await request('/api/logout',{method:'POST',headers:{Cookie:cookie,Origin:origin}})).status,303);assert.equal((await request('/api/state',{headers:{Cookie:cookie}})).status,401);
 console.log('Verificado: senha, limite de tentativas, sessão, proteção de escrita, banco compartilhado em duas sessões, conflito de edição e logout.');
