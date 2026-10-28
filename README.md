@@ -33,3 +33,23 @@ node scripts/build-netlify.mjs
 ```
 
 Os testes usam SQLite em memória e credenciais fictícias. A publicação do servidor usa `.openai/hosting.json`; mudar apenas o GitHub não publica automaticamente um novo Worker no Sites.
+
+## Google Agenda
+
+A aba Google Agenda usa autorização própria da Google Calendar API para a agenda `contato@rogerioferdynan.com`. A integração instalada no chat não é reutilizada como credencial do site.
+
+### Configuração única
+
+1. Habilite a Google Calendar API no Google Cloud.
+2. Configure a tela de consentimento; em modo de teste, adicione a conta da agenda como usuário de teste.
+3. Crie um cliente OAuth do tipo Aplicativo da Web.
+4. Cadastre exatamente esta URI de retorno: `https://painel.rogerioferdynan.com/api/calendar/oauth/callback`.
+5. Entre no painel, abra Google Agenda e preencha o ID e o segredo no formulário de configuração protegida. Depois clique em Conectar Google Agenda e autorize na conta correta.
+
+O segredo do cliente e os tokens são cifrados com AES-GCM no banco. A chave `GCAL_TOKEN_KEY` fica somente nos secrets do servidor. Também é possível fornecer `GOOGLE_CLIENT_ID` e `GOOGLE_CLIENT_SECRET` por secrets, sem usar o formulário.
+
+O fluxo OAuth usa state, PKCE e validação da sessão. A agenda permite consultar períodos de até 93 dias, criar e editar eventos, verificar horários sobrepostos e evitar envios duplicados. Não envia convites a terceiros. O Google pode exigir reconexão conforme as regras do aplicativo OAuth, inclusive quando configurado em teste.
+
+Testes adicionais: `node scripts/test-calendar.mjs`. São testes com respostas simuladas: não acessam nem modificam eventos reais. Publicação e testes locais não significam que uma conta Google foi autorizada; a interface informa claramente quando a configuração ou autorização estiver pendente.
+
+Referências oficiais: https://developers.google.com/identity/protocols/oauth2/web-server e https://developers.google.com/workspace/calendar/api/v3/reference/events/insert
