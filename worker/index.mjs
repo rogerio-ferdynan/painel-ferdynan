@@ -1,4 +1,5 @@
 import {calendarRequest} from './calendar.mjs';
+import {catalogRequest} from './catalog.mjs';
 import {validAgenda} from '../web/agenda-model.mjs';
 import {validMarketing} from '../web/tour-model.mjs';
 const COOKIE='__Host-ferdynan_session';
@@ -35,6 +36,7 @@ const auth=await authenticated(req,db);
 if(url.pathname.startsWith('/api/calendar/'))return calendarRequest(req,env,{authenticated:auth,sessionHash:cookieValue(req)?await sha(cookieValue(req)):'',sameOrigin});
 if(!auth){if(url.pathname.startsWith('/api/'))return json({error:'Entre novamente para continuar.'},401);return html(loginPage());}
 if(url.pathname==='/api/logout'&&req.method==='POST'){if(!sameOrigin(req))return json({error:'Origem inválida'},403);await db.prepare('DELETE FROM panel_sessions WHERE token_hash = ?').bind(await sha(cookieValue(req))).run();return redirect('/',COOKIE+'=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0');}
+if(url.pathname==='/api/catalog')return catalogRequest(req,env,{authenticated:auth,sameOrigin});
 if(url.pathname==='/api/state'){
 if(req.method==='GET')return json(await readState(db));
 if(req.method!=='PUT')return json({error:'Método inválido'},405);

@@ -38,6 +38,18 @@ Os testes usam SQLite em memória e credenciais fictícias. A publicação do se
 
 ## Central de operações e divulgação
 
+## Estrutura do computador e favoritos
+
+A aba **Estrutura & favoritos** consulta um índice privado de pastas, nomes de arquivos e links por núcleo. Usa paginação, busca por nome, caminhos para copiar e associações dos favoritos. Não abre nem transfere o conteúdo dos arquivos e não fornece acesso remoto ao disco. O mapa é uma fotografia da última varredura, sem sincronização automática com o PC.
+
+O inventário e os links privados ficam nas tabelas `panel_catalog_*` do D1, protegidos pela sessão do painel, fora do código, dos arquivos públicos e do GitHub. Importações entram como uma nova versão e só substituem o índice ativo depois de todos os lotes e contagens serem validados; as versões anteriores são preservadas. Essa base é independente de tarefas, agenda e indicadores.
+
+`scripts/scan-workspace.mjs --root <pasta> --bookmarks <HTML original> --output <pasta privada>` gera o JSON de importação, relatório e uma cópia dos favoritos que preserva o HTML original e acrescenta apenas endereços ausentes, agrupados por núcleo. Endereços repetidos têm uma só entrada no painel, preservando títulos alternativos e associações. Nenhum link privado é consultado na internet durante a classificação. Atalhos são indexados sem seguir seus destinos, para evitar ciclos.
+
+O envio é feito por `scripts/import-catalog.mjs` com configuração e senha via stdin oculto, nunca em argumentos ou arquivos de credenciais. Não adicione o JSON ou os relatórios reais ao repositório. Teste: `node scripts/test-catalog.mjs`.
+
+## Central de operações e divulgação
+
 A visão geral reúne próximo compromisso, contagem regressiva, tarefas pendentes e saldo a receber da agenda. As áreas Tarefas, Shows, Agenda e Divulgação evitam misturar todos os controles na mesma tela. No celular, os núcleos ficam em um menu recolhível. Indicadores existentes continuam editáveis e não são substituídos pelos totais da agenda.
 
 Em Divulgação, há cópia do link e de um texto para redes, atalho para o Manager e widget oficial do artista `id_15376245`. O widget carrega somente ao abrir Divulgação, em iframe isolado sem acesso ao estado privado do painel. A lista depende do serviço externo; um link para o perfil permanece disponível se o widget não carregar. O arquivo de suporte `bandsintown.html` exige autenticação como os outros recursos do painel.
