@@ -24,6 +24,8 @@ Para os dados antigos, use **Importar dados deste navegador**. Se estiverem em a
 
 ## Construção e testes
 
+O padrão verificável de interface e as limitações da avaliação estão em [UX_QUALITY.md](UX_QUALITY.md). A navegação por abas aceita teclado, conserva a seção no fragmento da URL e permite voltar/avançar. O painel privado orienta buscadores a não indexá-lo; esse cabeçalho não substitui a senha. O Spotify só carrega quando Shows & resultados é aberto.
+
 Node.js 24 ou superior:
 
 ```sh

@@ -5,7 +5,7 @@ const out=path.resolve(root,'dist');
 if(path.dirname(out)!==root||path.basename(out)!=='dist')throw Error('Invalid build path');
 // dist is generated output; editable sources are retained in web/ and worker/.
 rmSync(out,{recursive:true,force:true});mkdirSync('dist/server',{recursive:true});mkdirSync('dist/.openai',{recursive:true});
-const assets={};for(const file of ['index.html','upgrade.css','upgrade.js','finance-2026.js','cloud-sync.js','calendar.js','calendar.css','agenda.js','agenda-model.mjs','tour.js','tour.css','tour-model.mjs','bandsintown.html','catalog.js','catalog.css'])assets['/'+file]=readFileSync('web/'+file,'utf8');
+const assets={};for(const file of ['index.html','upgrade.css','upgrade.js','finance-2026.js','cloud-sync.js','calendar.js','calendar.css','agenda.js','agenda-model.mjs','tour.js','tour.css','tour-model.mjs','bandsintown.html','catalog.js','catalog.css','quality.js','quality.css'])assets['/'+file]=readFileSync('web/'+file,'utf8');
 const agenda=readFileSync('web/agenda-model.mjs','utf8').replaceAll('export function ','function ');
 const tour=readFileSync('web/tour-model.mjs','utf8').replaceAll('export function ','function ').replaceAll('export const ','const ');
 const calendar=readFileSync('worker/calendar.mjs','utf8').replaceAll('export function ','function ').replaceAll('export async function ','async function ');

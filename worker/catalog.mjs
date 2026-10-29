@@ -1,4 +1,4 @@
-const catalogHeaders={'Cache-Control':'no-store','Content-Type':'application/json; charset=utf-8','X-Content-Type-Options':'nosniff'};
+const catalogHeaders={'Cache-Control':'no-store','Content-Type':'application/json; charset=utf-8','X-Content-Type-Options':'nosniff','X-Robots-Tag':'noindex, nofollow, noarchive'};
 function catalogJson(data,status=200){return new Response(JSON.stringify(data),{status,headers:catalogHeaders});}
 const catalogFold=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 const catalogId=s=>typeof s==='string'&&(s==='root'||/^[a-f0-9]{24}$/.test(s));

@@ -4,7 +4,7 @@ import {validAgenda} from '../web/agenda-model.mjs';
 import {validMarketing} from '../web/tour-model.mjs';
 const COOKIE='__Host-ferdynan_session';
 const KEY='main';
-const headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin','X-Frame-Options':'SAMEORIGIN'};
+const headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin','X-Frame-Options':'SAMEORIGIN','X-Robots-Tag':'noindex, nofollow, noarchive'};
 const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{...headers,'Content-Type':'application/json; charset=utf-8'}});
 const hex=buffer=>[...new Uint8Array(buffer)].map(v=>v.toString(16).padStart(2,'0')).join('');
 const sha=async s=>hex(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)));
@@ -56,5 +56,6 @@ const page=ASSETS['/index.html'].replace('</head>',`<script>window.__FERDYNAN_CL
 return html(page);
 }
 const asset=ASSETS[url.pathname];if(asset&&url.pathname!=='/index.html')return new Response(asset,{headers:{...headers,'Content-Type':url.pathname.endsWith('.html')?'text/html; charset=utf-8':url.pathname.endsWith('.css')?'text/css; charset=utf-8':'application/javascript; charset=utf-8'}});
+if(!url.pathname.startsWith('/api/')&&req.headers.get('Accept')?.includes('text/html'))return html('<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Página não encontrada · Painel Ferdynan</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0d1015;color:#edf0f3;font:16px system-ui}main{max-width:480px;padding:32px}p{color:#b4c0cf;line-height:1.8}a{display:inline-block;padding:12px 18px;background:#d8b477;color:#15110b;border-radius:8px;text-decoration:none}a:focus-visible{outline:3px solid white;outline-offset:4px}</style><main><p>PAINEL FERDYNAN · 404</p><h1>Esta página não foi encontrada.</h1><p>O endereço pode ter mudado. Volte ao painel para abrir sua agenda, tarefas ou favoritos.</p><a href="/#all">Voltar à visão geral</a></main></html>',404);
 return json({error:'Não encontrado'},404);
 }catch(error){console.error('Panel request failed',error?.name||'Error');return json({error:'Não foi possível acessar o banco agora. Seus dados não foram descartados.'},503);}}};

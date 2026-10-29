@@ -10,6 +10,7 @@ const origin='https://panel.test';
 async function request(path,options={}){return worker.fetch(new Request(origin+path,options),env,{})}
 assert.match(await (await request('/')).text(),/Senha de acesso/);
 assert.equal((await request('/api/state')).status,401);
+assert.match((await request('/')).headers.get('x-robots-tag'),/noindex/);
 assert.equal((await request('/api/login',{method:'POST',headers:{Origin:'https://attacker.test'},body:new URLSearchParams({password:'test-pass'})})).status,403);
 const login=await request('/api/login',{method:'POST',headers:{Origin:origin,'CF-Connecting-IP':'test-ip'},body:new URLSearchParams({password:'test-pass'})});assert.equal(login.status,303);const cookie=login.headers.get('set-cookie').split(';')[0];assert.match(login.headers.get('set-cookie'),/HttpOnly; Secure; SameSite=Strict/);
 const initial=await (await request('/api/state',{headers:{Cookie:cookie}})).json();assert.equal(initial.revision,0);
@@ -21,6 +22,10 @@ const customDomainLogin=await request('/api/login',{method:'POST',headers:{Origi
 const customDomainCookie=customDomainLogin.headers.get('set-cookie').split(';')[0];assert.equal((await request('/api/state',{headers:{Cookie:customDomainCookie}})).status,200);
 assert.deepEqual((await (await request('/api/state',{headers:{Cookie:cookie2}})).json()).payload,payload);
 const page=await (await request('/',{headers:{Cookie:cookie}})).text();assert.ok(!page.includes('"text":"</script>'));assert.ok(page.includes('\\u003c/script>'));
+assert.ok(page.includes('data-src="https://open.spotify.com/embed/'));assert.ok(!page.includes(' src="https://open.spotify.com/embed/'));
+assert.ok(page.includes('src="quality.js"'));
+const missing=await request('/pagina-inexistente',{headers:{Cookie:cookie,Accept:'text/html'}});assert.equal(missing.status,404);assert.match(missing.headers.get('content-type'),/text\/html/);assert.match(await missing.text(),/Voltar à visão geral/);
+const missingApi=await request('/api/inexistente',{headers:{Cookie:cookie,Accept:'text/html'}});assert.equal(missingApi.status,404);assert.match(missingApi.headers.get('content-type'),/application\/json/);
 assert.equal((await request('/api/state',{method:'PUT',headers:{Cookie:cookie,Origin:'https://attacker.test'},body:'{}'})).status,403);
 for(let i=0;i<5;i++)assert.equal((await request('/api/login',{method:'POST',headers:{Origin:origin,'CF-Connecting-IP':'bad-ip'},body:new URLSearchParams({password:'wrong'})})).status,401);
 assert.equal((await request('/api/login',{method:'POST',headers:{Origin:origin,'CF-Connecting-IP':'bad-ip'},body:new URLSearchParams({password:'test-pass'})})).status,429);
