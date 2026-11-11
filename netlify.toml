@@ -1,21 +1,19 @@
 [build]
   command = "node scripts/build-netlify.mjs"
   publish = "netlify-public"
-  functions = "netlify/functions"
 
 [build.environment]
   NODE_VERSION = "24"
 
-# Password-protected ALINE: always route through server-side function.
 [[redirects]]
   from = "/aline"
-  to = "/.netlify/functions/aline"
+  to = "/aline/index.html"
   status = 200
   force = true
 
 [[redirects]]
   from = "/aline/"
-  to = "/.netlify/functions/aline"
+  to = "/aline/index.html"
   status = 200
   force = true
 
@@ -31,15 +29,8 @@
   status = 301
   force = true
 
-# Existing protected panel remains proxied unchanged.
 [[redirects]]
   from = "/*"
   to = "https://painel-ferdynan-omni-231026.goldenwhale131.chatgpt.site/:splat"
   status = 200
   force = true
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Cache-Control = "no-store"
-    X-Content-Type-Options = "nosniff"
