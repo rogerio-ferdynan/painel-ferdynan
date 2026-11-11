@@ -5,8 +5,26 @@
 [build.environment]
   NODE_VERSION = "24"
 
-# Server-side rewrite: the browser stays on painel.rogerioferdynan.com.
-# Force protects every page and API route, even when a static file exists.
+# ALINE: serve static memorial before the catch-all proxy.
+[[redirects]]
+  from = "/Aline"
+  to = "/Aline/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/Aline/"
+  to = "/Aline/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/Aline/*"
+  to = "/Aline/:splat"
+  status = 200
+  force = false
+
+# Existing protected panel routes remain proxied unchanged.
 [[redirects]]
   from = "/*"
   to = "https://painel-ferdynan-omni-231026.goldenwhale131.chatgpt.site/:splat"
