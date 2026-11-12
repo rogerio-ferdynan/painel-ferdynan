@@ -5,4 +5,5 @@ writeFileSync('netlify-public/index.html',loginPage());
 mkdirSync('netlify-public/aline',{recursive:true});
 copyFileSync('Aline/index.html','netlify-public/aline/index.html');
 copyFileSync('Aline/preview.svg','netlify-public/aline/preview.svg');
+copyFileSync('Aline/aline-compartilhar.jpg','netlify-public/aline/aline-compartilhar.jpg');
 console.log('ALINE static published at /aline, panel preserved.');
