@@ -1868,6 +1868,24 @@
           </div>
         </div>
 
+        <div class="monthly-block">
+          <h3 class="monthly-block-title">Oportunidades comerciais</h3>
+          <label for="leads-csv">Importar oportunidades em CSV</label>
+          <input id="leads-csv" type="file" accept=".csv,text/csv">
+          <form id="lead-whatsapp-form">
+            <label for="lead-whatsapp">Mensagem recebida pelo WhatsApp</label>
+            <textarea id="lead-whatsapp" rows="5" required maxlength="2000" placeholder="Cole a mensagem enviada pela vitrine de contratação"></textarea>
+            <button type="submit">Registrar pedido</button>
+          </form>
+          <p id="leads-result" role="status"></p>
+          <div class="monthly-table-wrapper">
+            <table class="monthly-table">
+              <thead><tr><th>Cliente</th><th>Data</th><th>Cidade</th><th>Formato</th><th>Status</th><th>Origem</th><th>Próximo passo</th></tr></thead>
+              <tbody id="leads-rows"></tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- FUNIL DE VENDAS PREMIUM -->
         <div class="monthly-block">
           <h3 class="monthly-block-title">Controle semanal de vendas – shows premium</h3>
@@ -3193,6 +3211,139 @@
 
     document.addEventListener("DOMContentLoaded", init);
   </script>
+<script>
+(() => {
+  const input = document.getElementById('leads-csv');
+  const output = document.getElementById('leads-result');
+  const table = document.getElementById('leads-rows');
+  const columns = ['cliente', 'data_evento', 'cidade_uf', 'formato', 'status', 'origem', 'proximo_passo'];
+  const headers = ['id_importacao', 'cliente', 'data_evento', 'cidade_uf', 'formato', 'status', 'origem', 'preco_opcao_a_brl', 'preco_opcao_b_brl', 'observacoes', 'proximo_passo'];
+  function parseCsv(text) {
+    const rows = [];
+    let row = [], field = '', quoted = false, closed = false;
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      if (quoted) {
+        if (char === '"' && text[i + 1] === '"') { field += '"'; i++; }
+        else if (char === '"') { quoted = false; closed = true; }
+        else field += char;
+      } else if (char === ';' || char === '\n' || char === '\r') {
+        row.push(field); field = ''; closed = false;
+        if (char !== ';') {
+          if (char === '\r' && text[i + 1] === '\n') i++;
+          if (row.some(Boolean)) rows.push(row);
+          row = [];
+        }
+      } else if (char === '"' && !field && !closed) quoted = true;
+      else if (char === '"' || closed) throw Error('Campo inválido no CSV.');
+      else field += char;
+    }
+    if (quoted) throw Error('Aspas sem fechamento no CSV.');
+    row.push(field);
+    if (row.some(Boolean)) rows.push(row);
+    return rows;
+  }
+  async function addLeads(incoming) {
+    const current = state.commercialLeads || [];
+    const ids = new Set(current.map(item => item.id_importacao));
+    const additions = [];
+    for (const item of incoming) {
+      if (ids.has(item.id_importacao)) continue;
+      ids.add(item.id_importacao);
+      additions.push(item);
+    }
+    if (ids.size > 1000) throw Error('O funil comporta até 1.000 oportunidades.');
+    if (additions.length) {
+      state.commercialLeads = [...current, ...additions];
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+      catch (error) { state.commercialLeads = current; throw error; }
+      document.dispatchEvent(new Event('ferdynan:data'));
+    }
+    if (window.FerdynanCloud) {
+      output.textContent = 'Salvando na nuvem…';
+      try { await window.FerdynanCloud.flush(); }
+      catch { return { count: additions.length, synced: false }; }
+    }
+    return { count: additions.length, synced: true };
+  }
+  async function leadFromMessage(text) {
+    if (text.length > 2000) throw Error('Mensagem acima de 2.000 caracteres.');
+    const required = ['Nome', 'Data', 'Cidade/UF', 'Evento', 'Formato'];
+    const allowed = new Set([...required, 'Local/público', 'Origem']);
+    const values = new Map();
+    for (const line of text.split(/\r?\n/)) {
+      const separator = line.indexOf(':');
+      if (separator < 0) continue;
+      const key = line.slice(0, separator).trim();
+      if (!allowed.has(key)) continue;
+      if (values.has(key)) throw Error('A mensagem contém um campo repetido.');
+      values.set(key, line.slice(separator + 1).trim());
+    }
+    if (required.some(key => !values.get(key))) throw Error('A mensagem deve incluir nome, data, cidade, evento e formato.');
+    const date = values.get('Data');
+    const isoDate = /^\d{2}\/\d{2}\/\d{4}$/.test(date) && date.split('/').reverse().join('-');
+    const parsedDate = isoDate && new Date(isoDate);
+    if (!parsedDate || Number.isNaN(parsedDate.valueOf()) || parsedDate.toISOString().slice(0, 10) !== isoDate) throw Error('Data inválida. Use DD/MM/AAAA.');
+    const identity = JSON.stringify(required.map(key => values.get(key).replace(/\s+/g, ' ').toLocaleLowerCase('pt-BR')));
+    const hash = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(identity)));
+    const id = Array.from(hash, byte => byte.toString(16).padStart(2, '0')).join('');
+    return {
+      id_importacao: 'wa-' + id, cliente: values.get('Nome'), data_evento: date,
+      cidade_uf: values.get('Cidade/UF'), formato: values.get('Formato'),
+      status: 'pedido recebido',
+      origem: values.get('Origem') === 'Vitrine de contratação · Instagram' ? values.get('Origem') : 'Vitrine de contratação',
+      observacoes: [values.get('Evento'), values.get('Local/público')].filter(Boolean).join(' · '),
+      proximo_passo: 'Verificar disponibilidade e responder na conversa.',
+    };
+  }
+  const whatsappForm = document.getElementById('lead-whatsapp-form');
+  const whatsappMessage = document.getElementById('lead-whatsapp');
+  whatsappForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const submit = whatsappForm.querySelector('button');
+    submit.disabled = true;
+    try {
+      const lead = await leadFromMessage(whatsappMessage.value);
+      const result = await addLeads([lead]);
+      if (result.synced) whatsappMessage.value = '';
+      output.textContent = !result.synced ? 'Pedido salvo neste navegador. Tente importar novamente para sincronizar.'
+        : result.count ? 'Pedido registrado.' : 'Este pedido já está no funil.';
+    } catch (error) {
+      output.textContent = error.message;
+    } finally {
+      submit.disabled = false;
+    }
+  });
+  function render() {
+    table.replaceChildren();
+    for (const item of state.commercialLeads || []) {
+      const row = table.insertRow();
+      for (const key of columns) row.insertCell().textContent = item[key] || '—';
+    }
+  }
+  input.addEventListener('change', async () => {
+    const file = input.files[0];
+    if (!file) return;
+    input.disabled = true;
+    try {
+      if (file.size > 500000) throw Error('CSV acima de 500 KB.');
+      const [header, ...rows] = parseCsv(await file.text());
+      if (!header || header.length !== headers.length || !headers.every((key, i) => header[i] === key)) throw Error('Use o arquivo do funil comercial.');
+      if (rows.some(row => row.length !== headers.length || !/^[a-z0-9-]{1,100}$/.test(row[0]) || !row[1].trim() || !row[5].trim() || row.some(value => value.length > 2000))) throw Error('O CSV contém registros inválidos.');
+      const result = await addLeads(rows.map(row => Object.fromEntries(headers.map((key, i) => [key, row[i]]))));
+      output.textContent = result.synced ? result.count + ' importadas · ' + (rows.length - result.count) + ' já existentes'
+        : 'Registros importados neste navegador. Confira o aviso de sincronização.';
+    } catch (error) {
+      output.textContent = error.message;
+    } finally {
+      input.value = '';
+      input.disabled = false;
+    }
+  });
+  document.addEventListener('ferdynan:data', render);
+  render();
+})();
+</script>
 <script src="finance-2026.js"></script><script src="upgrade.js"></script><script src="calendar.js"></script><script type="module" src="agenda.js"></script><script type="module" src="tour.js"></script><script src="catalog.js"></script><script type="module" src="quality.js"></script>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
