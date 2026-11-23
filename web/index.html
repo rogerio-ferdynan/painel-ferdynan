@@ -1868,6 +1868,19 @@
           </div>
         </div>
 
+        <div class="monthly-block">
+          <h3 class="monthly-block-title">Oportunidades comerciais</h3>
+          <label for="leads-csv">Importar oportunidades em CSV</label>
+          <input id="leads-csv" type="file" accept=".csv,text/csv">
+          <p id="leads-result" role="status"></p>
+          <div class="monthly-table-wrapper">
+            <table class="monthly-table">
+              <thead><tr><th>Cliente</th><th>Data</th><th>Formato</th><th>Status</th><th>Origem</th><th>Próximo passo</th></tr></thead>
+              <tbody id="leads-rows"></tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- FUNIL DE VENDAS PREMIUM -->
         <div class="monthly-block">
           <h3 class="monthly-block-title">Controle semanal de vendas – shows premium</h3>
@@ -3193,6 +3206,86 @@
 
     document.addEventListener("DOMContentLoaded", init);
   </script>
+<script>
+(() => {
+  const input = document.getElementById('leads-csv');
+  const output = document.getElementById('leads-result');
+  const table = document.getElementById('leads-rows');
+  const columns = ['cliente', 'data_evento', 'formato', 'status', 'origem', 'proximo_passo'];
+  const headers = ['id_importacao', 'cliente', 'data_evento', 'cidade_uf', 'formato', 'status', 'origem', 'preco_opcao_a_brl', 'preco_opcao_b_brl', 'observacoes', 'proximo_passo'];
+  function parseCsv(text) {
+    const rows = [];
+    let row = [], field = '', quoted = false, closed = false;
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      if (quoted) {
+        if (char === '"' && text[i + 1] === '"') { field += '"'; i++; }
+        else if (char === '"') { quoted = false; closed = true; }
+        else field += char;
+      } else if (char === ';' || char === '\n' || char === '\r') {
+        row.push(field); field = ''; closed = false;
+        if (char !== ';') {
+          if (char === '\r' && text[i + 1] === '\n') i++;
+          if (row.some(Boolean)) rows.push(row);
+          row = [];
+        }
+      } else if (char === '"' && !field && !closed) quoted = true;
+      else if (char === '"' || closed) throw Error('Campo inválido no CSV.');
+      else field += char;
+    }
+    if (quoted) throw Error('Aspas sem fechamento no CSV.');
+    row.push(field);
+    if (row.some(Boolean)) rows.push(row);
+    return rows;
+  }
+  function render() {
+    table.replaceChildren();
+    for (const item of state.commercialLeads || []) {
+      const row = table.insertRow();
+      for (const key of columns) row.insertCell().textContent = item[key] || '—';
+    }
+  }
+  input.addEventListener('change', async () => {
+    const file = input.files[0];
+    if (!file) return;
+    input.disabled = true;
+    try {
+      if (file.size > 500000) throw Error('CSV acima de 500 KB.');
+      const [header, ...rows] = parseCsv(await file.text());
+      if (!header || header.length !== headers.length || !headers.every((key, i) => header[i] === key)) throw Error('Use o arquivo do funil comercial.');
+      if (rows.some(row => row.length !== headers.length || !/^[a-z0-9-]{1,100}$/.test(row[0]) || !row[1].trim() || !row[5].trim() || row.some(value => value.length > 2000))) throw Error('O CSV contém registros inválidos.');
+      const current = state.commercialLeads || [];
+      const ids = new Set(current.map(item => item.id_importacao));
+      const additions = [];
+      for (const row of rows) {
+        if (ids.has(row[0])) continue;
+        ids.add(row[0]);
+        additions.push(Object.fromEntries(headers.map((key, i) => [key, row[i]])));
+      }
+      if (ids.size > 1000) throw Error('O funil comporta até 1.000 oportunidades.');
+      if (additions.length) {
+        state.commercialLeads = [...current, ...additions];
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+        catch (error) { state.commercialLeads = current; throw error; }
+        document.dispatchEvent(new Event('ferdynan:data'));
+        if (window.FerdynanCloud) {
+          output.textContent = 'Registros importados. Salvando na nuvem…';
+          try { await window.FerdynanCloud.flush(); }
+          catch { output.textContent = 'Registros importados neste navegador. Confira o aviso de sincronização.'; return; }
+        }
+      }
+      output.textContent = additions.length + ' importadas · ' + (rows.length - additions.length) + ' já existentes';
+    } catch (error) {
+      output.textContent = error.message;
+    } finally {
+      input.value = '';
+      input.disabled = false;
+    }
+  });
+  document.addEventListener('ferdynan:data', render);
+  render();
+})();
+</script>
 <script src="finance-2026.js"></script><script src="upgrade.js"></script><script src="calendar.js"></script><script type="module" src="agenda.js"></script><script type="module" src="tour.js"></script><script src="catalog.js"></script><script type="module" src="quality.js"></script>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
