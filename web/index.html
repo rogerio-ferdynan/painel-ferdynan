@@ -3253,11 +3253,12 @@
       additions.push(item);
     }
     if (ids.size > 1000) throw Error('O funil comporta até 1.000 oportunidades.');
-    if (!additions.length) return { count: 0, synced: true };
-    state.commercialLeads = [...current, ...additions];
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-    catch (error) { state.commercialLeads = current; throw error; }
-    document.dispatchEvent(new Event('ferdynan:data'));
+    if (additions.length) {
+      state.commercialLeads = [...current, ...additions];
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+      catch (error) { state.commercialLeads = current; throw error; }
+      document.dispatchEvent(new Event('ferdynan:data'));
+    }
     if (window.FerdynanCloud) {
       output.textContent = 'Salvando na nuvem…';
       try { await window.FerdynanCloud.flush(); }
@@ -3305,7 +3306,7 @@
       const lead = await leadFromMessage(whatsappMessage.value);
       const result = await addLeads([lead]);
       if (result.synced) whatsappMessage.value = '';
-      output.textContent = !result.synced ? 'Pedido registrado neste navegador. Confira o aviso de sincronização.'
+      output.textContent = !result.synced ? 'Pedido salvo neste navegador. Tente importar novamente para sincronizar.'
         : result.count ? 'Pedido registrado.' : 'Este pedido já está no funil.';
     } catch (error) {
       output.textContent = error.message;
