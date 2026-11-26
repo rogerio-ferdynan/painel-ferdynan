@@ -42,7 +42,7 @@ if(req.method==='GET')return json(await readState(db));
 if(req.method!=='PUT')return json({error:'Método inválido'},405);
 if(!sameOrigin(req))return json({error:'Origem inválida'},403);
 const body=await req.text();if(body.length>524288)return json({error:'Backup excede 512 KB'},413);let data;try{data=JSON.parse(body)}catch{return json({error:'JSON inválido'},400)};
-if(!Number.isSafeInteger(data.revision)||data.revision<0||!validPayload(data.payload))return json({error:'Dados inválidos'},400);
+if(!plain(data)||!Number.isSafeInteger(data.revision)||data.revision<0||!validPayload(data.payload))return json({error:'Dados inválidos'},400);
 const time=new Date().toISOString(),payload=JSON.stringify(data.payload);let result;
 if(data.revision===0)result=await db.prepare('INSERT INTO panel_state (id,payload,revision,updated_at) VALUES (?,?,1,?) ON CONFLICT(id) DO NOTHING').bind(KEY,payload,time).run();
 else result=await db.prepare('UPDATE panel_state SET payload = ?, revision = revision+1, updated_at = ? WHERE id = ? AND revision = ?').bind(payload,time,KEY,data.revision).run();
