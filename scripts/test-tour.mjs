@@ -31,7 +31,7 @@ assert.deepEqual(daily.conflicts.map(e=>e.id),['today','conflict']);
 assert.deepEqual(daily.negotiations.map(e=>e.id),['conflict']);
 assert.deepEqual(daily.missing.map(e=>e.id),['missing']);
 assert.deepEqual(daily.payments.map(e=>e.id),['past']);
-assert.equal(daily.overdueBalance,7000);
+assert.equal(daily.pendingBalance,7000);
 assert.equal(daily.urgent.length,1);
 assert.equal(JSON.stringify({rows,inbox}),original);
 assert.equal(dailyOperations([],{},now).todayEvents.length,0);
