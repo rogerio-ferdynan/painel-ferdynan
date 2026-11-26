@@ -17,6 +17,13 @@ const initial=await (await request('/api/state',{headers:{Cookie:cookie}})).json
 const payload={state:{stats:{shows:1,faturamento:'R$ 500',propostas:0},inbox:{aProcessar:[{id:'t1',text:'</script><img src=x>',done:false}],alta:[],media:[],delegar:[]}},fields:{0:'42'},pricing2026:{'shows-pequenos':'1'}};
 async function save(revision,body=payload){return request('/api/state',{method:'PUT',headers:{Cookie:cookie,Origin:origin,'Content-Type':'application/json'},body:JSON.stringify({revision,payload:body})})}
 assert.equal((await save(0)).status,200);assert.equal((await save(0)).status,409);assert.equal((await save(1,{})).status,400);
+// Malformed JSON values must return a client error, never a database outage.
+for(const body of ['null','[]','true','42','"text"']){
+  const response=await request('/api/state',{method:'PUT',headers:{Cookie:cookie,Origin:origin,'Content-Type':'application/json'},body});
+  assert.equal(response.status,400,body);
+}
+assert.equal((await (await request('/api/state',{headers:{Cookie:cookie}})).json()).revision,1);
+
 const login2=await request('/api/login',{method:'POST',headers:{Origin:origin,'CF-Connecting-IP':'other-device'},body:new URLSearchParams({password:'test-pass'})});const cookie2=login2.headers.get('set-cookie').split(';')[0];
 const customDomainLogin=await request('/api/login',{method:'POST',headers:{Origin:'https://painel.rogerioferdynan.com','CF-Connecting-IP':'custom-domain-device'},body:new URLSearchParams({password:'test-pass'})});assert.equal(customDomainLogin.status,303);assert.equal(customDomainLogin.headers.get('location'),'/');
 const customDomainCookie=customDomainLogin.headers.get('set-cookie').split(';')[0];assert.equal((await request('/api/state',{headers:{Cookie:customDomainCookie}})).status,200);
