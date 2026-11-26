@@ -5,32 +5,4 @@
 [build.environment]
   NODE_VERSION = "24"
 
-[[redirects]]
-  from = "/aline"
-  to = "/aline/index.html"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/aline/"
-  to = "/aline/index.html"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/Aline"
-  to = "/aline"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/Aline/"
-  to = "/aline"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/*"
-  to = "https://painel-ferdynan-omni-231026.goldenwhale131.chatgpt.site/:splat"
-  status = 200
-  force = true
+# All routing is generated for the explicit build context; no global proxy.

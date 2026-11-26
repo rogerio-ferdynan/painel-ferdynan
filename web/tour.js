@@ -1,5 +1,5 @@
 import {agendaTotals} from './agenda-model.mjs';
-import {BAND_PROFILE,validMarketing,validSmartLink,shareLink,tourBrief} from './tour-model.mjs';
+import {BAND_PROFILE,validMarketing,validSmartLink,shareLink,tourBrief,dailyOperations} from './tour-model.mjs';
 window.FerdynanValidMarketing=validMarketing;
 function initTour(){
 const main=document.querySelector('main');document.body.classList.add('tour-edition');
@@ -9,7 +9,7 @@ document.querySelector('.title-block h1').firstChild.textContent='Ferdynan Produ
 document.querySelector('.title-block p').textContent='Palco. Produção. Negócios. Tudo no mesmo ritmo.';
 const overview=document.createElement('section');overview.className='tour-overview';overview.id='tour-overview';overview.setAttribute('aria-label','Central de turnê');overview.innerHTML=`
 <div class="tour-hero"><div class="tour-hero-copy"><span class="tour-kicker">FERDYNAN / LIVE OPERATIONS</span><h2>O próximo palco<br>começa <em>aqui.</em></h2><p>Uma visão clara para conduzir sua agenda, sua equipe e o próximo grande show.</p><div class="tour-hero-actions"><button class="calendar-primary" id="tour-add" type="button">+ Agendar compromisso</button><button class="tool-btn" id="tour-promote" type="button">Divulgar meus shows ↗</button></div></div><div class="tour-next"><span class="tour-kicker">PRÓXIMO COMPROMISSO</span><span id="tour-countdown" class="tour-countdown">SUA PRÓXIMA DATA</span><h3 id="tour-next-title">Seu próximo palco está em aberto.</h3><p id="tour-next-date">Cadastre uma data na agenda para acompanhar a preparação.</p><p id="tour-next-location"></p><button class="tour-text-button" id="tour-open-agenda" type="button">Abrir agenda →</button></div></div>
-<div class="tour-section-head"><div><span class="tour-kicker">VISÃO DE COMANDO</span><h2>O que merece sua atenção</h2></div><span>Dados do seu painel</span></div><div class="tour-command-grid"><button id="tour-task-action" class="tour-command" type="button"><span class="tour-command-number">01 / EXECUÇÃO</span><strong id="tour-task-count">0 pendências</strong><p>Tarefas aguardando sua próxima decisão.</p><span class="tour-card-action">Organizar tarefas →</span></button><button id="tour-agenda-action" class="tour-command" type="button"><span class="tour-command-number">02 / PALCO</span><strong id="tour-show-count">0 compromissos</strong><p>Shows, ensaios e reuniões que vêm pela frente.</p><span class="tour-card-action">Ver programação →</span></button><button id="tour-money-action" class="tour-command" type="button"><span class="tour-command-number">03 / CAIXA</span><strong id="tour-receivable">R$ 0</strong><p>Saldo a receber dos compromissos confirmados.</p><span class="tour-card-action">Conferir pagamentos →</span></button></div>
+<section class="tour-daily" aria-labelledby="tour-daily-title"><div class="tour-section-head"><div><span class="tour-kicker">CENTRAL DE DECISÕES</span><h2 id="tour-daily-title">O que fazer hoje</h2></div><span>Horário de Brasília</span></div><div id="tour-daily-list"></div></section><div class="tour-section-head"><div><span class="tour-kicker">VISÃO DE COMANDO</span><h2>O que merece sua atenção</h2></div><span>Dados do seu painel</span></div><div class="tour-command-grid"><button id="tour-task-action" class="tour-command" type="button"><span class="tour-command-number">01 / EXECUÇÃO</span><strong id="tour-task-count">0 pendências</strong><p>Tarefas aguardando sua próxima decisão.</p><span class="tour-card-action">Organizar tarefas →</span></button><button id="tour-agenda-action" class="tour-command" type="button"><span class="tour-command-number">02 / PALCO</span><strong id="tour-show-count">0 compromissos</strong><p>Shows, ensaios e reuniões que vêm pela frente.</p><span class="tour-card-action">Ver programação →</span></button><button id="tour-money-action" class="tour-command" type="button"><span class="tour-command-number">03 / CAIXA</span><strong id="tour-receivable">R$ 0</strong><p>Saldo a receber dos compromissos confirmados.</p><span class="tour-card-action">Conferir pagamentos →</span></button></div>
 <div class="tour-brief-bar"><div><h3>Da agenda para a produção.</h3><p>Gere uma ficha com horários, cliente, local, valores e pontos para conferir antes de sair.</p></div><button id="tour-brief" type="button" class="tool-btn">↓ Ficha do próximo compromisso</button><span id="tour-brief-status" role="status"></span></div>`;
 document.querySelector('.toolbar').after(overview);
 const marketing=document.createElement('section');marketing.className='panel tour-marketing view-hidden';marketing.id='marketing-panel';marketing.setAttribute('aria-label','Divulgação e Bandsintown');marketing.innerHTML=`
@@ -20,9 +20,31 @@ const marketing=document.createElement('section');marketing.className='panel tou
 <div class="tour-section-head tour-widget-head"><div><span class="tour-kicker">PROGRAMAÇÃO PÚBLICA</span><h2>Próximos shows no Bandsintown</h2></div><a class="tour-text-link" href="${BAND_PROFILE}" target="_blank" rel="noopener noreferrer">Ver perfil do artista ↗</a></div><p class="tour-small">Esta lista vem do Bandsintown. Compromissos e valores da agenda interna não são publicados aqui.</p><div id="tour-widget-host" class="tour-widget-host"><p id="tour-widget-status" role="status">O widget será carregado ao abrir esta área.</p></div>`;
 main.append(marketing);
 const $=id=>document.getElementById(id);const money=n=>(n/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-let next=null,widgetStarted=false;
+let next=null,widgetStarted=false,lastDailySignature=null;
 function open(view){window.FerdynanSetView(view);const target=view==='marketing'?marketing:view==='calendar'?$('calendar-panel'):view==='tasks'?document.querySelector('.content'):overview;target?.scrollIntoView({behavior:'smooth',block:'start'});}
-function refresh(){const totals=agendaTotals(Array.isArray(state.agenda)?state.agenda:[]);next=totals.next;const pending=Object.values(state.inbox).flat().filter(t=>!t.done).length;$('tour-task-count').textContent=pending+' pendência'+(pending===1?'':'s');$('tour-show-count').textContent=totals.upcoming.length+' compromisso'+(totals.upcoming.length===1?'':'s');$('tour-receivable').textContent=money(totals.receivable);$('tour-brief').disabled=!next;
+function renderDaily(){
+ const d=dailyOperations(state.agenda??[],state.inbox);
+ const host=$('tour-daily-list');const signature=JSON.stringify(d);if(signature===lastDailySignature)return;lastDailySignature=signature;host.replaceChildren();if(d.invalid){const warning=document.createElement('p');warning.setAttribute('role','status');warning.textContent=d.invalid+' registro(s) inválido(s) não foram considerados nesta análise. Confira os dados originais.';host.append(warning);}
+ const groups=[
+ ['Compromissos de hoje ou em andamento',d.todayEvents,'calendar',e=>e.title+' · '+new Intl.DateTimeFormat('pt-BR',{timeZone:'America/Sao_Paulo',dateStyle:'short',timeStyle:'short'}).format(new Date(e.start))],
+ ['Conflitos de agenda (compromissos envolvidos)',d.conflicts,'calendar',e=>e.title],
+ ['Tarefas de alta prioridade',d.urgent,'tasks',t=>t.text],
+ ['Confirmados com data encerrada e saldo a receber',d.payments,'calendar',e=>e.title+' · '+money(e.fee-e.received)],
+ ['Negociações sem confirmação (inclusive datas passadas)',d.negotiations,'calendar',e=>e.title],
+ ['Confirmados sem cliente ou local',d.missing,'calendar',e=>e.title]
+ ];
+ for(const [label,items,view,describe] of groups){
+  if(!items.length)continue;
+  const section=document.createElement('section');section.className='tour-daily-group';
+  const heading=document.createElement('h3');heading.textContent=label+' ('+items.length+')';section.append(heading);
+  const list=document.createElement('ul');
+  for(const item of items.slice(0,5)){const li=document.createElement('li');li.textContent=describe(item);list.append(li);}
+  section.append(list);
+  const button=document.createElement('button');button.type='button';button.className='tool-btn';button.textContent=(view==='tasks'?'Abrir tarefas':'Abrir agenda')+(items.length>5?' · ver todos':'');button.onclick=()=>{open(view);if(view==='calendar'){const search=$('agenda-search'),filter=$('agenda-filter');if(search)search.value='';if(filter){filter.value=label.startsWith('Confirmados com data encerrada')?'past':label.startsWith('Negociações')?'all':'upcoming';filter.dispatchEvent(new Event('change'));}}};section.append(button);host.append(section);
+ }
+ if(!host.childElementCount){const p=document.createElement('p');p.textContent='Nenhum alerta nestas categorias. Confira a agenda e as demais tarefas quando necessário.';host.append(p);}
+}
+function refresh(){renderDaily();const totals=agendaTotals(Array.isArray(state.agenda)?state.agenda:[]);next=totals.next;const pending=Object.values(state.inbox).flat().filter(t=>!t.done).length;$('tour-task-count').textContent=pending+' pendência'+(pending===1?'':'s');$('tour-show-count').textContent=totals.upcoming.length+' compromisso'+(totals.upcoming.length===1?'':'s');$('tour-receivable').textContent=money(totals.receivable);$('tour-brief').disabled=!next;
  if(next){const hours=Math.ceil((Date.parse(next.start)-Date.now())/3600000);$('tour-countdown').textContent=hours<=0?'EM ANDAMENTO':hours<24?'EM '+hours+' HORA'+(hours===1?'':'S'):'EM '+Math.ceil(hours/24)+' DIAS';$('tour-next-title').textContent=next.title;$('tour-next-date').textContent=new Intl.DateTimeFormat('pt-BR',{timeZone:'America/Sao_Paulo',dateStyle:'full',timeStyle:'short'}).format(new Date(next.start));$('tour-next-location').textContent=next.location||'Local ainda não informado';}
  else{$('tour-countdown').textContent='SUA PRÓXIMA DATA';$('tour-next-title').textContent='Seu próximo palco está em aberto.';$('tour-next-date').textContent='Cadastre uma data na agenda para acompanhar a preparação.';$('tour-next-location').textContent='';}
 }

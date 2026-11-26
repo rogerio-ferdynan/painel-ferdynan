@@ -11,3 +11,15 @@ const ics=calendarFile([event,{...same,status:'cancelled'},{...same,id:'long',ti
 assert.match(ics,/DTSTART:20261210T220000Z/);assert.match(ics,/SUMMARY:Show\\; São José\\, MG/);assert.match(ics,/DESCRIPTION:Cliente: Cliente teste\\nLinha 1\\nLinha 2/);assert.equal((ics.match(/BEGIN:VEVENT/g)||[]).length,2);
 assert.ok(ics.split('\r\n').every(line=>new TextEncoder().encode(line).length<=75));
 console.log('Agenda verificada: valores, datas, conflitos, cancelamento, totais e exportação .ics com Unicode.');
+
+assert.ok(validAgendaEvent(event));
+assert.ok(validAgendaEvent({...event,outcome:'performed'}));
+assert.ok(validAgendaEvent({...event,outcome:'not-performed'}));
+assert.ok(validAgendaEvent({...event,status:'cancelled',outcome:'lost'}));
+assert.ok(!validAgendaEvent({...event,status:'planned',outcome:'performed'}));
+assert.ok(!validAgendaEvent({...event,outcome:'lost'}));
+assert.ok(!validAgendaEvent({...event,outcome:'unknown'}));
+assert.equal(agendaTotals([{...event,outcome:'not-performed'}],Date.parse('2026-12-01T00:00:00Z')).receivable,0);
+assert.equal(agendaTotals([{...event,outcome:'performed'}],Date.parse('2026-12-01T00:00:00Z')).upcoming.length,0);
+assert.ok(!overlaps({...event,outcome:'performed'},same));
+console.log('Explicit outcomes and legacy compatibility verified.');
