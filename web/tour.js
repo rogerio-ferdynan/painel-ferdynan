@@ -20,17 +20,17 @@ const marketing=document.createElement('section');marketing.className='panel tou
 <div class="tour-section-head tour-widget-head"><div><span class="tour-kicker">PROGRAMAÇÃO PÚBLICA</span><h2>Próximos shows no Bandsintown</h2></div><a class="tour-text-link" href="${BAND_PROFILE}" target="_blank" rel="noopener noreferrer">Ver perfil do artista ↗</a></div><p class="tour-small">Esta lista vem do Bandsintown. Compromissos e valores da agenda interna não são publicados aqui.</p><div id="tour-widget-host" class="tour-widget-host"><p id="tour-widget-status" role="status">O widget será carregado ao abrir esta área.</p></div>`;
 main.append(marketing);
 const $=id=>document.getElementById(id);const money=n=>(n/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-let next=null,widgetStarted=false;
+let next=null,widgetStarted=false,lastDailySignature=null;
 function open(view){window.FerdynanSetView(view);const target=view==='marketing'?marketing:view==='calendar'?$('calendar-panel'):view==='tasks'?document.querySelector('.content'):overview;target?.scrollIntoView({behavior:'smooth',block:'start'});}
 function renderDaily(){
- const d=dailyOperations(Array.isArray(state.agenda)?state.agenda:[],state.inbox);
- const host=$('tour-daily-list');host.replaceChildren();
+ const d=dailyOperations(state.agenda??[],state.inbox);
+ const host=$('tour-daily-list');const signature=JSON.stringify(d);if(signature===lastDailySignature)return;lastDailySignature=signature;host.replaceChildren();if(d.invalid){const warning=document.createElement('p');warning.setAttribute('role','status');warning.textContent=d.invalid+' registro(s) inválido(s) não foram considerados nesta análise. Confira os dados originais.';host.append(warning);}
  const groups=[
  ['Compromissos de hoje ou em andamento',d.todayEvents,'calendar',e=>e.title+' · '+new Intl.DateTimeFormat('pt-BR',{timeZone:'America/Sao_Paulo',dateStyle:'short',timeStyle:'short'}).format(new Date(e.start))],
  ['Conflitos de agenda (compromissos envolvidos)',d.conflicts,'calendar',e=>e.title],
  ['Tarefas de alta prioridade',d.urgent,'tasks',t=>t.text],
- ['Eventos realizados com saldo a receber',d.payments,'calendar',e=>e.title+' · '+money(e.fee-e.received)],
- ['Negociações em aberto',d.negotiations,'calendar',e=>e.title],
+ ['Confirmados com data encerrada e saldo a receber',d.payments,'calendar',e=>e.title+' · '+money(e.fee-e.received)],
+ ['Negociações sem confirmação (inclusive datas passadas)',d.negotiations,'calendar',e=>e.title],
  ['Confirmados sem cliente ou local',d.missing,'calendar',e=>e.title]
  ];
  for(const [label,items,view,describe] of groups){
@@ -40,7 +40,7 @@ function renderDaily(){
   const list=document.createElement('ul');
   for(const item of items.slice(0,5)){const li=document.createElement('li');li.textContent=describe(item);list.append(li);}
   section.append(list);
-  const button=document.createElement('button');button.type='button';button.className='tool-btn';button.textContent=(view==='tasks'?'Abrir tarefas':'Abrir agenda')+(items.length>5?' · ver todos':'');button.onclick=()=>{open(view);if(view==='calendar'&&label.startsWith('Eventos realizados')){const filter=$('agenda-filter');if(filter){filter.value='past';filter.dispatchEvent(new Event('change'));}}};section.append(button);host.append(section);
+  const button=document.createElement('button');button.type='button';button.className='tool-btn';button.textContent=(view==='tasks'?'Abrir tarefas':'Abrir agenda')+(items.length>5?' · ver todos':'');button.onclick=()=>{open(view);if(view==='calendar'){const search=$('agenda-search'),filter=$('agenda-filter');if(search)search.value='';if(filter){filter.value=label.startsWith('Confirmados com data encerrada')?'past':label.startsWith('Negociações')?'all':'upcoming';filter.dispatchEvent(new Event('change'));}}};section.append(button);host.append(section);
  }
  if(!host.childElementCount){const p=document.createElement('p');p.textContent='Nenhum alerta nestas categorias. Confira a agenda e as demais tarefas quando necessário.';host.append(p);}
 }
