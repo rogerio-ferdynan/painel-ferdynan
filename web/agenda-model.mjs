@@ -13,7 +13,8 @@ export function validAgendaEvent(e){
     && Date.parse(e.end)>Date.parse(e.start)
     && ['location','notes','client'].every(k=>typeof e[k]==='string' && e[k].length<=(k==='notes'?4000:300))
     && ['fee','cost','received'].every(k=>Number.isSafeInteger(e[k]) && e[k]>=0 && e[k]<=1000000000)
-    && e.received<=e.fee;
+    && e.received<=e.fee
+    && (e.outcome===undefined||(['performed','not-performed'].includes(e.outcome)&&e.status==='confirmed')||(e.outcome==='lost'&&e.status==='cancelled'));
 }
 export function validAgenda(events){return Array.isArray(events) && events.length<=1000 && events.every(validAgendaEvent) && new Set(events.map(e=>e.id)).size===events.length;}
 export function agendaTotals(events,now=Date.now()){
