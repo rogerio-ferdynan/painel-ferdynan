@@ -26,14 +26,14 @@ export function dailyOperations(agenda=[],inbox={},now=Date.now()){
     seen.add(e.id);if(e.status!=='cancelled')active.push({e,start:Date.parse(e.start),end:Date.parse(e.end)});
   }
   active.sort((a,b)=>a.start-b.start);
-  const current=active.filter(x=>x.end>now);
+  const current=active.filter(x=>x.end>now&&!x.e.outcome);
   const todayEvents=current.filter(x=>day(x.start)===today||x.start<=now).map(x=>x.e);
   // Sorted sweep: a prior interval or the next interval overlaps this one.
   let maxEnd=-Infinity;
   const conflicts=current.filter((x,i)=>{const hit=maxEnd>x.start||(i+1<current.length&&current[i+1].start<x.end);maxEnd=Math.max(maxEnd,x.end);return hit;}).map(x=>x.e);
   const negotiations=active.filter(x=>x.e.status==='planned').map(x=>x.e);
   const missing=current.filter(x=>x.e.status==='confirmed'&&(!x.e.location.trim()||!x.e.client.trim())).map(x=>x.e);
-  const payments=active.filter(x=>x.e.status==='confirmed'&&x.end<=now&&x.e.fee>x.e.received).sort((a,b)=>a.end-b.end).map(x=>x.e);
+  const payments=active.filter(x=>x.e.status==='confirmed'&&x.e.outcome!=='not-performed'&&(x.end<=now||x.e.outcome==='performed')&&x.e.fee>x.e.received).sort((a,b)=>a.end-b.end).map(x=>x.e);
   const urgent=[];
   if(!inbox||typeof inbox!=='object'||Array.isArray(inbox)){invalid++;}
   else if(inbox.alta!==undefined&&!Array.isArray(inbox.alta)){invalid++;}
