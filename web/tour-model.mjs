@@ -38,5 +38,5 @@ export function dailyOperations(agenda=[],inbox={},now=Date.now()){
   if(!inbox||typeof inbox!=='object'||Array.isArray(inbox)){invalid++;}
   else if(inbox.alta!==undefined&&!Array.isArray(inbox.alta)){invalid++;}
   else for(const t of inbox.alta||[]){if(!t||typeof t.text!=='string'||typeof t.done!=='boolean'){invalid++;continue;}if(!t.done)urgent.push(t);}
-  return {todayEvents,conflicts,negotiations,missing,payments,urgent,invalid,overdueBalance:payments.reduce((sum,e)=>sum+e.fee-e.received,0)};
+  return {todayEvents,conflicts,negotiations,missing,payments,urgent,invalid,pendingBalance:payments.reduce((sum,e)=>sum+e.fee-e.received,0)};
 }
