@@ -19,11 +19,11 @@ export function validAgendaEvent(e){
 export function validAgenda(events){return Array.isArray(events) && events.length<=1000 && events.every(validAgendaEvent) && new Set(events.map(e=>e.id)).size===events.length;}
 export function agendaTotals(events,now=Date.now()){
   const active=events.filter(e=>e.status!=='cancelled');
-  const upcoming=active.filter(e=>Date.parse(e.end)>=now).sort((a,b)=>Date.parse(a.start)-Date.parse(b.start));
-  const confirmed=active.filter(e=>e.status==='confirmed');
+  const upcoming=active.filter(e=>Date.parse(e.end)>=now&&!e.outcome).sort((a,b)=>Date.parse(a.start)-Date.parse(b.start));
+  const confirmed=active.filter(e=>e.status==='confirmed'&&e.outcome!=='not-performed');
   return {upcoming,next:upcoming[0]||null,receivable:confirmed.reduce((n,e)=>n+e.fee-e.received,0),profit:confirmed.reduce((n,e)=>n+e.fee-e.cost,0)};
 }
-export function overlaps(a,b){return a.status!=='cancelled' && b.status!=='cancelled' && a.id!==b.id && Date.parse(a.start)<Date.parse(b.end) && Date.parse(a.end)>Date.parse(b.start);}
+export function overlaps(a,b){return !a.outcome && !b.outcome && a.status!=='cancelled' && b.status!=='cancelled' && a.id!==b.id && Date.parse(a.start)<Date.parse(b.end) && Date.parse(a.end)>Date.parse(b.start);}
 export function calendarFile(events){
   const esc=s=>String(s).replace(/\\/g,'\\\\').replace(/\r\n|\r|\n/g,'\\n').replace(/;/g,'\\;').replace(/,/g,'\\,');
   const stamp=s=>new Date(s).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');
