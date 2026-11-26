@@ -49,5 +49,40 @@ assert.equal((await save(3,{...withAgenda,state:{...withAgenda.state,marketing:{
 assert.equal((await request('/bandsintown.html')).headers.get('content-type'),'text/html; charset=utf-8');
 const widgetPage=await request('/bandsintown.html',{headers:{Cookie:cookie}});assert.equal(widgetPage.status,200);assert.equal(widgetPage.headers.get('content-type'),'text/html; charset=utf-8');assert.match(await widgetPage.text(),/bit-widget-initializer/);
 assert.equal((await request('/agenda-model.mjs',{headers:{Cookie:cookie}})).status,200);
+
+// Isolated recovery through the authenticated state API, with an actual JSON file.
+const {mkdtempSync,writeFileSync,rmSync}=await import('node:fs');
+const {tmpdir}=await import('node:os');
+const {join}=await import('node:path');
+const backupDir=mkdtempSync(join(tmpdir(),'omni-recovery-'));
+try {
+ const before=await (await request('/api/state',{headers:{Cookie:cookie}})).json();
+ const backupPath=join(backupDir,'state.json');
+ writeFileSync(backupPath,JSON.stringify(before.payload),{mode:0o600});
+ const restored=JSON.parse(readFileSync(backupPath,'utf8'));
+ const fresh=new DatabaseSync(':memory:');
+ try{
+ fresh.exec(readFileSync('drizzle/0000_panel_cloud.sql','utf8'));
+ const freshDB={prepare(sql){let args=[];return {bind(...values){args=values;return this},async first(){return fresh.prepare(sql).get(...args)||null},async run(){return {meta:{changes:Number(fresh.prepare(sql).run(...args).changes)}}}}},async batch(items){fresh.exec('BEGIN');try{const out=[];for(const stmt of items)out.push(await stmt.run());fresh.exec('COMMIT');return out}catch(e){fresh.exec('ROLLBACK');throw e}}};
+ const isolated=(path,options={})=>worker.fetch(new Request(origin+path,options),{...env,DB:freshDB},{});
+ const logged=await isolated('/api/login',{method:'POST',headers:{Origin:origin},body:new URLSearchParams({password:'test-pass'})});
+ assert.equal(logged.status,303);
+ const headers={Cookie:logged.headers.get('set-cookie').split(';')[0],Origin:origin,'Content-Type':'application/json'};
+ const put=(revision,payload)=>isolated('/api/state',{method:'PUT',headers,body:JSON.stringify({revision,payload})});
+ assert.equal((await put(0,restored)).status,200);
+ const result=await (await isolated('/api/state',{headers})).json();
+ assert.deepEqual(result.payload,before.payload);
+ assert.equal(result.payload.state.agenda[0].id,agendaEvent.id);
+ assert.equal(result.payload.state.inbox.aProcessar[0].id,'t1');
+ assert.equal((await put(0,restored)).status,409);
+ assert.equal((await put(1,{...restored,state:{...restored.state,agenda:[agendaEvent,agendaEvent]}})).status,400);
+ assert.deepEqual((await (await isolated('/api/state',{headers})).json()).payload,before.payload);
+ const failingDB={...freshDB,prepare(sql){if(sql.startsWith('UPDATE panel_state'))throw Error('Injected DB failure');return freshDB.prepare(sql);}};
+ const failure=await worker.fetch(new Request(origin+'/api/state',{method:'PUT',headers,body:JSON.stringify({revision:1,payload:restored})}),{...env,DB:failingDB},{});
+ assert.equal(failure.status,503);
+ assert.deepEqual((await (await isolated('/api/state',{headers})).json()).payload,before.payload);
+ console.log('Isolated state JSON backup/restore, IDs, duplicate rejection and DB failure verified.');
+ }finally{fresh.close();}
+}finally{rmSync(backupDir,{recursive:true,force:true});}
 assert.equal((await request('/api/logout',{method:'POST',headers:{Cookie:cookie,Origin:origin}})).status,303);assert.equal((await request('/api/state',{headers:{Cookie:cookie}})).status,401);
 console.log('Verificado: senha, limite de tentativas, sessão, proteção de escrita, banco compartilhado em duas sessões, conflito de edição e logout.');
