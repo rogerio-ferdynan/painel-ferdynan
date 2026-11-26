@@ -23,3 +23,22 @@ jobs:
       - run: node scripts/test-catalog.mjs
       - run: node scripts/test-tour.mjs
       - run: node scripts/build-netlify.mjs
+  isolated-recovery-and-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      OMNI_TOOLS: ${{ runner.temp }}/omni-tools
+      OMNI_WRANGLER: ${{ runner.temp }}/omni-tools/node_modules/.bin/wrangler
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - run: npm install --prefix "$OMNI_TOOLS" --no-audit --no-fund wrangler@4.168.0 playwright@1.65.1
+      - run: node scripts/test-d1-recovery.mjs
+      - run: '"$OMNI_TOOLS/node_modules/.bin/playwright" install --with-deps chromium'
+      - run: node scripts/build-cloud.mjs
+      - run: node scripts/test-dashboard-browser.mjs
