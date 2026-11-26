@@ -29,8 +29,5 @@
   status = 301
   force = true
 
-[[redirects]]
-  from = "/*"
-  to = "https://painel-ferdynan-omni-231026.goldenwhale131.chatgpt.site/:splat"
-  status = 200
-  force = true
+
+# No shared upstream. Build generates routes only for the explicit deployment context.
